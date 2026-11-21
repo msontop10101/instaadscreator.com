@@ -139,6 +139,22 @@ test('samples render for every theme; previews stay out of stats', async () => {
   assert.ok(html.length > 3000);
 });
 
+test('security: validation, headers, CSP', async () => {
+  // junk input is rejected with readable 400s
+  const bad1 = await fetch(BASE + '/api/compose', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"prompt":""}' });
+  assert.equal(bad1.status, 400);
+  const bad2 = await fetch(BASE + '/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: 'x', type: 'hack' }) });
+  assert.equal(bad2.status, 400);
+  const bad3 = await patch('/api/pages/nonexistent', { evil: true });
+  assert.ok(bad3.error, 'strict patch schema rejects unknown fields');
+  // published pages carry CSP + baseline headers
+  const pages = await get('/api/pages');
+  const live = pages.find(p => p.status === 'live');
+  const r = await fetch(`${BASE}/s/${live.slug}?preview=1`);
+  assert.ok(r.headers.get('content-security-policy').includes("default-src 'none'"));
+  assert.equal(r.headers.get('x-content-type-options'), 'nosniff');
+});
+
 test('profile, upgrade and badge rules', async () => {
   await patch('/api/me', { name: 'Chioma', phone: '08099887766' });
   const me = await get('/api/me');

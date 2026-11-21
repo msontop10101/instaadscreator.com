@@ -36,7 +36,15 @@ rewrite chips) → publish → share/Instagram button → analytics. Desktop + m
       no DATABASE_URL → JSON file (dev/tests). Verified: pages+events in PG, survive
       container restart. **NEXT UP: Phase B (hardening + CI/CD + backups).**
 
-**Phase B:** security hardening (zod, upload re-encode, rate limits, CSP), CI/CD (Actions: test→build→deploy), backups + Sentry
+**Phase B: ✅ COMPLETE (Sentry deferred — needs account/DSN)**
+- [x] zod validation on every write endpoint (`lib/validate.js`), 400s with readable messages
+- [x] Uploads re-encoded via sharp (max 1600px JPEG, EXIF stripped, disguised files rejected)
+- [x] Rate limits (`lib/security.js`): 30 creations/hr, 120 AI calls/hr, 240 beacons/min, 600 API/min per IP
+- [x] Security headers everywhere + strict CSP on published pages (no external scripts possible)
+- [x] GitHub Actions CI (`.github/workflows/ci.yml`): test + audit + docker build on every push
+- [x] `deploy/backup.sh`: nightly pg_dump + uploads/published tar, 14-day rotation (cron line in file)
+- Note: Dockerfile installs from package.json (no lockfile) — macOS npm-11 lockfile trips an arborist bug resolving sharp optionals on alpine
+**NEXT UP: Phase C.**
 **Phase C:** anonymous session → WhatsApp-OTP claim at pay moment; enforce 1-page free limit; analytics teaser-gating behind Pro
 **Phase D:** Paystack subscriptions (idempotent webhooks); moderation admin + report link + blocklist (**launch-blocking** — scam pages are the #1 domain-reputation risk); support WhatsApp line
 **Phase E:** deploy + pilot (xdeals/Ola first, then 10–20 sellers)

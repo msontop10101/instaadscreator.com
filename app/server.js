@@ -9,13 +9,18 @@ const { generateContent, pickTemplate, parseBrief } = require('./lib/ai');
 const { renderPage, TEMPLATES, blocksFromContent, BLOCK_TYPES, THEMES } = require('./lib/render');
 const { chat, applyOps } = require('./lib/chat');
 const cfg = require('./lib/config');
+const sharp = require('sharp');
+const { rateLimit, baseHeaders, pageCsp } = require('./lib/security');
+const { validate } = require('./lib/validate');
 
 // fresh clones: the data dirs are gitignored, create them on boot
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 require('fs').mkdirSync(path.join(DATA_DIR, 'uploads'), { recursive: true });
 
 const app = express();
-app.use(express.json());
+app.set('trust proxy', 1); // behind Caddy
+app.use(baseHeaders);
+app.use(express.json({ limit: '200kb' }));
 // sendBeacon posts text/plain
 app.use(express.text({ type: 'text/plain' }));
 
@@ -28,8 +33,28 @@ const upload = multer({
     },
   }),
   limits: { fileSize: 10 * 1024 * 1024, files: 8 },
+  fileFilter: (req, file, cb) => cb(null, /^image\//.test(file.mimetype)),
 });
 
+// Re-encode every upload (kills disguised/malicious files, strips EXIF, caps size)
+async function reencodeUploads(files) {
+  for (const f of files || []) {
+    try {
+      const buf = await sharp(f.path).rotate().resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 85 }).toBuffer();
+      require('fs').writeFileSync(f.path, buf);
+    } catch (err) {
+      require('fs').unlinkSync(f.path);
+      throw new Error('One of the photos is not a valid image');
+    }
+  }
+}
+
+const limitCreate = rateLimit('create', 30, 60 * 60 * 1000);   // 30 creations/hour/IP
+const limitAi = rateLimit('ai', 120, 60 * 60 * 1000);          // 120 AI calls/hour/IP
+const limitTrack = rateLimit('track', 240, 60 * 1000);         // 240 beacons/min/IP
+const limitApi = rateLimit('api', 600, 60 * 1000);             // general API ceiling
+
+app.use('/api/', limitApi);
 app.use('/uploads', express.static(path.join(DATA_DIR, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -91,7 +116,7 @@ app.get('/api/me', (req, res) => {
   });
 });
 
-app.patch('/api/me', (req, res) => {
+app.patch('/api/me', validate('me'), (req, res) => {
   const patch = {};
   if (typeof req.body.name === 'string' && req.body.name.trim()) patch.name = req.body.name.trim().slice(0, 40);
   if (typeof req.body.phone === 'string') patch.phone = req.body.phone.replace(/[^\d]/g, '').slice(0, 15) || null;
@@ -111,7 +136,7 @@ app.get('/api/pages/:id', (req, res) => {
 });
 
 // Compose: free-text brief → structured create fields (the chat-style create box)
-app.post('/api/compose', async (req, res) => {
+app.post('/api/compose', limitAi, validate('compose'), async (req, res) => {
   const prompt = (req.body.prompt || '').trim();
   if (!prompt) return res.status(400).json({ error: 'empty prompt' });
   try {
@@ -127,7 +152,12 @@ app.post('/api/compose', async (req, res) => {
 });
 
 // Step 1: product details + photos → draft
-app.post('/api/pages', upload.array('photos', 8), (req, res) => {
+app.post('/api/pages', limitCreate, upload.array('photos', 8), async (req, res) => {
+  try { await reencodeUploads(req.files); } catch (err) { return res.status(400).json({ error: err.message }); }
+  {
+    const v = require('./lib/validate').schemas.createPage.safeParse(req.body);
+    if (!v.success) return res.status(400).json({ error: v.error.issues.map(i => i.message).join('; ') });
+  }
   const { desc, price, oldPrice, biz, template } = req.body;
   if (!desc || !price || !biz) return res.status(400).json({ error: 'desc, price and biz are required' });
   const userPicked = template && TEMPLATES.includes(template);
@@ -151,7 +181,7 @@ app.post('/api/pages', upload.array('photos', 8), (req, res) => {
 });
 
 // Step 2: order method → kick off generation
-app.post('/api/pages/:id/generate', async (req, res) => {
+app.post('/api/pages/:id/generate', limitAi, validate('generate'), async (req, res) => {
   const p = store.getPage(req.params.id);
   if (!p) return res.status(404).json({ error: 'not found' });
   const { method, whatsapp } = req.body;
@@ -208,7 +238,7 @@ function syncContentIntoBlocks(blocks, content) {
   });
 }
 
-app.patch('/api/pages/:id', (req, res) => {
+app.patch('/api/pages/:id', validate('patchPage'), (req, res) => {
   const p = ensureBlocks(store.getPage(req.params.id));
   if (!p) return res.status(404).json({ error: 'not found' });
   const patch = {};
@@ -236,7 +266,7 @@ app.patch('/api/pages/:id', (req, res) => {
 });
 
 // AI rewrite of one field (headline/subhead) — regenerates copy, keeps the rest
-app.post('/api/pages/:id/rewrite', async (req, res) => {
+app.post('/api/pages/:id/rewrite', limitAi, validate('rewrite'), async (req, res) => {
   const p = store.getPage(req.params.id);
   if (!p) return res.status(404).json({ error: 'not found' });
   try {
@@ -263,7 +293,8 @@ app.post('/api/pages/:id/rewrite', async (req, res) => {
 
 // ---------- chat editing ----------
 
-app.post('/api/pages/:id/chat', upload.array('images', 8), async (req, res) => {
+app.post('/api/pages/:id/chat', limitAi, upload.array('images', 8), async (req, res) => {
+  try { await reencodeUploads(req.files); } catch (err) { return res.status(400).json({ error: err.message }); }
   const p = ensureBlocks(store.getPage(req.params.id));
   if (!p) return res.status(404).json({ error: 'not found' });
   const message = (req.body.message || '').trim();
@@ -383,7 +414,7 @@ const SAMPLE_BRIEFS = {
 };
 
 const sampleCache = {};
-app.get('/sample/:theme', async (req, res) => {
+app.get('/sample/:theme', pageCsp, async (req, res) => {
   const theme = req.params.theme;
   if (!THEMES[theme]) return res.status(404).send('No such template');
   // Query overrides power the create-page live preview (?desc=&biz=&price=&old=)
@@ -412,7 +443,7 @@ app.get('/sample/:theme', async (req, res) => {
 });
 
 // One-click "Use this template": spin up a starter page and open the editor
-app.post('/api/pages/from-template', async (req, res) => {
+app.post('/api/pages/from-template', limitCreate, validate('fromTemplate'), async (req, res) => {
   const theme = req.body.template;
   if (!THEMES[theme]) return res.status(400).json({ error: 'unknown template' });
   const isApp = THEMES[theme].kind === 'app';
@@ -458,7 +489,7 @@ function republishAll() { store.listPages().forEach(p => publishStatic(ensureBlo
 
 const SRC_MAP = { ig: 'Instagram ads', tiktok: 'TikTok', wa: 'WhatsApp status', direct: 'Direct / bio link' };
 
-app.get('/s/:slug', (req, res) => {
+app.get('/s/:slug', pageCsp, (req, res) => {
   // visits are counted by the in-page beacon (works identically when Caddy
   // serves the static file directly in production)
   const file = path.join(PUB_DIR, req.params.slug + '.html');
@@ -487,9 +518,9 @@ app.get('/go/:slug', (req, res) => {
 });
 
 // funnel beacon (price_seen)
-app.post('/api/track', (req, res) => {
+app.post('/api/track', limitTrack, validate('track'), (req, res) => {
   try {
-    const b = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    const b = req.valid;
     const p = store.getPageBySlug(b.slug);
     if (p && b.type === 'visit') store.addEvent({ pageId: p.id, type: 'visit', src: ['ig', 'tiktok', 'wa'].includes(b.src) ? b.src : 'direct' });
     if (p && b.type === 'price_seen') store.addEvent({ pageId: p.id, type: 'price_seen' });
