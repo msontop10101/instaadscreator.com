@@ -28,10 +28,13 @@ expire. Long-term revenue: Paystack pay-online transaction fees.
 Gallery → use-template → editor (sections add/remove/drag, 60 themes, AI chat,
 rewrite chips) → publish → share/Instagram button → analytics. Desktop + mobile.
 
-**Phase A (production foundation): 2/3 done**
+**Phase A (production foundation): ✅ COMPLETE**
 - [x] Static publish pipeline + visit beacon
-- [x] Docker stack in `deploy/` (app + Caddy wildcard + Postgres) — boots under OrbStack, verified end to end
-- [ ] **NEXT UP: Postgres migration** (JSON store → Postgres behind `lib/store.js` interface; all call sites go async; keep tests green)
+- [x] Docker stack in `deploy/` (app + Caddy wildcard + Postgres) — boots under OrbStack
+- [x] Postgres migration — write-through store (`lib/store.js`): DATABASE_URL → Postgres
+      (memory-mirrored reads, persisted writes, auto-migrates db.json on first boot);
+      no DATABASE_URL → JSON file (dev/tests). Verified: pages+events in PG, survive
+      container restart. **NEXT UP: Phase B (hardening + CI/CD + backups).**
 
 **Phase B:** security hardening (zod, upload re-encode, rate limits, CSP), CI/CD (Actions: test→build→deploy), backups + Sentry
 **Phase C:** anonymous session → WhatsApp-OTP claim at pay moment; enforce 1-page free limit; analytics teaser-gating behind Pro
@@ -42,7 +45,7 @@ rewrite chips) → publish → share/Instagram button → analytics. Desktop + m
 
 - [ ] Hetzner account **verification in progress** → then create project `instaads`, server CX22 Ubuntu 24.04 Falkenstein, attach SSH key below, report "server is up, IP is x.x.x.x"
 - [ ] Cloudflare: wait for zone **Active** email (nameservers already switched at Namecheap ✅)
-- [ ] Cloudflare API token ("Edit zone DNS" template, zone-scoped) → keep in password manager, used on deploy day for wildcard TLS
+- [x] Cloudflare API token (created & saved in password manager ✅) ("Edit zone DNS" template, zone-scoped) → keep in password manager, used on deploy day for wildcard TLS
 - SSH public key (private half stays on the Mac at `~/.ssh/instaads`):
   `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhxesRzx0oPV/CZQX6MgEEpMl/UyLAG/k8CmCHYSYkE instaads-deploy`
 

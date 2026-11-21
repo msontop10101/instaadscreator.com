@@ -584,6 +584,8 @@ app.get('/upgrade', screen('upgrade.html'));
 app.get('/account', screen('account.html'));
 app.get('/templates', screen('templates.html'));
 
-app.listen(cfg.PORT, () => {
-  console.log(`${cfg.BRAND_NAME} builder running → http://localhost:${cfg.PORT}`);
-});
+store.ready.then(() => {
+  app.listen(cfg.PORT, () => {
+    console.log(`${cfg.BRAND_NAME} builder running → http://localhost:${cfg.PORT}`);
+  });
+}).catch(err => { console.error('[boot] store failed:', err); process.exit(1); });
