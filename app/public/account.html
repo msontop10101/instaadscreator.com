@@ -193,7 +193,9 @@ async function init() {
     document.getElementById(pre + 'about-line').textContent = `${m.brand} · made for Nigerian sellers`;
   }
   // support chat placeholder — point at your own support number in config later
-  const support = 'https://wa.me/?text=' + encodeURIComponent(`Hi ${m.brand} support, I need help with my ad page.`);
+  const support = m.supportWhatsapp
+    ? `https://wa.me/234${String(m.supportWhatsapp).replace(/^0/, '')}?text=` + encodeURIComponent(`Hi ${m.brand} support, I need help with my ad page.`)
+    : 'https://wa.me/?text=' + encodeURIComponent(`Hi ${m.brand} support, I need help with my ad page.`);
   document.getElementById('support-link').href = support;
   document.getElementById('d-support-link').href = support;
 }

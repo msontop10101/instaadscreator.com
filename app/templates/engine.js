@@ -415,6 +415,7 @@ ${body}
 <footer style="flex-grow: 1; padding: 32px 20px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 12px; color: ${T.faint}">
 <div>© ${esc(page.biz)}${page.location ? ` · ${esc(page.location)}` : ''}</div>
 ${page.pro ? '' : `<div style="border: 1px solid ${T.line}; border-radius: 999px; padding: 6px 12px; background: ${T.card}; color: ${T.muted}">Made with ${esc(BRAND_NAME)}</div>`}
+<a href="#" onclick="navigator.sendBeacon('/api/report/${page.slug}'); this.textContent='Reported — thank you'; return false" style="font-size: 11px; color: ${T.faint}; text-decoration: underline">Report this page</a>
 </footer>
 
 ${T.kind === 'app' ? `<div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; max-width: 480px; margin: 0 auto; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: ${T.bg}; border-top: 1px solid ${T.line}; display: flex; align-items: center; gap: 10px; box-sizing: border-box">

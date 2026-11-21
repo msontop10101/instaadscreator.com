@@ -202,6 +202,25 @@ test('security: validation, headers, CSP', async () => {
   assert.equal(r.headers.get('x-content-type-options'), 'nosniff');
 });
 
+test('moderation: report, admin queue, block/unblock', async () => {
+  const pages = await get('/api/pages');
+  const live = pages.find(p => p.slug === 'luxebytolu');
+  await fetch(`${BASE}/api/report/${live.slug}`, { method: 'POST' });
+
+  // admin key required
+  const noKey = await global.fetch(`${BASE}/api/admin/pages`);
+  assert.equal(noKey.status, 401);
+  const rows = await global.fetch(`${BASE}/api/admin/pages`, { headers: { 'x-admin-key': 'dev-admin' } }).then(r => r.json());
+  const row = rows.find(r => r.slug === live.slug);
+  assert.equal(row.reports, 1);
+
+  // block → 410, unblock → 200 again
+  await global.fetch(`${BASE}/api/admin/pages/${live.id}/block`, { method: 'POST', headers: { 'x-admin-key': 'dev-admin' } });
+  assert.equal((await global.fetch(`${BASE}/s/${live.slug}`)).status, 410);
+  await global.fetch(`${BASE}/api/admin/pages/${live.id}/block`, { method: 'POST', headers: { 'x-admin-key': 'dev-admin' } });
+  assert.equal((await global.fetch(`${BASE}/s/${live.slug}?preview=1`)).status, 200);
+});
+
 test('profile updates and full analytics for Pro', async () => {
   await patch('/api/me', { name: 'Chioma' });
   const me = await get('/api/me');

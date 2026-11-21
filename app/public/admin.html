@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Moderation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+<style>
+body { background: var(--admin-chrome, #111113); }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 24px 20px 60px; color: #F6F5F1; font-family: var(--font-body); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #1C1C20; border-radius: 14px; overflow: hidden; }
+th { text-align: left; padding: 12px; color: #9A9AA2; font-size: 12px; }
+td { padding: 12px; border-top: 1px solid #26262B; }
+.btn { min-height: 36px; padding: 0 12px; border: none; border-radius: 9px; font: 700 12.5px var(--font-body); cursor: pointer; }
+.hot { color: #FFD60A; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1 style="font-family: var(--font-heading); font-size: 26px; margin: 0 0 4px">Moderation</h1>
+<p style="color: #9A9AA2; font-size: 13.5px; margin: 0 0 18px">Reported pages float to the top. Blocking unpublishes instantly (410) and is reversible.</p>
+<div id="login" style="display: flex; gap: 10px; margin-bottom: 18px">
+<input id="key" type="password" placeholder="Admin key" style="flex-grow: 1; max-width: 280px; border: none; border-radius: 10px; padding: 0 12px; min-height: 42px; background: #26262B; color: #fff; font: 14px var(--font-body)">
+<button class="btn" style="background: var(--accent); color: #fff" onclick="load()">Enter</button>
+</div>
+<div id="out"></div>
+</div>
+<script>
+async function load() {
+  const key = document.getElementById('key').value || sessionStorage.adminKey || '';
+  const res = await fetch('/api/admin/pages', { headers: { 'x-admin-key': key } });
+  if (res.status === 401) { document.getElementById('out').innerHTML = '<p style="color:#FF9A9E">Wrong key.</p>'; return; }
+  sessionStorage.adminKey = key;
+  const rows = await res.json();
+  document.getElementById('out').innerHTML = `<table><tr><th>Page</th><th>Business</th><th>WhatsApp</th><th>Reports</th><th>Status</th><th></th></tr>` +
+    rows.map(r => `<tr>
+      <td><a href="${r.liveUrl}?preview=1" target="_blank" style="color:#8B78FF">${r.slug}</a><div style="color:#9A9AA2;font-size:12px">${r.title || ''}</div></td>
+      <td>${r.biz || '—'}</td><td>${r.whatsapp || '—'}</td>
+      <td class="${r.reports ? 'hot' : ''}">${r.reports}</td>
+      <td>${r.blocked ? '⛔ blocked' : r.status}</td>
+      <td><button class="btn" style="background:${r.blocked ? '#25D366' : '#C4252B'};color:#fff" onclick="toggle('${r.id}')">${r.blocked ? 'Unblock' : 'Block'}</button></td>
+    </tr>`).join('') + '</table>';
+}
+async function toggle(id) {
+  await fetch('/api/admin/pages/' + id + '/block', { method: 'POST', headers: { 'x-admin-key': sessionStorage.adminKey } });
+  load();
+}
+if (sessionStorage.adminKey) load();
+</script>
+</body>
+</html>

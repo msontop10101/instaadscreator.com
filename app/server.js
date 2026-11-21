@@ -12,6 +12,7 @@ const cfg = require('./lib/config');
 const sharp = require('sharp');
 const { rateLimit, baseHeaders, pageCsp } = require('./lib/security');
 const { session, startClaim, verifyClaim } = require('./lib/session');
+const { provider: billingProvider } = require('./lib/billing');
 const { validate } = require('./lib/validate');
 
 // fresh clones: the data dirs are gitignored, create them on boot
@@ -117,7 +118,7 @@ app.get('/api/me', (req, res) => {
   const s = req.seller;
   res.json({
     user: { name: s.name, phone: s.phone, biz: s.biz, pro: s.pro, claimed: !!s.claimedPhone },
-    brand: cfg.BRAND_NAME, domain: cfg.PAGE_DOMAIN, proPrice: cfg.PRO_PRICE_NGN,
+    brand: cfg.BRAND_NAME, domain: cfg.PAGE_DOMAIN, proPrice: cfg.PRO_PRICE_NGN, supportWhatsapp: cfg.SUPPORT_WHATSAPP,
     pageLimit: s.pro ? cfg.PRO_PAGE_LIMIT : cfg.FREE_PAGE_LIMIT,
   });
 });
@@ -390,11 +391,12 @@ app.delete('/api/pages/:id', (req, res) => {
 });
 
 // Pro upgrade (payment stubbed — Paystack comes later)
-app.post('/api/upgrade', (req, res) => {
+app.post('/api/upgrade', async (req, res) => {
   if (!req.seller.claimedPhone) {
     return res.status(403).json({ error: 'Verify your WhatsApp number first so your pages stay yours.', claim: true });
   }
-  // Paystack checkout goes here (Phase D); for now flipping Pro directly.
+  const checkout = await billingProvider().createCheckout(req.seller, 'pro-monthly');
+  if (!checkout.approved && checkout.url) return res.json({ checkout: checkout.url });
   store.updateSeller(req.sid, { pro: true });
   ownedPages(req).forEach(p => store.updatePage(p.id, { pro: true }));
   republishAll();
@@ -526,7 +528,20 @@ function republishAll() { store.listPages().forEach(p => publishStatic(ensureBlo
 
 const SRC_MAP = { ig: 'Instagram ads', tiktok: 'TikTok', wa: 'WhatsApp status', direct: 'Direct / bio link' };
 
+app.post('/api/report/:slug', rateLimit('report', 5, 60 * 60 * 1000), (req, res) => {
+  const p = store.getPageBySlug(req.params.slug);
+  if (p && !p.blocked) {
+    store.updatePage(p.id, { reports: (p.reports || 0) + 1, lastReportAt: Date.now() });
+  }
+  res.json({ ok: true }); // always 200 — don't leak which slugs exist
+});
+
 app.get('/s/:slug', pageCsp, (req, res) => {
+  const pg = store.getPageBySlug(req.params.slug);
+  if (pg && pg.blocked) {
+    unpublishStatic(pg.slug);
+    return res.status(410).send('<!doctype html><meta charset="utf-8"><body style="font-family:system-ui;text-align:center;padding:60px 20px"><h2>This page was taken down</h2><p>It violated our terms.</p></body>');
+  }
   // visits are counted by the in-page beacon (works identically when Caddy
   // serves the static file directly in production)
   const file = path.join(PUB_DIR, req.params.slug + '.html');
@@ -643,6 +658,32 @@ app.get('/qr/:slug', async (req, res) => {
   res.type('png').send(await QRCode.toBuffer(url, { width: 480, margin: 2 }));
 });
 
+// ---------- admin (moderation) ----------
+
+function adminOnly(req, res, next) {
+  if ((req.headers['x-admin-key'] || req.query.key) !== cfg.ADMIN_KEY) {
+    return res.status(401).json({ error: 'unauthorized' });
+  }
+  next();
+}
+
+app.get('/api/admin/pages', adminOnly, (req, res) => {
+  const rows = store.listPages().map(p => ({
+    id: p.id, slug: p.slug, title: p.title, biz: p.biz, status: p.status,
+    template: p.template, whatsapp: p.whatsapp, createdAt: p.createdAt,
+    reports: p.reports || 0, blocked: !!p.blocked, liveUrl: `/s/${p.slug}`,
+  })).sort((a, b) => (b.reports - a.reports) || (b.createdAt - a.createdAt));
+  res.json(rows);
+});
+
+app.post('/api/admin/pages/:id/block', adminOnly, (req, res) => {
+  const p = store.getPage(req.params.id);
+  if (!p) return res.status(404).json({ error: 'not found' });
+  store.updatePage(p.id, { blocked: !p.blocked, blockedAt: Date.now() });
+  if (store.getPage(p.id).blocked) unpublishStatic(p.slug); else publishStatic(store.getPage(p.id));
+  res.json({ ok: true, blocked: store.getPage(p.id).blocked });
+});
+
 // ---------- builder screens ----------
 
 const screen = name => (req, res) => res.sendFile(path.join(__dirname, 'public', name));
@@ -656,6 +697,7 @@ app.get('/analytics', screen('analytics.html'));
 app.get('/upgrade', screen('upgrade.html'));
 app.get('/account', screen('account.html'));
 app.get('/templates', screen('templates.html'));
+app.get('/admin', screen('admin.html'));
 
 store.ready.then(() => {
   app.listen(cfg.PORT, () => {

@@ -51,10 +51,22 @@ rewrite chips) → publish → share/Instagram button → analytics. Desktop + m
 - [x] Free limit enforced: page #2 → 403 with Go Pro link in both create paths
 - [x] WhatsApp-OTP claim at pay moment: /api/claim/start + /verify (dev mode returns the code until OTP_PROVIDER is wired — Termii/WhatsApp Cloud API later); upgrade requires a claimed number
 - [x] Analytics gated: free sellers get the real visits teaser, clicks/rate padlocked, charts blurred, Go Pro banner (mobile + desktop); Pro sees everything
-**Phase D:** Paystack subscriptions (idempotent webhooks); moderation admin + report link + blocklist (**launch-blocking** — scam pages are the #1 domain-reputation risk); support WhatsApp line
+**Phase D: ✅ scaffolded (billing adapter + support number pending)**
+- [x] Billing behind provider interface (`lib/billing.js`) — **Bachs** chosen (NOT Paystack);
+      adapter lands when Moyosore shares Bachs docs/dashboard. "manual" provider keeps the
+      flow testable meanwhile. Env: BILLING_PROVIDER.
+- [x] Moderation (launch-blocking piece): "Report this page" link on free pages,
+      reports counted, `/admin` queue (reported-first) with one-click block/unblock,
+      blocked pages → instant unpublish + 410. ADMIN_KEY env (change the dev default!).
+- [x] Support WhatsApp wired via SUPPORT_WHATSAPP env → Account screen (number TBD).
+- [ ] Bachs adapter (createCheckout + idempotent webhook) — next session
+- [ ] Real OTP provider for claims (Termii / WhatsApp Cloud API) — pairs with launch
 **Phase E:** deploy + pilot (xdeals/Ola first, then 10–20 sellers)
 
 ## Pending on Moyosore
+
+- [ ] **Bachs**: share docs/dashboard link so the billing adapter can be built
+- [ ] Support WhatsApp number (whenever ready → SUPPORT_WHATSAPP env)
 
 - [ ] Hetzner account **verification in progress** → then create project `instaads`, server CX22 Ubuntu 24.04 Falkenstein, attach SSH key below, report "server is up, IP is x.x.x.x"
 - [ ] Cloudflare: wait for zone **Active** email (nameservers already switched at Namecheap ✅)

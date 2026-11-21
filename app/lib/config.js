@@ -7,5 +7,7 @@ module.exports = {
   FREE_PAGE_LIMIT: 1,
   PRO_PAGE_LIMIT: 10,
   PRO_PRICE_NGN: 3500,           // ₦/month placeholder until pricing lands
+  SUPPORT_WHATSAPP: process.env.SUPPORT_WHATSAPP || null, // set when the support line exists
+  ADMIN_KEY: process.env.ADMIN_KEY || 'dev-admin',         // change in production .env!
   PORT: process.env.PORT || 4000,
 };
