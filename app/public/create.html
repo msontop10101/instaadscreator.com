@@ -291,8 +291,11 @@ document.getElementById('next').addEventListener('click', async () => {
   files.forEach(f => fd.append('photos', f));
   try {
     const res = await fetch('/api/pages', { method: 'POST', body: fd });
-    if (!res.ok) throw new Error((await res.json()).error || 'Failed');
     const page = await res.json();
+    if (!res.ok) {
+      if (page.upgrade) { err.innerHTML = page.error + ' <a href="/upgrade" style="font-weight:700">Go Pro →</a>'; err.style.display = ''; btn.disabled = false; btn.textContent = 'Next: how buyers order'; return; }
+      throw new Error(page.error || 'Failed');
+    }
     location.href = '/order-method?id=' + page.id;
   } catch (e) {
     err.textContent = e.message; err.style.display = '';
@@ -490,6 +493,7 @@ document.getElementById('dd-generate').addEventListener('click', async () => {
     if (pickedTemplate) fd.append('template', pickedTemplate);
     files.forEach(f => fd.append('photos', f));
     const page = await (await fetch('/api/pages', { method: 'POST', body: fd })).json();
+    if (page.upgrade) { err.innerHTML = page.error + ' <a href="/upgrade" style="font-weight:700">Go Pro →</a>'; err.style.display = ''; btn.disabled = false; btn.textContent = 'Generate my page'; return; }
     if (page.error) throw new Error(page.error);
     if (pvVal('dd-btn')) {
       await fetch('/api/pages/' + page.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ buttonText: pvVal('dd-btn') }) });

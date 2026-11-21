@@ -190,13 +190,12 @@ async function init() {
   document.getElementById('pro-chip').style.display = isPro ? 'none' : '';
   document.getElementById('stats-row').style.filter = isPro || pages.length ? '' : 'blur(4px)';
   let v = 0, c = 0;
-  for (const p of pages) {
-    const a = await fetch('/api/analytics/' + p.id + '?range=7d').then(r => r.json()).catch(() => null);
-    if (a) { v += a.visits; c += a.clicks; }
-  }
+  const agg0 = await fetch('/api/analytics/all?range=7d').then(r => r.json()).catch(() => null);
+  if (agg0) { v = agg0.visits || 0; c = agg0.clicks || 0; }
   document.getElementById('st-visits').textContent = v.toLocaleString();
-  document.getElementById('st-clicks').textContent = c.toLocaleString();
-  document.getElementById('st-rate').textContent = v ? (c / v * 100).toFixed(1) + '%' : '0%';
+  const gatedHome = !me.user.pro;
+  document.getElementById('st-clicks').textContent = gatedHome ? '🔒' : c.toLocaleString();
+  document.getElementById('st-rate').textContent = gatedHome ? '🔒' : (v ? (c / v * 100).toFixed(1) + '%' : '0%');
 
   // ---------- desktop ----------
   document.getElementById('d-brand').textContent = me.brand;

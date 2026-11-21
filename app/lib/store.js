@@ -10,7 +10,7 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
 const DB_PATH = path.join(DATA_DIR, 'db.json');
 const PG_URL = process.env.DATABASE_URL || null;
 
-let db = { pages: [], events: [], user: { name: 'Tolu', pro: false } };
+let db = { pages: [], events: [], sellers: [], user: { name: 'Tolu', pro: false } };
 let pool = null;
 
 // ---------- JSON backend ----------
@@ -36,9 +36,12 @@ async function initPg() {
     );
     CREATE INDEX IF NOT EXISTS events_page_ts ON events (page_id, ts);
     CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value JSONB NOT NULL);
+    CREATE TABLE IF NOT EXISTS sellers (id TEXT PRIMARY KEY, data JSONB NOT NULL);
   `);
   const pages = await pool.query('SELECT data FROM pages');
   const events = await pool.query('SELECT page_id, type, src, secs, ts FROM events ORDER BY ts');
+  const sellers = await pool.query('SELECT data FROM sellers');
+  db.sellers = sellers.rows.map(r => r.data);
   const user = await pool.query(`SELECT value FROM kv WHERE key = 'user'`);
   db.pages = pages.rows.map(r => r.data);
   db.events = events.rows.map(r => ({ pageId: r.page_id, type: r.type, src: r.src || undefined, secs: r.secs || undefined, ts: Number(r.ts) }));
@@ -73,6 +76,9 @@ function pgAddEvent(e) {
     [e.pageId, e.type, e.src || null, e.secs || null, e.ts]
   ).catch(logPgErr);
 }
+function pgSaveSeller(sel) {
+  return pool.query('INSERT INTO sellers (id, data) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET data = $2', [sel.sid, sel]).catch(logPgErr);
+}
 function pgSaveUser() {
   return pool.query(`INSERT INTO kv (key, value) VALUES ('user', $1) ON CONFLICT (key) DO UPDATE SET value = $1`, [db.user]).catch(logPgErr);
 }
@@ -89,6 +95,8 @@ const ready = (async () => {
     await initPg();
   } else {
     try { db = JSON.parse(fs.readFileSync(DB_PATH, 'utf8')); } catch { /* fresh */ }
+    db.pages ||= []; db.events ||= []; db.sellers ||= [];
+    db.user ||= { name: 'Tolu', pro: false };
   }
 })();
 
@@ -96,6 +104,14 @@ module.exports = {
   ready,
   get user() { return db.user; },
   setUser(patch) { Object.assign(db.user, patch); persistUser(); },
+
+  getSeller(sid) { return db.sellers.find(x => x.sid === sid); },
+  addSeller(sel) { db.sellers.push(sel); if (pool) pgSaveSeller(sel); else saveJson(); return sel; },
+  updateSeller(sid, patch) {
+    const sel = this.getSeller(sid);
+    if (sel) { Object.assign(sel, patch); if (pool) pgSaveSeller(sel); else saveJson(); }
+    return sel;
+  },
 
   listPages() { return db.pages; },
   getPage(id) { return db.pages.find(p => p.id === id); },

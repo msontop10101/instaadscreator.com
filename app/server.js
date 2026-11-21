@@ -11,6 +11,7 @@ const { chat, applyOps } = require('./lib/chat');
 const cfg = require('./lib/config');
 const sharp = require('sharp');
 const { rateLimit, baseHeaders, pageCsp } = require('./lib/security');
+const { session, startClaim, verifyClaim } = require('./lib/session');
 const { validate } = require('./lib/validate');
 
 // fresh clones: the data dirs are gitignored, create them on boot
@@ -54,7 +55,7 @@ const limitAi = rateLimit('ai', 120, 60 * 60 * 1000);          // 120 AI calls/h
 const limitTrack = rateLimit('track', 240, 60 * 1000);         // 240 beacons/min/IP
 const limitApi = rateLimit('api', 600, 60 * 1000);             // general API ceiling
 
-app.use('/api/', limitApi);
+app.use('/api/', limitApi, session);
 app.use('/uploads', express.static(path.join(DATA_DIR, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -108,11 +109,16 @@ app.get('/api/meta', (req, res) => {
   });
 });
 
+function ownedPages(req) {
+  return store.listPages().filter(p => !p.ownerId || p.ownerId === req.sid);
+}
+
 app.get('/api/me', (req, res) => {
+  const s = req.seller;
   res.json({
-    user: store.user, brand: cfg.BRAND_NAME, domain: cfg.PAGE_DOMAIN,
-    proPrice: cfg.PRO_PRICE_NGN,
-    pageLimit: store.user.pro ? cfg.PRO_PAGE_LIMIT : cfg.FREE_PAGE_LIMIT,
+    user: { name: s.name, phone: s.phone, biz: s.biz, pro: s.pro, claimed: !!s.claimedPhone },
+    brand: cfg.BRAND_NAME, domain: cfg.PAGE_DOMAIN, proPrice: cfg.PRO_PRICE_NGN,
+    pageLimit: s.pro ? cfg.PRO_PAGE_LIMIT : cfg.FREE_PAGE_LIMIT,
   });
 });
 
@@ -121,12 +127,28 @@ app.patch('/api/me', validate('me'), (req, res) => {
   if (typeof req.body.name === 'string' && req.body.name.trim()) patch.name = req.body.name.trim().slice(0, 40);
   if (typeof req.body.phone === 'string') patch.phone = req.body.phone.replace(/[^\d]/g, '').slice(0, 15) || null;
   if (typeof req.body.biz === 'string') patch.biz = req.body.biz.trim().slice(0, 60) || null;
-  store.setUser(patch);
-  res.json({ ok: true, user: store.user });
+  const s = store.updateSeller(req.sid, patch);
+  res.json({ ok: true, user: { name: s.name, phone: s.phone, biz: s.biz, pro: s.pro, claimed: !!s.claimedPhone } });
+});
+
+// ---------- claim (WhatsApp OTP) ----------
+
+app.post('/api/claim/start', rateLimit('otp', 5, 10 * 60 * 1000), (req, res) => {
+  const phone = String(req.body.phone || '').replace(/[^\d]/g, '').slice(-10);
+  if (phone.length !== 10) return res.status(400).json({ error: 'Enter a valid Nigerian number.' });
+  const out = startClaim(req.sid, phone);
+  res.json({ ok: true, devMode: out.devMode, code: out.code });
+});
+
+app.post('/api/claim/verify', (req, res) => {
+  const out = verifyClaim(req.sid, req.body.code);
+  if (!out.ok) return res.status(400).json({ error: out.error });
+  store.updateSeller(req.sid, { claimedPhone: out.phone, phone: out.phone });
+  res.json({ ok: true });
 });
 
 app.get('/api/pages', (req, res) => {
-  res.json(store.listPages().map(pageDto));
+  res.json(ownedPages(req).map(pageDto));
 });
 
 app.get('/api/pages/:id', (req, res) => {
@@ -161,7 +183,14 @@ app.post('/api/pages', limitCreate, upload.array('photos', 8), async (req, res) 
   const { desc, price, oldPrice, biz, template } = req.body;
   if (!desc || !price || !biz) return res.status(400).json({ error: 'desc, price and biz are required' });
   const userPicked = template && TEMPLATES.includes(template);
+  if (!req.seller.pro) {
+    const owned = ownedPages(req).length;
+    if (owned >= cfg.FREE_PAGE_LIMIT) {
+      return res.status(403).json({ error: `Free plan includes ${cfg.FREE_PAGE_LIMIT} page. Go Pro for up to ${cfg.PRO_PAGE_LIMIT}.`, upgrade: true });
+    }
+  }
   const page = store.addPage({
+    ownerId: req.sid,
     id: crypto.randomBytes(6).toString('hex'),
     slug: slugify(biz),
     status: 'draft',
@@ -362,10 +391,14 @@ app.delete('/api/pages/:id', (req, res) => {
 
 // Pro upgrade (payment stubbed — Paystack comes later)
 app.post('/api/upgrade', (req, res) => {
-  store.setUser({ pro: true });
-  store.listPages().forEach(p => store.updatePage(p.id, { pro: true }));
+  if (!req.seller.claimedPhone) {
+    return res.status(403).json({ error: 'Verify your WhatsApp number first so your pages stay yours.', claim: true });
+  }
+  // Paystack checkout goes here (Phase D); for now flipping Pro directly.
+  store.updateSeller(req.sid, { pro: true });
+  ownedPages(req).forEach(p => store.updatePage(p.id, { pro: true }));
   republishAll();
-  res.json({ ok: true, user: store.user });
+  res.json({ ok: true });
 });
 
 // ---------- template gallery sample pages ----------
@@ -447,6 +480,9 @@ app.post('/api/pages/from-template', limitCreate, validate('fromTemplate'), asyn
   const theme = req.body.template;
   if (!THEMES[theme]) return res.status(400).json({ error: 'unknown template' });
   const isApp = THEMES[theme].kind === 'app';
+  if (!req.seller.pro && ownedPages(req).length >= cfg.FREE_PAGE_LIMIT) {
+    return res.status(403).json({ error: `Free plan includes ${cfg.FREE_PAGE_LIMIT} page. Go Pro for up to ${cfg.PRO_PAGE_LIMIT}.`, upgrade: true });
+  }
   const brief = SAMPLE_BRIEFS[theme] || {
     desc: THEMES[theme].vertical, biz: THEMES[theme].label + (isApp ? ' App' : ' NG'),
     price: isApp ? '0' : '25000', oldPrice: null, location: isApp ? null : 'Lagos',
@@ -454,13 +490,14 @@ app.post('/api/pages/from-template', limitCreate, validate('fromTemplate'), asyn
   try {
     const { content } = await generateContent({ ...brief, template: theme, mockOnly: true, kind: isApp ? 'app' : 'product' });
     const page = store.addPage({
+      ownerId: req.sid,
       id: crypto.randomBytes(6).toString('hex'), slug: slugify(brief.biz), status: 'live',
       desc: brief.desc, biz: brief.biz, title: titleFrom(brief.desc),
       price: brief.price, oldPrice: brief.oldPrice || null, photos: [],
       method: 'whatsapp', whatsapp: store.user.phone || null, location: brief.location || null,
       template: theme, templateLocked: true, kind: isApp ? 'app' : 'product',
       content, blocks: blocksFromContent(content, theme, 0),
-      buyBarLabel: null, pro: store.user.pro, createdAt: Date.now(), publishedAt: Date.now(),
+      buyBarLabel: null, pro: req.seller.pro, createdAt: Date.now(), publishedAt: Date.now(),
     });
     publishStatic(page);
     res.json(pageDto(page));
@@ -533,7 +570,8 @@ app.post('/api/track', limitTrack, validate('track'), (req, res) => {
 
 app.get('/api/analytics/:id', (req, res) => {
   const all = req.params.id === 'all';
-  const pages = all ? store.listPages() : [store.getPage(req.params.id)].filter(Boolean);
+  const mine = ownedPages(req);
+  const pages = all ? mine : [store.getPage(req.params.id)].filter(p => p && (!p.ownerId || p.ownerId === req.sid));
   if (!pages.length) return res.status(404).json({ error: 'not found' });
   const ids = new Set(pages.map(p => p.id));
   const range = req.query.range || '7d';
@@ -584,6 +622,10 @@ app.get('/api/analytics/:id', (req, res) => {
     .map(([k, v]) => ({ source: SRC_MAP[k] || k, pct: visits ? Math.round(v / visits * 100) : 0, count: v }))
     .sort((a, b) => b.count - a.count);
 
+  if (!req.seller.pro) {
+    // teaser: real total visits, everything else behind Go Pro
+    return res.json({ gated: true, visits, clicks: null, priceSeen: null, avgTime: null, rate: null, deltaVisits: null, deltaClicks: null, perDay: perDay.map(d => ({ ...d, clicks: 0 })), sources: [], byPage: [] });
+  }
   res.json({
     visits, clicks, priceSeen, avgTime,
     rate: visits ? +(clicks / visits * 100).toFixed(1) : 0,

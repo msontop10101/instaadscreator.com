@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/app.css">
 <style>
+.gate-blur { filter: blur(6px); pointer-events: none; user-select: none; }
+.gate-note { background: var(--ink); color: var(--bg); border-radius: 14px; padding: 14px 16px; font-size: 13.5px; font-weight: 600; line-height: 1.45; display: flex; align-items: center; gap: 12px; }
+.gate-note a { flex-shrink: 0; min-height: 38px; padding: 0 14px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 700; display: flex; align-items: center; }
 .range-pill { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); font: 600 13px var(--font-body); }
 .range-pill[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
 </style>
@@ -29,6 +32,7 @@
 <button type="button" class="range-pill" data-range="30d" aria-pressed="false">30 days</button>
 </div>
 
+<div id="m-gate" class="gate-note" style="display: none"><span>You're seeing visits only. Go Pro to unlock clicks, sources and the buyer funnel.</span><a href="/upgrade">Go Pro</a></div>
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
 <div style="background: var(--surface); border-radius: 16px; padding: 14px 12px"><div style="font-size: 12px; color: var(--ink-3)">Visits</div><div id="m-visits" style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-top: 4px">0</div><div id="m-visits-d" style="font-size: 12px; color: var(--success); font-weight: 600"></div></div>
 <div style="background: var(--surface); border-radius: 16px; padding: 14px 12px"><div style="font-size: 12px; color: var(--ink-3)">Order clicks</div><div id="m-clicks" style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-top: 4px">0</div><div id="m-clicks-d" style="font-size: 12px; color: var(--success); font-weight: 600"></div></div>
@@ -166,9 +170,15 @@ async function refresh() {
   if (!currentId) return;
   const a = await fetch(`/api/analytics/${currentId}?range=${currentRange}`).then(r => r.json());
 
+  const gated = !!a.gated;
+  document.getElementById('m-gate').style.display = gated ? 'flex' : 'none';
+  document.querySelectorAll('.phone section > div').forEach((el, i) => {
+    if (i > 1 && el.id !== 'm-gate') el.classList.toggle('gate-blur', gated && !el.textContent.includes('Visits per day') === false);
+  });
   document.getElementById('m-visits').textContent = a.visits.toLocaleString();
-  document.getElementById('m-clicks').textContent = a.clicks.toLocaleString();
-  document.getElementById('m-rate').textContent = a.rate + '%';
+  document.getElementById('m-clicks').textContent = gated ? '🔒' : a.clicks.toLocaleString();
+  document.getElementById('m-rate').textContent = gated ? '🔒' : a.rate + '%';
+  if (gated) a = { ...a, clicks: 0, priceSeen: 0, rate: 0, avgTime: null, deltaVisits: null, deltaClicks: null, sources: [], byPage: [] };
   document.getElementById('m-visits-d').textContent = a.deltaVisits !== null ? (a.deltaVisits >= 0 ? '+' : '') + a.deltaVisits + '%' : '';
   document.getElementById('m-clicks-d').textContent = a.deltaClicks !== null ? (a.deltaClicks >= 0 ? '+' : '') + a.deltaClicks + '%' : '';
 
@@ -211,9 +221,21 @@ async function refresh() {
 
 // ---------- desktop population ----------
 function refreshDesk(a) {
+  const gated = !!a.gated;
+  let dg = document.getElementById('d-gate');
+  if (!dg) {
+    dg = document.createElement('div');
+    dg.id = 'd-gate'; dg.className = 'gate-note';
+    dg.innerHTML = `<span>You're seeing visits only. Go Pro to unlock order clicks, ad sources, the buyer funnel and per-page numbers.</span><a href="/upgrade">Go Pro</a>`;
+    const inner = document.querySelector('.desk .desk-main-inner');
+    inner.insertBefore(dg, inner.children[1]);
+  }
+  dg.style.display = gated ? 'flex' : 'none';
+  document.querySelectorAll('.desk .desk-card').forEach((el, i) => el.classList.toggle('gate-blur', gated && i > 0));
   document.getElementById('dm-visits').textContent = a.visits.toLocaleString();
-  document.getElementById('dm-clicks').textContent = a.clicks.toLocaleString();
-  document.getElementById('dm-rate').textContent = a.rate + '%';
+  document.getElementById('dm-clicks').textContent = gated ? '—' : a.clicks.toLocaleString();
+  document.getElementById('dm-rate').textContent = gated ? '—' : a.rate + '%';
+  if (gated) a = { ...a, clicks: 0, priceSeen: 0, rate: 0, avgTime: null, deltaVisits: null, deltaClicks: null, sources: [], byPage: [] };
   document.getElementById('dm-visits-d').textContent = a.deltaVisits !== null ? (a.deltaVisits >= 0 ? '+' : '') + a.deltaVisits + '% vs previous' : '';
   document.getElementById('dm-clicks-d').textContent = a.deltaClicks !== null ? (a.deltaClicks >= 0 ? '+' : '') + a.deltaClicks + '% vs previous' : '';
   document.getElementById('dm-time').textContent = a.avgTime !== null ? a.avgTime + 's' : '—';

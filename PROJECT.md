@@ -45,7 +45,12 @@ rewrite chips) → publish → share/Instagram button → analytics. Desktop + m
 - [x] `deploy/backup.sh`: nightly pg_dump + uploads/published tar, 14-day rotation (cron line in file)
 - Note: Dockerfile installs from package.json (no lockfile) — macOS npm-11 lockfile trips an arborist bug resolving sharp optionals on alpine
 **NEXT UP: Phase C.**
-**Phase C:** anonymous session → WhatsApp-OTP claim at pay moment; enforce 1-page free limit; analytics teaser-gating behind Pro
+**Phase C: ✅ COMPLETE (OTP in dev mode until SMS provider)**
+- [x] Anonymous device sessions (`lib/session.js`): httpOnly year-long cookie, seller record per device, zero sign-up
+- [x] Page ownership: pages carry `ownerId`; lists/analytics scoped to the session (legacy dev pages remain visible to all)
+- [x] Free limit enforced: page #2 → 403 with Go Pro link in both create paths
+- [x] WhatsApp-OTP claim at pay moment: /api/claim/start + /verify (dev mode returns the code until OTP_PROVIDER is wired — Termii/WhatsApp Cloud API later); upgrade requires a claimed number
+- [x] Analytics gated: free sellers get the real visits teaser, clicks/rate padlocked, charts blurred, Go Pro banner (mobile + desktop); Pro sees everything
 **Phase D:** Paystack subscriptions (idempotent webhooks); moderation admin + report link + blocklist (**launch-blocking** — scam pages are the #1 domain-reputation risk); support WhatsApp line
 **Phase E:** deploy + pilot (xdeals/Ola first, then 10–20 sellers)
 

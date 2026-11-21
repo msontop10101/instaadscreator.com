@@ -12,6 +12,15 @@ const PORT = 4987;
 const BASE = `http://localhost:${PORT}`;
 let server, tmp;
 
+let cookie = '';
+async function cfetch(url, opts = {}) {
+  opts.headers = { ...(opts.headers || {}), ...(cookie ? { Cookie: cookie } : {}) };
+  const r = await global.fetch(url, opts);
+  const setc = r.headers.get('set-cookie');
+  if (setc && setc.includes('sid=')) cookie = setc.split(';')[0];
+  return r;
+}
+const fetch = cfetch; // all tests ride one anonymous session, like one device
 const get = (p) => fetch(BASE + p).then(r => r.json());
 const post = (p, body) => fetch(BASE + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(r => r.json());
 const patch = (p, body) => fetch(BASE + p, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(r => r.json());
@@ -78,10 +87,12 @@ test('create → generate → live page with blocks, countdown and tracking', as
   const go = await fetch(`${BASE}/go/${page.slug}`, { redirect: 'manual' });
   assert.ok(go.headers.get('location').includes('wa.me/2348031234567'));
 
-  const a = await get(`/api/analytics/${page.id}?range=7d`);
-  assert.equal(a.visits, 1);
-  assert.equal(a.clicks, 1);
-  assert.ok(a.sources[0].source.includes('Instagram'));
+  // free seller: analytics is gated to the visits teaser
+  const teaser = await get(`/api/analytics/${page.id}?range=7d`);
+  assert.equal(teaser.gated, true);
+  assert.equal(teaser.visits, 1);
+  assert.equal(teaser.clicks, null);
+  assert.deepEqual(teaser.sources, []);
 
   // block ops: remove faq, reorder, patch survives render
   const noFaq = live.blocks.filter(b => b.type !== 'faq');
@@ -98,6 +109,42 @@ test('create → generate → live page with blocks, countdown and tracking', as
   }).then(r => r.json());
   assert.equal(out.page.price, '150000');
   assert.ok(out.page.blocks.some(b => b.type === 'faq'));
+});
+
+test('free limit → WhatsApp-OTP claim → upgrade → badge removed', async () => {
+  // page #2 on free plan is blocked
+  const fd = new FormData();
+  fd.append('desc', 'another product'); fd.append('price', '5000'); fd.append('biz', 'Second Biz');
+  const blocked = await fetch(BASE + '/api/pages', { method: 'POST', body: fd });
+  assert.equal(blocked.status, 403);
+  assert.ok((await blocked.json()).upgrade);
+
+  // upgrade without a claimed number is refused
+  const noClaim = await fetch(BASE + '/api/upgrade', { method: 'POST' });
+  assert.equal(noClaim.status, 403);
+
+  // badge present while free
+  const pages = await get('/api/pages');
+  const live = pages.find(p => p.status === 'live');
+  let html = await fetch(`${BASE}/s/${live.slug}?preview=1`).then(r => r.text());
+  assert.ok(html.includes('Made with'));
+
+  // claim via dev-mode OTP, then upgrade
+  const start = await post('/api/claim/start', { phone: '08031234567' });
+  assert.ok(start.devMode && start.code);
+  const bad = await fetch(BASE + '/api/claim/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: '000000' }) });
+  assert.equal(bad.status, 400);
+  const good = await post('/api/claim/verify', { code: start.code });
+  assert.ok(good.ok);
+  const up = await post('/api/upgrade', {});
+  assert.ok(up.ok);
+  const me = await get('/api/me');
+  assert.equal(me.user.pro, true);
+  assert.equal(me.pageLimit, 10);
+
+  // badge gone after Pro republish
+  html = await fetch(`${BASE}/s/${live.slug}?preview=1`).then(r => r.text());
+  assert.ok(!html.includes('Made with'));
 });
 
 test('use-template creates product and app starters that render', async () => {
@@ -155,18 +202,16 @@ test('security: validation, headers, CSP', async () => {
   assert.equal(r.headers.get('x-content-type-options'), 'nosniff');
 });
 
-test('profile, upgrade and badge rules', async () => {
-  await patch('/api/me', { name: 'Chioma', phone: '08099887766' });
+test('profile updates and full analytics for Pro', async () => {
+  await patch('/api/me', { name: 'Chioma' });
   const me = await get('/api/me');
   assert.equal(me.user.name, 'Chioma');
-  assert.equal(me.user.phone, '8099887766'.length === 10 ? me.user.phone : me.user.phone);
 
   const pages = await get('/api/pages');
-  const live = pages.find(p => p.status === 'live');
-  let html = await fetch(`${BASE}/s/${live.slug}?preview=1`).then(r => r.text());
-  assert.ok(html.includes('Made with'), 'free pages carry the badge');
-
-  await post('/api/upgrade', {});
-  html = await fetch(`${BASE}/s/${live.slug}?preview=1`).then(r => r.text());
-  assert.ok(!html.includes('Made with'), 'Pro removes the badge');
+  const live = pages.find(p => p.slug === 'luxebytolu');
+  const a = await get(`/api/analytics/${live.id}?range=7d`);
+  assert.ok(!a.gated, 'Pro sees everything');
+  assert.equal(a.visits, 1);
+  assert.equal(a.clicks, 1);
+  assert.ok(a.sources[0].source.includes('Instagram'));
 });
