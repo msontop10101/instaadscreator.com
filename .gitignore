@@ -3,3 +3,4 @@ node_modules/
 # local test data — seller uploads and the dev database
 app/data/uploads/*
 app/data/db.json
+deploy/.env
