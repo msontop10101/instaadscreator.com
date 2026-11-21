@@ -10,6 +10,9 @@ const { renderPage, TEMPLATES, blocksFromContent, BLOCK_TYPES, THEMES } = requir
 const { chat, applyOps } = require('./lib/chat');
 const cfg = require('./lib/config');
 
+// fresh clones: the data dirs are gitignored, create them on boot
+require('fs').mkdirSync(path.join(__dirname, 'data', 'uploads'), { recursive: true });
+
 const app = express();
 app.use(express.json());
 // sendBeacon posts text/plain
