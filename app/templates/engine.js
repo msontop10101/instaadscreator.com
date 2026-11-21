@@ -432,6 +432,8 @@ ${T.kind === 'app' ? `<div style="position: fixed; left: 0; right: 0; bottom: 0;
 <script>
 (function(){
   if (/[?&]preview=1/.test(location.search)) return;
+  var src = (location.search.match(/[?&]src=(ig|tiktok|wa)/) || [])[1] || 'direct';
+  navigator.sendBeacon('/api/track', JSON.stringify({ slug: '${page.slug}', type: 'visit', src: src }));
   var sent = false;
   var el = document.getElementById('price-point');
   if ('IntersectionObserver' in window && el) {

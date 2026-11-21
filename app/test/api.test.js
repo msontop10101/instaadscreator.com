@@ -72,6 +72,8 @@ test('create → generate → live page with blocks, countdown and tracking', as
 
   const html = await fetch(`${BASE}/s/${page.slug}?src=ig`).then(r => r.text());
   assert.ok(html.includes('Luxe by Tolu') && html.includes('cd-h'));
+  assert.ok(html.includes("type: 'visit'"), 'visit beacon embedded');
+  await post('/api/track', { slug: page.slug, type: 'visit', src: 'ig' });
 
   const go = await fetch(`${BASE}/go/${page.slug}`, { redirect: 'manual' });
   assert.ok(go.headers.get('location').includes('wa.me/2348031234567'));
@@ -132,6 +134,9 @@ test('samples render for every theme; previews stay out of stats', async () => {
   await fetch(`${BASE}/s/${p.slug}?preview=1`);
   const afterA = await get(`/api/analytics/${p.id}?range=7d`);
   assert.equal(afterA.visits, beforeA.visits);
+  // published file exists and is served statically
+  const html = await fetch(`${BASE}/s/${p.slug}`).then(r => r.text());
+  assert.ok(html.length > 3000);
 });
 
 test('profile, upgrade and badge rules', async () => {

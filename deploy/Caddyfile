@@ -1,0 +1,18 @@
+# Builder + API on the main domain
+{$SITE_DOMAIN} {
+	reverse_proxy app:4000
+}
+
+# Seller pages on wildcard subdomains, served as static files from disk.
+# Tracking beacons, buy clicks, uploads and QR still hit the app.
+*.{$SITE_DOMAIN} {
+	@apppaths path /api/* /go/* /uploads/* /qr/*
+	handle @apppaths {
+		reverse_proxy app:4000
+	}
+	handle {
+		rewrite * /published/{labels.2}.html
+		root * /srv
+		file_server
+	}
+}

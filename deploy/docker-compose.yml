@@ -1,0 +1,45 @@
+# Production stack: one `docker compose up -d` on the VPS.
+#   caddy    — TLS + wildcard subdomains; serves published pages as static files
+#   app      — builder + API (only hit for the builder, APIs and first render)
+#   postgres — provisioned for the store migration (Phase A step 2)
+services:
+  app:
+    build: ../app
+    restart: unless-stopped
+    environment:
+      - PORT=4000
+      - DATA_DIR=/data
+      - DATABASE_URL=postgres://adpage:${POSTGRES_PASSWORD:-devpassword}@postgres:5432/adpage
+      - AI_BASE_URL=${AI_BASE_URL:-}
+      - AI_API_KEY=${AI_API_KEY:-}
+      - AI_MODEL=${AI_MODEL:-}
+    volumes:
+      - app_data:/data
+    depends_on: [postgres]
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      - SITE_DOMAIN=${SITE_DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - app_data:/srv:ro
+      - caddy_data:/data
+    depends_on: [app]
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=adpage
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-devpassword}
+      - POSTGRES_DB=adpage
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  app_data:
+  pg_data:
+  caddy_data:

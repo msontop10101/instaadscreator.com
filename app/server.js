@@ -176,6 +176,7 @@ app.post('/api/pages/:id/generate', async (req, res) => {
       template, content, status: 'live', publishedAt: Date.now(),
       blocks: blocksFromContent(content, template, (p.photos || []).length),
     });
+    publishStatic(store.getPage(p.id));
   } catch (err) {
     console.error('[generate]', err);
     store.updatePage(p.id, { status: 'error', error: err.message });
@@ -230,6 +231,7 @@ app.patch('/api/pages/:id', (req, res) => {
   if (b.method) patch.method = b.method;
   if ('location' in b) patch.location = b.location || null;
   store.updatePage(p.id, patch);
+  publishStatic(store.getPage(p.id));
   res.json(pageDto(store.getPage(p.id)));
 });
 
@@ -252,6 +254,7 @@ app.post('/api/pages/:id/rewrite', async (req, res) => {
       content: newContent,
       blocks: syncContentIntoBlocks(p.blocks, { headline: newContent.headline, subhead: newContent.subhead, kicker: newContent.kicker, urgency: newContent.urgency }),
     });
+    publishStatic(store.getPage(p.id));
     res.json(pageDto(store.getPage(p.id)));
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -311,6 +314,7 @@ app.post('/api/pages/:id/chat', upload.array('images', 8), async (req, res) => {
       ? `Done — I ${applied.join(', ')}. Check the preview.`
       : `I didn't catch an edit there. Try things like "remove the FAQ", "add a countdown", "change the price to ₦50,000", "make it more urgent", "switch to the Noir theme" — or attach a photo and say "use this as the hero".`);
 
+    publishStatic(store.getPage(p.id));
     res.json({ reply: replyText, applied, page: pageDto(store.getPage(p.id)) });
   } catch (err) {
     console.error('[chat]', err);
@@ -319,6 +323,8 @@ app.post('/api/pages/:id/chat', upload.array('images', 8), async (req, res) => {
 });
 
 app.delete('/api/pages/:id', (req, res) => {
+  const p = store.getPage(req.params.id);
+  if (p) unpublishStatic(p.slug);
   store.deletePage(req.params.id);
   res.json({ ok: true });
 });
@@ -327,6 +333,7 @@ app.delete('/api/pages/:id', (req, res) => {
 app.post('/api/upgrade', (req, res) => {
   store.setUser({ pro: true });
   store.listPages().forEach(p => store.updatePage(p.id, { pro: true }));
+  republishAll();
   res.json({ ok: true, user: store.user });
 });
 
@@ -424,20 +431,40 @@ app.post('/api/pages/from-template', async (req, res) => {
       content, blocks: blocksFromContent(content, theme, 0),
       buyBarLabel: null, pro: store.user.pro, createdAt: Date.now(), publishedAt: Date.now(),
     });
+    publishStatic(page);
     res.json(pageDto(page));
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
+
+// ---------- static publish pipeline ----------
+// Publishing renders once to disk; Caddy (or this app) serves the file.
+// API down never takes a live page down.
+const fsp = require('fs');
+const PUB_DIR = path.join(DATA_DIR, 'published');
+fsp.mkdirSync(PUB_DIR, { recursive: true });
+
+function publishStatic(p) {
+  try {
+    if (!p || !p.blocks || p.status !== 'live') return;
+    fsp.writeFileSync(path.join(PUB_DIR, p.slug + '.html'), renderPage(p));
+  } catch (err) { console.error('[publish]', err.message); }
+}
+function unpublishStatic(slug) {
+  try { fsp.unlinkSync(path.join(PUB_DIR, slug + '.html')); } catch {}
+}
+function republishAll() { store.listPages().forEach(p => publishStatic(ensureBlocks(p))); }
 
 // ---------- generated sites ----------
 
 const SRC_MAP = { ig: 'Instagram ads', tiktok: 'TikTok', wa: 'WhatsApp status', direct: 'Direct / bio link' };
 
 app.get('/s/:slug', (req, res) => {
+  // visits are counted by the in-page beacon (works identically when Caddy
+  // serves the static file directly in production)
+  const file = path.join(PUB_DIR, req.params.slug + '.html');
+  if (!req.query.preview && fsp.existsSync(file)) return res.sendFile(file);
   const p = ensureBlocks(store.getPageBySlug(req.params.slug));
   if (!p || !p.blocks) return res.status(404).send('Page not found');
-  const src = ['ig', 'tiktok', 'wa'].includes(req.query.src) ? req.query.src : 'direct';
-  // one visit per page view (preview iframe sets ?preview=1 to stay out of stats)
-  if (!req.query.preview) store.addEvent({ pageId: p.id, type: 'visit', src });
   res.send(renderPage(p));
 });
 
@@ -464,6 +491,7 @@ app.post('/api/track', (req, res) => {
   try {
     const b = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const p = store.getPageBySlug(b.slug);
+    if (p && b.type === 'visit') store.addEvent({ pageId: p.id, type: 'visit', src: ['ig', 'tiktok', 'wa'].includes(b.src) ? b.src : 'direct' });
     if (p && b.type === 'price_seen') store.addEvent({ pageId: p.id, type: 'price_seen' });
     if (p && b.type === 'time' && Number(b.secs) > 0) store.addEvent({ pageId: p.id, type: 'time', secs: Math.min(600, Math.round(Number(b.secs))) });
   } catch { /* ignore malformed beacons */ }
