@@ -11,7 +11,8 @@ const { chat, applyOps } = require('./lib/chat');
 const cfg = require('./lib/config');
 
 // fresh clones: the data dirs are gitignored, create them on boot
-require('fs').mkdirSync(path.join(__dirname, 'data', 'uploads'), { recursive: true });
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
+require('fs').mkdirSync(path.join(DATA_DIR, 'uploads'), { recursive: true });
 
 const app = express();
 app.use(express.json());
@@ -20,7 +21,7 @@ app.use(express.text({ type: 'text/plain' }));
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: path.join(__dirname, 'data', 'uploads'),
+    destination: path.join(DATA_DIR, 'uploads'),
     filename: (req, file, cb) => {
       const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
       cb(null, crypto.randomBytes(8).toString('hex') + ext);
@@ -29,7 +30,7 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024, files: 8 },
 });
 
-app.use('/uploads', express.static(path.join(__dirname, 'data', 'uploads')));
+app.use('/uploads', express.static(path.join(DATA_DIR, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ---------- helpers ----------
