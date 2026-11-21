@@ -39,7 +39,10 @@ body { background: var(--bg); }
 <p style="margin: 10px auto 0; max-width: 520px; font-size: 16px; color: var(--ink-2); line-height: 1.5">Every template is free. Pick one, describe what you sell like you're texting a friend, and your ad page is live in under a minute.</p>
 </div>
 
+<h2 class="h1" style="font-size: 22px; margin: 8px 0 14px">Product & service pages</h2>
 <div id="grid" class="tpl-grid"></div>
+<h2 class="h1" style="font-size: 22px; margin: 36px 0 14px">App download pages</h2>
+<div id="grid-app" class="tpl-grid"></div>
 </div>
 
 <script>
@@ -52,7 +55,14 @@ Promise.all([
   Object.entries(meta.themes).forEach(([key, t]) => {
     const card = document.createElement('a');
     card.className = 'tpl-card';
-    card.href = '/create?template=' + key;
+    card.href = '#';
+    card.addEventListener('click', async e => {
+      e.preventDefault();
+      card.querySelector('.tpl-use').textContent = 'Setting up…';
+      const res = await fetch('/api/pages/from-template', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ template: key }) });
+      const p = await res.json();
+      if (p.id) location.href = '/editor?id=' + p.id + '&new=1';
+    });
     card.style.color = 'var(--ink)';
     card.innerHTML = `
       <div class="tpl-preview"><iframe src="/sample/${key}" title="${t.label} template preview" loading="lazy" tabindex="-1"></iframe></div>
@@ -61,7 +71,7 @@ Promise.all([
         <div class="tpl-vertical">${t.vertical}</div>
         <div class="tpl-use">Use this template</div>
       </div>`;
-    grid.appendChild(card);
+    (t.kind === 'app' ? document.getElementById('grid-app') : grid).appendChild(card);
   });
 });
 </script>

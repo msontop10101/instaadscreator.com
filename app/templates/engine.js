@@ -86,7 +86,13 @@ function blocksFromContent(content, theme, photoCount) {
         case 'proof': if ((content.reviews || []).length) push('reviews', { variant: v, title: 'What customers say', items: content.reviews }); break;
         case 'faq': if ((content.faq || []).length) push('faq', { title: 'Questions', items: content.faq }); break;
         case 'final': if (content.urgency) push('urgency', { variant: v, title: content.urgency.title, sub: content.urgency.sub }); break;
-        // header / footer / buybar are page chrome, not blocks
+        // app landing sections
+        case 'strip': if ((content.tiles || []).length) push('tiles', { variant: 'row', items: content.tiles }); break;
+        case 'features': if ((content.benefits || []).length) push('benefits', { variant: 'cards', title: 'Why you’ll love it', items: content.benefits }); break;
+        case 'screens': if (photoCount > 1) push('gallery', { variant: v, images: null }); break;
+        case 'pricing': if (content.variants) push('variants', { label: 'Plans', options: content.variants.options }); break;
+        case 'reviews': if ((content.reviews || []).length) push('reviews', { variant: v, title: 'What users say', items: content.reviews }); break;
+        // nav / header / footer / bar / buybar are page chrome, not blocks
       }
     }
     return B;
@@ -174,6 +180,16 @@ ${photoBox(p3, T, 160, 'Photo 3')}
 ${text ? `<div style="padding: 4px 20px 0; display: flex; flex-direction: column; gap: 12px">${text}</div>` : ''}
 </section>`;
     }
+    if (T.kind === 'app') {
+      return `<section style="padding: 18px 20px 0; display: flex; flex-direction: column; gap: 14px; text-align: center; align-items: center">
+${heroText(b, T)}
+<div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap">
+<a href="${buyLink(page)}?store=apple" style="${T.btnCss || `background: ${T.ink}; color: ${T.bg}`}; border-radius: 12px; padding: 12px 18px; font-size: 14px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px"> App Store</a>
+<a href="${buyLink(page)}?store=google" style="${T.btnCss || `background: ${T.ink}; color: ${T.bg}`}; border-radius: 12px; padding: 12px 18px; font-size: 14px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px">▶ Google Play</a>
+</div>
+<div style="width: 240px; border: 8px solid ${T.ink}; border-radius: 32px; overflow: hidden">${photoBox(photoUrl(page, b.image ?? 0), T, 420, 'App screenshot')}</div>
+</section>`;
+    }
     if (b.variant === 'centered') {
       return `<section style="padding: 8px 20px 0; display: flex; flex-direction: column; gap: 14px; text-align: center; align-items: center">
 ${text}
@@ -196,7 +212,7 @@ ${b.badge ? `<div style="position: absolute; top: 14px; left: 14px; background: 
 ${!b.noHeadline && b.kicker ? `<div style="font-family: ${T.headFont}; font-size: 13px; font-weight: 600; color: ${T.accent}; letter-spacing: 0.08em">${esc(b.kicker.toUpperCase())}</div>` : ''}
 ${!b.noHeadline && b.headline ? `<h1 style="margin: 0; ${headCss(T, 36)}">${emText(b.headline, T)}</h1>` : ''}
 ${!b.noHeadline && b.subhead ? `<p style="margin: 0; font-size: 16px; line-height: 1.5; color: ${T.muted}">${esc(b.subhead)}</p>` : ''}
-<div id="price-point" style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+<div id="price-point" style="display: ${T.kind === 'app' ? 'none' : 'flex'}; align-items: baseline; gap: 10px; flex-wrap: wrap">
 <span style="font-family: ${T.headFont}; font-size: 32px; font-weight: 700">₦${fmt(page.price)}</span>
 ${page.oldPrice ? `<span style="font-size: 16px; color: ${T.faint}; text-decoration: line-through">₦${fmt(page.oldPrice)}</span>` : ''}
 ${save ? `<span style="font-size: 12px; font-weight: 700; color: ${T.onAccent}; background: ${T.accent}; padding: 4px 8px; border-radius: 6px">SAVE ${save}%</span>` : ''}
@@ -245,7 +261,7 @@ ${(b.items || []).slice(0, 6).map(t => `<div style="background: ${T.card}; borde
       return `<section style="padding: 28px 20px 0; display: flex; flex-direction: column; gap: 12px">
 ${h2(b.title || 'Why buy from us', T)}
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
-${(b.items || []).map(x => `<div style="background: ${T.card}; border: 1px solid ${T.line}; border-radius: ${T.radius}; padding: 16px"><div style="font-weight: 700; font-size: 14.5px">${esc(x.strong)}</div><div style="font-size: 13px; color: ${T.muted}; line-height: 1.5; margin-top: 4px">${esc(x.text)}</div></div>`).join('\n')}
+${(b.items || []).map(x => `<div style="${T.cardCss || `background: ${T.card}; border: 1px solid ${T.line}; border-radius: ${T.radius}`}; padding: 16px"><div style="font-weight: 700; font-size: 14.5px">${esc(x.strong)}</div><div style="font-size: 13px; color: ${T.muted}; line-height: 1.5; margin-top: 4px">${esc(x.text)}</div></div>`).join('\n')}
 </div>
 </section>`;
     }
@@ -401,12 +417,16 @@ ${body}
 ${page.pro ? '' : `<div style="border: 1px solid ${T.line}; border-radius: 999px; padding: 6px 12px; background: ${T.card}; color: ${T.muted}">Made with ${esc(BRAND_NAME)}</div>`}
 </footer>
 
-<div style="${T.buyBarStyle === 'pill'
+${T.kind === 'app' ? `<div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; max-width: 480px; margin: 0 auto; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: ${T.bg}; border-top: 1px solid ${T.line}; display: flex; align-items: center; gap: 10px; box-sizing: border-box">
+<div style="flex-grow: 1"><div style="font-size: 12px; color: ${T.faint}">Free download</div><div style="font-family: ${T.headFont}; font-size: 16px; font-weight: 700">${esc(page.biz)}</div></div>
+<a href="${buyLink(page)}?store=apple" style="${T.btnCss || `background: ${T.ink}; color: ${T.bg}`}; border-radius: 12px; padding: 12px 14px; font-size: 13px; font-weight: 700; text-decoration: none"></a>
+<a href="${buyLink(page)}?store=google" style="${T.btnCss || `background: ${T.ink}; color: ${T.bg}`}; border-radius: 12px; padding: 12px 14px; font-size: 13px; font-weight: 700; text-decoration: none">▶</a>
+</div>` : `<div style="${T.buyBarStyle === 'pill'
     ? `position: fixed; left: 12px; right: 12px; bottom: 14px; z-index: 10; max-width: 456px; margin: 0 auto; padding: 10px 10px 10px 18px; background: ${T.ink}; color: ${T.bg}; border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 12px; box-sizing: border-box`
     : `position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; max-width: 480px; margin: 0 auto; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: ${T.bg}; border-top: 1px solid ${T.line}; display: flex; align-items: center; gap: 12px; box-sizing: border-box`}">
 <div style="flex-grow: 1"><div style="font-size: 12px; color: ${T.faint}">${esc(page.buyBarLabel || page.title)}</div><div style="font-family: ${T.headFont}; font-size: 17px; font-weight: 700">₦${fmt(page.price)}</div></div>
 <a href="${buyLink(page)}" style="display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 18px; border-radius: var(--btn-r); background: #25D366; color: #062B16; font-size: 15px; font-weight: 700; text-decoration: none">${buyVerb(page, T)}</a>
-</div>
+</div>`}
 
 </div>
 <script>

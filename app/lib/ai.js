@@ -265,6 +265,28 @@ MOCKS.noir = (i) => ({
   urgency: { title: 'When this batch is gone, it’s gone', sub: 'No restocks on limited pieces' },
 });
 
+MOCKS.appkind = (i) => ({
+  announcement: null, kicker: 'FREE DOWNLOAD',
+  headline: `${shortName(i.desc)}. [[em]]Right on your phone.[[/em]]`,
+  subhead: `${capitalize(i.desc)}. Fast, simple, and built for Nigeria.`,
+  priceNote: null, trustLine: null,
+  benefits: [
+    { strong: 'Easy to use.', text: 'Set up in under two minutes.' },
+    { strong: 'Works on any phone.', text: 'Light on data and storage.' },
+    { strong: 'Safe and secure.', text: 'Your data stays yours.' },
+  ],
+  tiles: [{ title: '4.8★ rating', sub: '' }, { title: 'Free', sub: 'no hidden fees' }, { title: '10k+ downloads', sub: '' }],
+  variants: null,
+  howToOrder: ['Tap App Store or Google Play', 'Install free', 'Open and get started'],
+  reviews: [{ text: 'Downloaded it last week and I use it every day now. Very smooth.', who: 'App Store review' }],
+  faq: [
+    { q: 'Is it free?', a: 'Yes — download and core features are free.' },
+    { q: 'Does it work offline?', a: 'Key features work even with poor network.' },
+    { q: 'Which phones are supported?', a: 'Android 8+ and iPhone (iOS 14+).' },
+  ],
+  urgency: { title: 'Join thousands already using it', sub: 'Free on App Store and Google Play' },
+});
+
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 function fmt(n) { return Number(n || 0).toLocaleString('en-NG'); }
 
@@ -325,7 +347,7 @@ async function generateContent(input) {
     console.error('[ai] live model failed, using mock:', err.message);
   }
   if (!content) {
-    const mock = MOCKS[template] || MOCKS[MOCK_FALLBACK[template]] || MOCKS.street;
+    const mock = input.kind === 'app' ? MOCKS.appkind : (MOCKS[template] || MOCKS[MOCK_FALLBACK[template]] || MOCKS.street);
     content = mock(input);
     if (input.style) content = applyStyle(content, input);
   }

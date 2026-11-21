@@ -192,6 +192,8 @@
 </select></div>
 <div class="ed-field"><label for="de-btn-text">Button text</label><input id="de-btn-text" placeholder="Buy on WhatsApp"></div>
 <div class="ed-field"><label for="de-wa">Number (without +234)</label><input id="de-wa" inputmode="tel"></div>
+<div class="ed-field"><label for="de-apple">App Store link <span style="font-weight: 400; color: var(--ink-3)">(app pages)</span></label><input id="de-apple" placeholder="https://apps.apple.com/..."></div>
+<div class="ed-field"><label for="de-play">Google Play link</label><input id="de-play" placeholder="https://play.google.com/..."></div>
 <div style="display: flex; justify-content: space-between; font-size: 14px"><span>Price shown</span><span id="de-price-shown" style="font-weight: 700"></span></div>
 </div>
 </div>
@@ -373,6 +375,7 @@ function hydrate(p) {
   document.getElementById('de-method').value = p.method || 'whatsapp';
   document.getElementById('de-btn-text').value = p.buttonText || '';
   document.getElementById('de-wa').value = p.whatsapp || '';
+  if (document.getElementById('de-apple')) { document.getElementById('de-apple').value = p.appStoreUrl || ''; document.getElementById('de-play').value = p.playStoreUrl || ''; }
   document.getElementById('de-price-shown').textContent = '₦' + Number(p.price).toLocaleString('en-NG');
 }
 
@@ -417,6 +420,8 @@ document.querySelectorAll('[role=tab][data-tab]').forEach(t => t.addEventListene
  ['de-btn-text', () => dirty.buttonText = val('de-btn-text')],
  ['de-method', () => dirty.method = val('de-method')],
  ['de-wa', () => dirty.whatsapp = val('de-wa')],
+ ['de-apple', () => dirty.appStoreUrl = val('de-apple')],
+ ['de-play', () => dirty.playStoreUrl = val('de-play')],
 ].forEach(([fid, fn]) => document.getElementById(fid).addEventListener('input', () => { fn(); markDirty(); }));
 
 async function publish(btn) {
@@ -427,7 +432,7 @@ async function publish(btn) {
     if ('headline' in dirty) body.content.headline = dirty.headline;
     if ('subhead' in dirty) body.content.subhead = dirty.subhead;
   }
-  ['price', 'oldPrice', 'buyBarLabel', 'buttonText', 'method', 'whatsapp'].forEach(k => { if (k in dirty) body[k] = dirty[k]; });
+  ['price', 'oldPrice', 'buyBarLabel', 'buttonText', 'method', 'whatsapp', 'appStoreUrl', 'playStoreUrl'].forEach(k => { if (k in dirty) body[k] = dirty[k]; });
   const p = await patch(body);
   dirty = {};
   hydrate(p); refreshPreview();

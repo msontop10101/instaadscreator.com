@@ -66,6 +66,7 @@ function pageDto(p) {
     template: p.template, price: p.price, oldPrice: p.oldPrice, desc: p.desc,
     whatsapp: p.whatsapp, method: p.method, photos: p.photos,
     content: p.content, buyBarLabel: p.buyBarLabel, buttonText: p.buttonText || null, location: p.location,
+    kind: p.kind || 'product', appStoreUrl: p.appStoreUrl || null, playStoreUrl: p.playStoreUrl || null,
     pro: p.pro, createdAt: p.createdAt,
     liveUrl: `/s/${p.slug}`, displayDomain: `${p.slug}.${cfg.PAGE_DOMAIN}`,
   };
@@ -77,7 +78,7 @@ function pageDto(p) {
 app.get('/api/meta', (req, res) => {
   res.json({
     blockTypes: Object.fromEntries(Object.entries(BLOCK_TYPES).map(([k, v]) => [k, { label: v.label }])),
-    themes: Object.fromEntries(Object.entries(THEMES).map(([k, v]) => [k, { label: v.label, vertical: v.vertical, bg: v.bg, accent: v.accent, ink: v.ink }])),
+    themes: Object.fromEntries(Object.entries(THEMES).map(([k, v]) => [k, { label: v.label, vertical: v.vertical, bg: v.bg, accent: v.accent, ink: v.ink, kind: v.kind || 'product' }])),
   });
 });
 
@@ -222,6 +223,8 @@ app.patch('/api/pages/:id', (req, res) => {
   if ('oldPrice' in b) patch.oldPrice = String(b.oldPrice || '').replace(/[^\d]/g, '') || null;
   if ('buyBarLabel' in b) patch.buyBarLabel = b.buyBarLabel || null;
   if ('buttonText' in b) patch.buttonText = b.buttonText || null;
+  if ('appStoreUrl' in b) patch.appStoreUrl = b.appStoreUrl || null;
+  if ('playStoreUrl' in b) patch.playStoreUrl = b.playStoreUrl || null;
   if (b.whatsapp) patch.whatsapp = String(b.whatsapp).replace(/[^\d]/g, '');
   if (b.method) patch.method = b.method;
   if ('location' in b) patch.location = b.location || null;
@@ -388,7 +391,7 @@ app.get('/sample/:theme', async (req, res) => {
   if (q.loc) brief.location = String(q.loc).slice(0, 60);
 
   // live-typed previews always use the instant mock, never the paid model
-  const { content } = await generateContent({ ...brief, template: theme, mockOnly: hasOverrides });
+  const { content } = await generateContent({ ...brief, template: theme, mockOnly: hasOverrides || (THEMES[theme].kind === 'app'), kind: THEMES[theme].kind || 'product' });
   const page = {
     slug: 'demo-' + theme, title: brief.desc.split(',')[0].replace(/\b\w/g, c => c.toUpperCase()),
     biz: brief.biz, price: brief.price, oldPrice: brief.oldPrice, location: brief.location,
@@ -398,6 +401,30 @@ app.get('/sample/:theme', async (req, res) => {
   const html = renderPage(page);
   if (!hasOverrides) sampleCache[theme] = html;
   res.send(html);
+});
+
+// One-click "Use this template": spin up a starter page and open the editor
+app.post('/api/pages/from-template', async (req, res) => {
+  const theme = req.body.template;
+  if (!THEMES[theme]) return res.status(400).json({ error: 'unknown template' });
+  const isApp = THEMES[theme].kind === 'app';
+  const brief = SAMPLE_BRIEFS[theme] || {
+    desc: THEMES[theme].vertical, biz: THEMES[theme].label + (isApp ? ' App' : ' NG'),
+    price: isApp ? '0' : '25000', oldPrice: null, location: isApp ? null : 'Lagos',
+  };
+  try {
+    const { content } = await generateContent({ ...brief, template: theme, mockOnly: true, kind: isApp ? 'app' : 'product' });
+    const page = store.addPage({
+      id: crypto.randomBytes(6).toString('hex'), slug: slugify(brief.biz), status: 'live',
+      desc: brief.desc, biz: brief.biz, title: titleFrom(brief.desc),
+      price: brief.price, oldPrice: brief.oldPrice || null, photos: [],
+      method: 'whatsapp', whatsapp: store.user.phone || null, location: brief.location || null,
+      template: theme, templateLocked: true, kind: isApp ? 'app' : 'product',
+      content, blocks: blocksFromContent(content, theme, 0),
+      buyBarLabel: null, pro: store.user.pro, createdAt: Date.now(), publishedAt: Date.now(),
+    });
+    res.json(pageDto(page));
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // ---------- generated sites ----------
@@ -418,6 +445,11 @@ app.get('/go/:slug', (req, res) => {
   if (req.params.slug.startsWith('demo-')) return res.redirect('/templates');
   const p = store.getPageBySlug(req.params.slug);
   if (!p) return res.status(404).send('Not found');
+  if (req.query.store) {
+    store.addEvent({ pageId: p.id, type: 'click' });
+    const url = req.query.store === 'apple' ? p.appStoreUrl : p.playStoreUrl;
+    return res.redirect(url || `/s/${p.slug}`);
+  }
   store.addEvent({ pageId: p.id, type: 'click' });
   const msg = encodeURIComponent(`Hi, I want to order the ${p.title} (₦${Number(p.price).toLocaleString('en-NG')})`);
   if (p.method === 'call' && p.whatsapp) return res.redirect(`tel:+234${p.whatsapp}`);
