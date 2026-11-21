@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 8px">
+<div id="brand" style="font-family: var(--font-heading); font-size: 18px; font-weight: 700"></div>
+<div id="avatar" style="width: 40px; height: 40px; border-radius: 20px; background: #E1D0C3; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700"></div>
+</header>
+
+<section style="padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 16px; flex-grow: 1">
+<h1 class="h1" id="greeting" style="font-size: 28px; line-height: 1.1"></h1>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<a href="/create" style="background: var(--accent); color: #FFFFFF; border-radius: 18px; padding: 16px; min-height: 108px; display: flex; flex-direction: column; justify-content: space-between">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+<div><div style="font-size: 15px; font-weight: 700">Ad page</div><div style="font-size: 12px; opacity: 0.85">Ready in a minute</div></div>
+</a>
+<div style="position: relative; border-radius: 18px; overflow: hidden; min-height: 108px; background: var(--surface)">
+<div aria-hidden="true" style="filter: blur(5px); padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px"><span style="height: 26px; border-radius: 4px; background: #E9DCD2"></span><span style="height: 26px; border-radius: 4px; background: #DDE5D8"></span><span style="height: 26px; border-radius: 4px; background: #F2D9C7"></span></div>
+<div style="height: 10px; width: 80%; border-radius: 5px; background: var(--border-strong)"></div>
+<div style="height: 10px; width: 55%; border-radius: 5px; background: var(--border-strong)"></div>
+</div>
+<div style="position: absolute; inset: 0; background: rgba(246,245,241,0.55); display: flex; flex-direction: column; justify-content: flex-end; padding: 14px">
+<div style="display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Online store</div>
+<div style="font-size: 12px; color: var(--ink-2)">Coming soon</div>
+</div>
+</div>
+</div>
+
+<a href="/templates" style="background: var(--surface); border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--ink)">
+<span style="display: flex; gap: 3px"><span style="width: 10px; height: 16px; border-radius: 3px; background: #9A5434"></span><span style="width: 10px; height: 16px; border-radius: 3px; background: #FFD60A"></span><span style="width: 10px; height: 16px; border-radius: 3px; background: #E85C8A"></span><span style="width: 10px; height: 16px; border-radius: 3px; background: #0E7490"></span></span>
+Browse 20 templates
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="margin-left: auto; color: var(--ink-3)"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700">Your pages</h2>
+<span id="page-counts" style="font-size: 13px; color: var(--ink-3)"></span>
+</div>
+
+<div id="pages" style="display: flex; flex-direction: column; gap: 12px"></div>
+
+<a href="/analytics" id="analytics-card" style="background: var(--ink); color: var(--bg); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 14px; font-weight: 700">This week</span><span id="pro-chip" style="font-size: 11px; font-weight: 700; background: var(--bg); color: var(--ink); padding: 3px 8px; border-radius: 999px">PRO</span></div>
+<div id="stats-row" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<div><div id="st-visits" style="font-size: 22px; font-weight: 700">—</div><div style="font-size: 11px">Visits</div></div>
+<div><div id="st-clicks" style="font-size: 22px; font-weight: 700">—</div><div style="font-size: 11px">Clicks</div></div>
+<div><div id="st-rate" style="font-size: 22px; font-weight: 700">—</div><div style="font-size: 11px">Rate</div></div>
+</div>
+<div style="font-size: 13px; color: #C9C9D0">See how many tap Buy, and which ad sent them</div>
+</a>
+</section>
+
+<nav class="tabbar" aria-label="Main">
+<a href="/" class="active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+<a href="/create"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M12 8v8M8 12h8"></path></svg>Create</a>
+<a href="/analytics"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Analytics</a>
+<a href="/account"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Account</a>
+</nav>
+
+</div>
+
+<!-- ================= DESKTOP (per DeskHome handoff) ================= -->
+<div class="desk">
+
+<aside class="desk-side">
+<div class="desk-brand" id="d-brand"></div>
+<a href="/create" class="desk-new"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New ad page</a>
+<nav class="desk-nav" aria-label="Main">
+<a href="/" class="active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+<a href="/templates"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"></rect><rect x="13" y="3" width="8" height="8" rx="2"></rect><rect x="3" y="13" width="8" height="8" rx="2"></rect><rect x="13" y="13" width="8" height="8" rx="2"></rect></svg>Templates</a>
+<a href="/analytics"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Analytics</a>
+<div class="soon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Online store<span class="soon-chip">Soon</span></div>
+<a href="/account"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Account</a>
+</nav>
+<div class="desk-plan" id="d-plan" style="display: none">
+<div style="font-size: 14px; font-weight: 700">Free plan</div>
+<div id="d-plan-text" style="font-size: 13px; line-height: 1.45; color: #C9C9D0"></div>
+<a href="/upgrade">Go Pro</a>
+</div>
+</aside>
+
+<main class="desk-main">
+<div class="desk-main-inner">
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between">
+<div><h1 class="h1" id="d-greeting" style="font-size: 34px"></h1><div id="d-counts" style="font-size: 15px; color: var(--ink-3); margin-top: 6px"></div></div>
+<a href="/create" style="display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; border-radius: 12px; background: var(--ink); color: #FFFFFF; font-size: 14px; font-weight: 700">Create ad page</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Visits · 7 days</div><div id="d-st-visits" style="font-family: var(--font-heading); font-size: 30px; font-weight: 700">—</div></div>
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Order clicks</div><div id="d-st-clicks" style="font-family: var(--font-heading); font-size: 30px; font-weight: 700">—</div></div>
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Click rate</div><div id="d-st-rate" style="font-family: var(--font-heading); font-size: 30px; font-weight: 700">—</div></div>
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Top source</div><div id="d-st-src" style="font-family: var(--font-heading); font-size: 30px; font-weight: 700">—</div></div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section class="desk-card" style="flex: 3 1 520px; min-width: 0; padding: 8px 0">
+<div style="padding: 14px 20px; font-size: 16px; font-weight: 700">Your pages</div>
+<div style="overflow-x: auto">
+<table class="desk-table">
+<thead><tr><th style="padding-left: 20px">Page</th><th>Order via</th><th>Status</th><th>Template</th><th style="padding-right: 20px"></th></tr></thead>
+<tbody id="d-pages"></tbody>
+</table>
+</div>
+</section>
+
+<div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div class="desk-card" style="position: relative; overflow: hidden; min-height: 170px; border-radius: 20px">
+<div aria-hidden="true" style="filter: blur(6px); padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px"><span style="height: 50px; border-radius: 6px; background: #E9DCD2"></span><span style="height: 50px; border-radius: 6px; background: #DDE5D8"></span><span style="height: 50px; border-radius: 6px; background: #F2D9C7"></span></div>
+<div style="height: 12px; width: 70%; border-radius: 6px; background: var(--border-strong)"></div>
+<div style="height: 12px; width: 50%; border-radius: 6px; background: var(--border-strong)"></div>
+</div>
+<div style="position: absolute; inset: 0; background: rgba(246,245,241,0.5); display: flex; flex-direction: column; justify-content: flex-end; padding: 18px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Online store builder</div>
+<div style="font-size: 13px; color: var(--ink-2)">Your full catalogue in one shop. Coming soon.</div>
+</div>
+</div>
+<div class="desk-card" style="padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 15px; font-weight: 700">Running your first ad?</div>
+<div style="font-size: 14px; line-height: 1.5; color: var(--ink-2)">In Ads Manager, set the destination to "Website" and paste your page link. Use your hero photo as the ad image so it matches.</div>
+</div>
+</div>
+</div>
+
+</div>
+</main>
+
+</div>
+
+<script>
+const THUMB_BG = { luxe: '#E9DCD2', soft: '#DDE5D8', tech: '#16213A', street: '#F1EDE8', food: '#FFE3CE', services: '#D9EDF0', minimal: '#F4F4F2', noir: '#1C1813' };
+const TPL_NAME = { luxe: 'Luxe', soft: 'Soft', tech: 'Tech', street: 'Street', food: 'Food', services: 'Services', minimal: 'Minimal', noir: 'Noir' };
+const METHOD_NAME = { whatsapp: 'WhatsApp', call: 'Phone call', dm: 'Instagram DM', form: 'Order form' };
+
+async function init() {
+  const [me, pages] = await Promise.all([
+    fetch('/api/me').then(r => r.json()),
+    fetch('/api/pages').then(r => r.json()),
+  ]);
+
+  document.getElementById('brand').textContent = me.brand;
+  document.getElementById('avatar').textContent = (me.user.name || 'S')[0].toUpperCase();
+  const h = new Date().getHours();
+  const tod = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  document.getElementById('greeting').textContent = `Good ${tod}, ${me.user.name}`;
+
+  const live = pages.filter(p => p.status === 'live').length;
+  const drafts = pages.filter(p => p.status !== 'live').length;
+  document.getElementById('page-counts').textContent =
+    pages.length ? `${live} live · ${drafts} draft${drafts === 1 ? '' : 's'}` : '';
+
+  const wrap = document.getElementById('pages');
+  if (!pages.length) {
+    wrap.innerHTML = `<div style="background: var(--surface); border-radius: 18px; padding: 24px; text-align: center; color: var(--ink-3); font-size: 14px">No pages yet.<br><a href="/create" style="font-weight: 700">Create your first ad page →</a></div>`;
+  }
+  for (const p of pages) {
+    const card = document.createElement('div');
+    card.style.cssText = 'background: var(--surface); border-radius: 18px; padding: 14px; display: flex; gap: 12px; align-items: center';
+    const thumb = p.photos && p.photos.length
+      ? `<div style="width: 56px; height: 72px; border-radius: 10px; flex-shrink: 0; background: url('/uploads/${p.photos[0]}') center/cover"></div>`
+      : `<div style="width: 56px; height: 72px; border-radius: 10px; flex-shrink: 0; background: ${THUMB_BG[p.template] || '#E9DCD2'}"></div>`;
+    const status = p.status === 'live'
+      ? `<div style="display: flex; gap: 6px; align-items: center; font-size: 12px"><span style="width: 8px; height: 8px; border-radius: 4px; background: var(--whatsapp)"></span><span style="font-weight: 600">Live</span></div>`
+      : `<div style="font-size: 12px; color: var(--ink-3)">${p.status === 'generating' ? 'Generating…' : 'Draft · not published'}</div>`;
+    card.innerHTML = `${thumb}
+      <div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 15px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">${p.title}</div>
+        ${p.status === 'live' ? `<div style="font-size: 12px; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap">${p.displayDomain}</div>` : ''}
+        ${status}
+      </div>
+      <a href="/editor?id=${p.id}" aria-label="Edit ${p.title}" style="width: 44px; height: 44px; border-radius: 12px; background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>`;
+    wrap.appendChild(card);
+  }
+
+  // weekly stats across all live pages
+  const isPro = me.user.pro;
+  document.getElementById('pro-chip').style.display = isPro ? 'none' : '';
+  document.getElementById('stats-row').style.filter = isPro || pages.length ? '' : 'blur(4px)';
+  let v = 0, c = 0;
+  for (const p of pages) {
+    const a = await fetch('/api/analytics/' + p.id + '?range=7d').then(r => r.json()).catch(() => null);
+    if (a) { v += a.visits; c += a.clicks; }
+  }
+  document.getElementById('st-visits').textContent = v.toLocaleString();
+  document.getElementById('st-clicks').textContent = c.toLocaleString();
+  document.getElementById('st-rate').textContent = v ? (c / v * 100).toFixed(1) + '%' : '0%';
+
+  // ---------- desktop ----------
+  document.getElementById('d-brand').textContent = me.brand;
+  document.getElementById('d-greeting').textContent = `Good ${tod}, ${me.user.name}`;
+  document.getElementById('d-counts').textContent =
+    pages.length ? `${live} page${live === 1 ? '' : 's'} live · ${drafts} draft${drafts === 1 ? '' : 's'}` : 'No pages yet';
+
+  if (!me.user.pro) {
+    document.getElementById('d-plan').style.display = '';
+    document.getElementById('d-plan-text').textContent = 'Your pages stay live free. Go Pro for analytics, your own domain and no badge.';
+  }
+
+  const agg = await fetch('/api/analytics/all?range=7d').then(r => r.json()).catch(() => null);
+  if (agg) {
+    document.getElementById('d-st-visits').textContent = agg.visits.toLocaleString();
+    document.getElementById('d-st-clicks').textContent = agg.clicks.toLocaleString();
+    document.getElementById('d-st-rate').textContent = agg.rate + '%';
+    document.getElementById('d-st-src').textContent = agg.sources[0] ? agg.sources[0].source.split(' ')[0] : '—';
+  }
+
+  document.getElementById('d-pages').innerHTML = pages.map(p => {
+    const thumb = p.photos && p.photos.length
+      ? `<div style="width: 40px; height: 52px; border-radius: 8px; flex-shrink: 0; background: url('/uploads/${p.photos[0]}') center/cover"></div>`
+      : `<div style="width: 40px; height: 52px; border-radius: 8px; flex-shrink: 0; background: ${THUMB_BG[p.template] || '#E9DCD2'}"></div>`;
+    const status = p.status === 'live'
+      ? `<span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600"><span style="width: 8px; height: 8px; border-radius: 4px; background: var(--whatsapp)"></span>Live</span>`
+      : `<span style="font-weight: 600; color: var(--ink-3)">${p.status === 'generating' ? 'Generating…' : 'Draft'}</span>`;
+    return `<tr>
+      <td style="padding-left: 20px"><div style="display: flex; gap: 12px; align-items: center">${thumb}<div><div style="font-weight: 700">${p.title}</div><div style="font-size: 12px; color: var(--ink-3)">${p.status === 'live' ? p.displayDomain : 'Not published'}</div></div></div></td>
+      <td>${METHOD_NAME[p.method] || '—'}</td>
+      <td>${status}</td>
+      <td>${TPL_NAME[p.template] || '—'}</td>
+      <td style="padding-right: 20px; text-align: right"><a href="/editor?id=${p.id}" style="font-weight: 600; font-size: 13px">Edit</a></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="5" style="padding: 20px; color: var(--ink-3)">No pages yet. <a href="/create" style="font-weight: 700">Create your first ad page →</a></td></tr>`;
+}
+init();
+</script>
+</body>
+</html>

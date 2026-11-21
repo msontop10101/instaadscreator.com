@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+<style>
+.range-pill { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); font: 600 13px var(--font-body); }
+.range-pill[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 8px">
+<h1 class="h1" style="font-size: 28px">Analytics</h1>
+</header>
+
+<section style="padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1">
+
+<select id="page-select" class="field-input" style="min-height: 44px; font-weight: 600; font-size: 14px"></select>
+
+<div style="display: flex; gap: 6px">
+<button type="button" class="range-pill" data-range="7d" aria-pressed="true">7 days</button>
+<button type="button" class="range-pill" data-range="today" aria-pressed="false">Today</button>
+<button type="button" class="range-pill" data-range="30d" aria-pressed="false">30 days</button>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<div style="background: var(--surface); border-radius: 16px; padding: 14px 12px"><div style="font-size: 12px; color: var(--ink-3)">Visits</div><div id="m-visits" style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-top: 4px">0</div><div id="m-visits-d" style="font-size: 12px; color: var(--success); font-weight: 600"></div></div>
+<div style="background: var(--surface); border-radius: 16px; padding: 14px 12px"><div style="font-size: 12px; color: var(--ink-3)">Order clicks</div><div id="m-clicks" style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-top: 4px">0</div><div id="m-clicks-d" style="font-size: 12px; color: var(--success); font-weight: 600"></div></div>
+<div style="background: var(--surface); border-radius: 16px; padding: 14px 12px"><div style="font-size: 12px; color: var(--ink-3)">Click rate</div><div id="m-rate" style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-top: 4px">0%</div><div style="font-size: 12px; color: var(--ink-3); font-weight: 600"></div></div>
+</div>
+
+<div style="background: var(--surface); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 14px; font-weight: 700">Visits per day</div>
+<div id="chart" style="display: grid; gap: 8px; align-items: end; height: 140px; border-bottom: 1px solid var(--border)"></div>
+<div id="chart-labels" style="display: grid; gap: 8px; font-size: 11px; color: var(--ink-3); text-align: center"></div>
+<div id="chart-note" style="font-size: 13px; color: var(--ink-2)"></div>
+</div>
+
+<div style="background: var(--surface); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 14px; font-weight: 700">Where buyers came from</div>
+<div id="sources" style="display: flex; flex-direction: column; gap: 10px"></div>
+<div style="font-size: 12px; color: var(--ink-3)">Add <code style="background: var(--surface-muted); padding: 1px 5px; border-radius: 4px">?src=ig</code>, <code style="background: var(--surface-muted); padding: 1px 5px; border-radius: 4px">?src=tiktok</code> or <code style="background: var(--surface-muted); padding: 1px 5px; border-radius: 4px">?src=wa</code> to your ad link to track each channel.</div>
+</div>
+
+<div style="background: var(--surface); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 14px; font-weight: 700">How far buyers get</div>
+<div id="funnel" style="display: flex; flex-direction: column; gap: 10px"></div>
+</div>
+
+</section>
+
+<nav class="tabbar" aria-label="Main">
+<a href="/"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+<a href="/create"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M12 8v8M8 12h8"></path></svg>Create</a>
+<a href="/analytics" class="active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Analytics</a>
+<a href="/account"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Account</a>
+</nav>
+
+</div>
+
+<!-- ================= DESKTOP (per DeskAnalytics handoff) ================= -->
+<div class="desk">
+
+<aside class="desk-side">
+<div class="desk-brand" id="da-brand"></div>
+<a href="/create" class="desk-new"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New ad page</a>
+<nav class="desk-nav" aria-label="Main">
+<a href="/"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+<a href="/analytics" class="active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Analytics</a>
+<div class="soon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Online store<span class="soon-chip">Soon</span></div>
+<a href="/account"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Account</a>
+</nav>
+</aside>
+
+<main class="desk-main">
+<div class="desk-main-inner" style="gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+<h1 class="h1" style="font-size: 34px">Analytics</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<select id="d-page-select" style="min-height: 40px; padding: 0 14px; border-radius: 10px; border: 1.5px solid var(--border-strong); background: var(--surface); font: 600 13px var(--font-body); color: var(--ink)"></select>
+<div style="display: flex; background: var(--surface-sunken); border-radius: 10px; padding: 3px">
+<button type="button" class="d-range" data-range="today" style="min-height: 36px; padding: 0 12px; border: none; border-radius: 8px; background: transparent; font: 600 13px var(--font-body); color: var(--ink-2)">Today</button>
+<button type="button" class="d-range" data-range="7d" style="min-height: 36px; padding: 0 12px; border: none; border-radius: 8px; background: var(--surface); font: 700 13px var(--font-body); color: var(--ink)">7 days</button>
+<button type="button" class="d-range" data-range="30d" style="min-height: 36px; padding: 0 12px; border: none; border-radius: 8px; background: transparent; font: 600 13px var(--font-body); color: var(--ink-2)">30 days</button>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Visits</div><div id="dm-visits" style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; margin-top: 4px">0</div><div id="dm-visits-d" style="font-size: 13px; color: var(--success); font-weight: 600"></div></div>
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Order clicks</div><div id="dm-clicks" style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; margin-top: 4px">0</div><div id="dm-clicks-d" style="font-size: 13px; color: var(--success); font-weight: 600"></div></div>
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Click rate</div><div id="dm-rate" style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; margin-top: 4px">0%</div></div>
+<div class="desk-card" style="padding: 20px"><div style="font-size: 13px; color: var(--ink-3)">Avg. time on page</div><div id="dm-time" style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; margin-top: 4px">—</div><div id="dm-time-note" style="font-size: 13px; color: var(--ink-3); font-weight: 600"></div></div>
+</div>
+
+<section class="desk-card" style="padding: 22px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center">
+<div style="font-size: 16px; font-weight: 700">Visits and order clicks per day</div>
+<div style="display: flex; gap: 16px; font-size: 13px; color: var(--ink-2)"><span style="display: flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: var(--accent); opacity: 0.35"></span>Visits</span><span style="display: flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 3px; background: var(--accent)"></span>Order clicks</span></div>
+</div>
+<div id="d-chart" style="display: grid; gap: clamp(8px, 2vw, 28px); align-items: end; height: 220px; border-bottom: 1px solid var(--border)"></div>
+<div id="d-chart-labels" style="display: grid; gap: clamp(8px, 2vw, 28px); font-size: 12px; color: var(--ink-3); text-align: center"></div>
+<div id="d-chart-note" style="font-size: 12px; color: var(--ink-3)"></div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px">
+
+<section class="desk-card" style="padding: 22px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 16px; font-weight: 700">Where buyers came from</div>
+<div id="d-sources" style="display: flex; flex-direction: column; gap: 12px"></div>
+<div style="font-size: 12px; color: var(--ink-3)">Add <code style="background: var(--surface-muted); padding: 1px 5px; border-radius: 4px">?src=ig</code>, <code style="background: var(--surface-muted); padding: 1px 5px; border-radius: 4px">?src=tiktok</code> or <code style="background: var(--surface-muted); padding: 1px 5px; border-radius: 4px">?src=wa</code> to your ad link to track each channel.</div>
+</section>
+
+<section class="desk-card" style="padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 16px; font-weight: 700">How far buyers get</div>
+<div id="d-funnel" style="display: flex; flex-direction: column; gap: 12px"></div>
+<div id="d-funnel-tip" style="font-size: 13px; color: var(--ink-2); line-height: 1.5; background: var(--bg); border-radius: 12px; padding: 12px; display: none"></div>
+</section>
+
+</div>
+
+<section class="desk-card" style="padding: 8px 0">
+<div style="padding: 14px 22px; font-size: 16px; font-weight: 700">By page</div>
+<div style="overflow-x: auto">
+<table class="desk-table">
+<thead><tr><th style="padding-left: 22px">Page</th><th style="text-align: right">Visits</th><th style="text-align: right">Order clicks</th><th style="text-align: right">Click rate</th><th style="padding-right: 22px">Top source</th></tr></thead>
+<tbody id="d-bypage"></tbody>
+</table>
+</div>
+</section>
+
+</div>
+</main>
+
+</div>
+
+<script>
+let pages = [], currentId = null, currentRange = '7d';
+
+async function load() {
+  const me = await fetch('/api/me').then(r => r.json());
+  document.getElementById('da-brand').textContent = me.brand;
+  pages = await fetch('/api/pages').then(r => r.json());
+  const sel = document.getElementById('page-select');
+  const dsel = document.getElementById('d-page-select');
+  if (!pages.length) {
+    sel.innerHTML = dsel.innerHTML = '<option>No pages yet</option>';
+    return;
+  }
+  const opts = `<option value="all">All pages</option>` + pages.map(p => `<option value="${p.id}">${p.title}</option>`).join('');
+  sel.innerHTML = dsel.innerHTML = opts;
+  const urlId = new URLSearchParams(location.search).get('id');
+  currentId = urlId && pages.some(p => p.id === urlId) ? urlId : (innerWidth >= 900 ? 'all' : pages[0].id);
+  sel.value = dsel.value = currentId;
+  refresh();
+}
+
+async function refresh() {
+  if (!currentId) return;
+  const a = await fetch(`/api/analytics/${currentId}?range=${currentRange}`).then(r => r.json());
+
+  document.getElementById('m-visits').textContent = a.visits.toLocaleString();
+  document.getElementById('m-clicks').textContent = a.clicks.toLocaleString();
+  document.getElementById('m-rate').textContent = a.rate + '%';
+  document.getElementById('m-visits-d').textContent = a.deltaVisits !== null ? (a.deltaVisits >= 0 ? '+' : '') + a.deltaVisits + '%' : '';
+  document.getElementById('m-clicks-d').textContent = a.deltaClicks !== null ? (a.deltaClicks >= 0 ? '+' : '') + a.deltaClicks + '%' : '';
+
+  // bar chart
+  const days = a.perDay;
+  const max = Math.max(1, ...days.map(d => d.visits));
+  const best = days.reduce((m, d) => d.visits > m.visits ? d : m, days[0] || { visits: 0 });
+  const chart = document.getElementById('chart');
+  const labels = document.getElementById('chart-labels');
+  chart.style.gridTemplateColumns = labels.style.gridTemplateColumns = `repeat(${days.length}, minmax(0, 1fr))`;
+  chart.innerHTML = days.map(d =>
+    `<div style="height: ${Math.max(2, d.visits / max * 100)}%; background: var(--accent); border-radius: 4px 4px 0 0; opacity: ${d === best && d.visits ? 1 : 0.55}"></div>`).join('');
+  labels.innerHTML = days.map(d =>
+    `<span style="${d === best && d.visits ? 'font-weight: 700; color: var(--ink)' : ''}">${d.day}</span>`).join('');
+  document.getElementById('chart-note').textContent = best && best.visits
+    ? `Your best day: ${best.visits} visit${best.visits === 1 ? '' : 's'}.`
+    : 'No visits yet — share your link to start tracking.';
+
+  // sources
+  document.getElementById('sources').innerHTML = a.sources.length ? a.sources.map(s => `
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <div style="display: flex; justify-content: space-between; font-size: 13px"><span>${s.source}</span><span style="font-weight: 700">${s.pct}%</span></div>
+      <div style="height: 8px; background: var(--surface-muted); border-radius: 4px"><div style="width: ${s.pct}%; height: 8px; background: var(--accent); border-radius: 4px"></div></div>
+    </div>`).join('') : '<div style="font-size: 13px; color: var(--ink-3)">No traffic yet.</div>';
+
+  // funnel
+  const f = [
+    { label: 'Opened page', n: a.visits, color: 'var(--accent)', fg: '#fff' },
+    { label: 'Saw the price', n: a.priceSeen, color: 'var(--accent)', fg: '#fff', op: 0.8 },
+    { label: 'tapped Buy', n: a.clicks, color: 'var(--whatsapp)', fg: 'var(--whatsapp-ink)' },
+  ];
+  const fmax = Math.max(1, a.visits);
+  document.getElementById('funnel').innerHTML = f.map((s, i) => {
+    const w = Math.max(18, s.n / fmax * 100);
+    return i < 2
+      ? `<div style="width: ${w}%; height: 36px; background: ${s.color}; opacity: ${s.op || 1}; border-radius: 8px; color: ${s.fg}; font-size: 13px; font-weight: 600; display: flex; align-items: center; padding: 0 12px; white-space: nowrap">${s.label} · ${s.n.toLocaleString()}</div>`
+      : `<div style="display: flex; align-items: center; gap: 10px"><div style="width: ${w}%; min-width: 60px; height: 36px; background: ${s.color}; border-radius: 8px; color: ${s.fg}; font-size: 13px; font-weight: 700; display: flex; align-items: center; padding: 0 12px">${s.n.toLocaleString()}</div><span style="font-size: 13px; color: var(--ink-2)">${s.label}</span></div>`;
+  }).join('');
+}
+
+// ---------- desktop population ----------
+function refreshDesk(a) {
+  document.getElementById('dm-visits').textContent = a.visits.toLocaleString();
+  document.getElementById('dm-clicks').textContent = a.clicks.toLocaleString();
+  document.getElementById('dm-rate').textContent = a.rate + '%';
+  document.getElementById('dm-visits-d').textContent = a.deltaVisits !== null ? (a.deltaVisits >= 0 ? '+' : '') + a.deltaVisits + '% vs previous' : '';
+  document.getElementById('dm-clicks-d').textContent = a.deltaClicks !== null ? (a.deltaClicks >= 0 ? '+' : '') + a.deltaClicks + '% vs previous' : '';
+  document.getElementById('dm-time').textContent = a.avgTime !== null ? a.avgTime + 's' : '—';
+  document.getElementById('dm-time-note').textContent = a.avgTime !== null && a.priceSeen && a.visits
+    ? `${Math.round(a.priceSeen / a.visits * 100)}% read to the price` : '';
+
+  const days = a.perDay;
+  const vmax = Math.max(1, ...days.map(d => d.visits));
+  const cmax = Math.max(1, ...days.map(d => d.clicks));
+  const best = days.reduce((m, d) => d.visits > m.visits ? d : m, days[0] || { visits: 0 });
+  const chart = document.getElementById('d-chart');
+  const labels = document.getElementById('d-chart-labels');
+  chart.style.gridTemplateColumns = labels.style.gridTemplateColumns = `repeat(${days.length}, minmax(0, 1fr))`;
+  chart.innerHTML = days.map(d => `
+    <div style="display: flex; gap: 4px; align-items: flex-end; height: 100%">
+      <div style="flex: 1; height: ${Math.max(2, d.visits / vmax * 100)}%; background: var(--accent); opacity: 0.35; border-radius: 4px 4px 0 0"></div>
+      <div style="flex: 1; height: ${Math.max(2, d.clicks / cmax * 100)}%; background: var(--accent); border-radius: 4px 4px 0 0"></div>
+    </div>`).join('');
+  labels.innerHTML = days.map(d =>
+    `<span style="${d === best && d.visits ? 'font-weight: 700; color: var(--ink)' : ''}">${days.length > 10 ? d.day : d.dayFull || d.day}</span>`).join('');
+  document.getElementById('d-chart-note').textContent = a.visits
+    ? `Order clicks shown on their own scale (max ${Math.max(...days.map(d => d.clicks))}) so the trend is visible next to visits (max ${Math.max(...days.map(d => d.visits))}).`
+    : 'No visits yet — share your link to start tracking.';
+
+  document.getElementById('d-sources').innerHTML = a.sources.length ? a.sources.map(s => `
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <div style="display: flex; justify-content: space-between; font-size: 14px"><span>${s.source}</span><span><strong>${s.pct}%</strong> · ${s.count} visit${s.count === 1 ? '' : 's'}</span></div>
+      <div style="height: 10px; background: var(--surface-muted); border-radius: 5px"><div style="width: ${s.pct}%; height: 10px; background: var(--accent); border-radius: 5px"></div></div>
+    </div>`).join('') : '<div style="font-size: 14px; color: var(--ink-3)">No traffic yet.</div>';
+
+  const fmax = Math.max(1, a.visits);
+  document.getElementById('d-funnel').innerHTML = `
+    <div style="width: 100%; height: 42px; background: var(--accent); border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; padding: 0 14px; box-sizing: border-box">Opened page · ${a.visits.toLocaleString()}</div>
+    <div style="width: ${Math.max(16, a.priceSeen / fmax * 100)}%; min-width: 170px; height: 42px; background: var(--accent); opacity: 0.8; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; padding: 0 14px; box-sizing: border-box; white-space: nowrap">Saw the price · ${a.priceSeen.toLocaleString()}</div>
+    <div style="display: flex; align-items: center; gap: 12px"><div style="width: ${Math.max(10, a.clicks / fmax * 100)}%; min-width: 90px; height: 42px; background: var(--whatsapp); border-radius: 10px; color: var(--whatsapp-ink); font-size: 14px; font-weight: 700; display: flex; align-items: center; padding: 0 14px; box-sizing: border-box">${a.clicks.toLocaleString()}</div><span style="font-size: 14px; color: var(--ink-2)">tapped Buy</span></div>`;
+  const tip = document.getElementById('d-funnel-tip');
+  if (a.visits >= 10 && a.priceSeen / a.visits < 0.6) {
+    tip.style.display = '';
+    tip.textContent = `${Math.round((1 - a.priceSeen / a.visits) * 100)}% of visitors leave before the price. Try moving the price higher on the page.`;
+  } else tip.style.display = 'none';
+
+  document.getElementById('d-bypage').innerHTML = (a.byPage || []).map(r => r.status === 'live'
+    ? `<tr><td style="padding-left: 22px; font-weight: 700">${r.title}</td><td style="text-align: right">${r.visits.toLocaleString()}</td><td style="text-align: right">${r.clicks.toLocaleString()}</td><td style="text-align: right">${r.rate}%</td><td style="padding-right: 22px">${r.topSource || '—'}</td></tr>`
+    : `<tr><td style="padding-left: 22px; font-weight: 700">${r.title}</td><td style="text-align: right; color: var(--ink-3)">—</td><td style="text-align: right; color: var(--ink-3)">—</td><td style="text-align: right; color: var(--ink-3)">—</td><td style="padding-right: 22px; color: var(--ink-3)">Draft</td></tr>`).join('');
+}
+
+const _refresh = refresh;
+refresh = async function() {
+  if (!currentId) return;
+  const a = await fetch(`/api/analytics/${currentId}?range=${currentRange}`).then(r => r.json());
+  refreshDesk(a);
+  await _refresh(); // the /all aggregate works for the mobile widgets too
+};
+
+document.getElementById('page-select').addEventListener('change', e => {
+  currentId = e.target.value;
+  document.getElementById('d-page-select').value = currentId;
+  refresh();
+});
+document.getElementById('d-page-select').addEventListener('change', e => {
+  currentId = e.target.value;
+  document.getElementById('page-select').value = currentId;
+  refresh();
+});
+document.querySelectorAll('.range-pill').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.range-pill').forEach(x => x.setAttribute('aria-pressed', x === b));
+  currentRange = b.dataset.range;
+  refresh();
+}));
+document.querySelectorAll('.d-range').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.d-range').forEach(x => {
+    const on = x === b;
+    x.style.background = on ? 'var(--surface)' : 'transparent';
+    x.style.fontWeight = on ? '700' : '600';
+    x.style.color = on ? 'var(--ink)' : 'var(--ink-2)';
+  });
+  currentRange = b.dataset.range;
+  refresh();
+}));
+
+load();
+</script>
+</body>
+</html>

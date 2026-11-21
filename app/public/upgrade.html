@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Upgrade to Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; padding: 16px 20px">
+<a href="/" aria-label="Close" style="width: 44px; height: 44px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+</header>
+
+<section style="padding: 0 20px 28px; display: flex; flex-direction: column; gap: 16px; flex-grow: 1">
+<h1 class="h1" style="font-size: 32px; line-height: 1.05">Keep your page selling.</h1>
+<p id="intro" style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2)"></p>
+
+<div role="radiogroup" aria-label="Billing" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--surface-sunken); border-radius: 12px; padding: 4px">
+<button type="button" role="radio" aria-checked="true" id="bill-m" style="min-height: 40px; border: none; border-radius: 9px; background: var(--surface); font: 700 13px var(--font-body); color: var(--ink)">Monthly</button>
+<button type="button" role="radio" aria-checked="false" id="bill-y" style="min-height: 40px; border: none; border-radius: 9px; background: transparent; font: 600 13px var(--font-body); color: var(--ink-2)">Yearly · 2 months free</button>
+</div>
+
+<div style="background: var(--ink); color: var(--bg); border-radius: 22px; padding: 22px 20px; display: flex; flex-direction: column; gap: 14px; border: 2px solid var(--accent)">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-family: var(--font-heading); font-size: 22px; font-weight: 700">Pro</span><span style="font-size: 11px; font-weight: 700; background: var(--accent); color: #FFFFFF; padding: 4px 10px; border-radius: 999px">MOST SELLERS</span></div>
+<div><span id="price" style="font-family: var(--font-heading); font-size: 36px; font-weight: 700"></span><span id="price-period" style="font-size: 14px; color: #C9C9D0"> / month</span></div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px" id="features"></div>
+<button type="button" id="upgrade-btn" style="min-height: 54px; border-radius: 14px; border: none; background: var(--accent); color: #FFFFFF; font: 700 16px var(--font-body)">Upgrade to Pro</button>
+<div style="font-size: 12px; color: #C9C9D0; text-align: center">Pay with card, bank transfer or USSD</div>
+</div>
+
+<div style="background: var(--surface); border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-family: var(--font-heading); font-size: 20px; font-weight: 700">Free</span><span id="free-tag" style="font-size: 13px; color: var(--ink-3)">Current plan</span></div>
+<div id="free-features" style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--ink-2)"></div>
+</div>
+
+<div style="position: relative; border-radius: 22px; overflow: hidden; background: var(--surface)">
+<div aria-hidden="true" style="filter: blur(5px); padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="height: 18px; width: 50%; background: var(--border-strong); border-radius: 6px"></div>
+<div style="height: 12px; width: 80%; background: var(--border); border-radius: 6px"></div>
+<div style="height: 12px; width: 70%; background: var(--border); border-radius: 6px"></div>
+</div>
+<div style="position: absolute; inset: 0; background: rgba(246,245,241,0.5); display: flex; align-items: center; gap: 10px; padding: 0 20px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+<div><div style="font-size: 15px; font-weight: 700">Store plan</div><div style="font-size: 12px; color: var(--ink-2)">Full online store builder · coming soon</div></div>
+</div>
+</div>
+</section>
+
+</div>
+
+<script>
+const CHECK = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5" aria-hidden="true" style="flex-shrink: 0"><path d="M5 12l5 5L20 7"></path></svg>`;
+let me = null, monthly = true;
+
+fetch('/api/me').then(r => r.json()).then(m => {
+  me = m;
+  renderPrice();
+  document.getElementById('features').innerHTML = [
+    'Analytics: visits, order clicks, ad sources',
+    'Your own domain (yourbrand.com)',
+    `No "Made with ${m.brand}" badge`,
+    'Up to 10 pages',
+    'Pay online and order form buttons',
+    'Meta and TikTok pixel',
+  ].map(f => `<div style="display: flex; gap: 10px">${CHECK}${f}</div>`).join('');
+  document.getElementById('free-features').innerHTML = [
+    `1 page on a ${m.domain} link — live forever, free`,
+    'WhatsApp, call and Instagram DM buttons',
+    `"Made with ${m.brand}" badge`,
+  ].map(f => `<div>${f}</div>`).join('');
+
+  document.getElementById('intro').textContent = me.user.pro
+    ? 'You are on Pro. Analytics is unlocked and your pages run on your own domain.'
+    : 'Your page is live free, forever. Pro shows you who\'s clicking, which ads bring buyers, and puts it on your own domain.';
+  if (me.user.pro) {
+    document.getElementById('upgrade-btn').textContent = 'You are on Pro ✓';
+    document.getElementById('upgrade-btn').disabled = true;
+    document.getElementById('free-tag').textContent = '';
+  }
+});
+
+function renderPrice() {
+  const p = me.proPrice;
+  document.getElementById('price').textContent = '₦' + (monthly ? p : p * 10).toLocaleString('en-NG');
+  document.getElementById('price-period').textContent = monthly ? ' / month' : ' / year';
+}
+
+document.getElementById('bill-m').addEventListener('click', () => setBilling(true));
+document.getElementById('bill-y').addEventListener('click', () => setBilling(false));
+function setBilling(m) {
+  monthly = m;
+  const bm = document.getElementById('bill-m'), by = document.getElementById('bill-y');
+  bm.setAttribute('aria-checked', m); by.setAttribute('aria-checked', !m);
+  bm.style.background = m ? 'var(--surface)' : 'transparent';
+  by.style.background = m ? 'transparent' : 'var(--surface)';
+  renderPrice();
+}
+
+document.getElementById('upgrade-btn').addEventListener('click', async () => {
+  // Payment stub — Paystack checkout goes here when billing lands.
+  const btn = document.getElementById('upgrade-btn');
+  btn.textContent = 'Activating…'; btn.disabled = true;
+  await fetch('/api/upgrade', { method: 'POST' });
+  btn.textContent = 'You are on Pro ✓';
+  setTimeout(() => location.href = '/', 900);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — How do buyers order?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+<style>
+.method { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; }
+.method input { width: 20px; height: 20px; accent-color: var(--accent); }
+.method.selected { border: 2px solid var(--accent); }
+</style>
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px">
+<a href="/create" aria-label="Back" style="width: 44px; height: 44px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+<div style="font-size: 13px; font-weight: 600; color: var(--ink-4)">Step 2 of 2</div>
+<div style="width: 44px"></div>
+</header>
+<div style="margin: 0 20px; height: 4px; background: var(--accent); border-radius: 2px"></div>
+
+<section style="padding: 20px 20px 0; display: flex; flex-direction: column; gap: 8px; flex-grow: 1">
+<h1 class="h1" style="font-size: 28px; line-height: 1.1; margin-bottom: 6px">How should buyers order?</h1>
+
+<div id="wa-card" style="background: var(--surface); border: 2px solid var(--accent); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<label style="display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600"><input type="radio" name="m" value="whatsapp" checked style="width: 20px; height: 20px; accent-color: var(--accent)"> WhatsApp <span style="margin-left: auto; font-size: 11px; font-weight: 700; color: var(--success); background: var(--success-bg); padding: 3px 8px; border-radius: 999px">MOST SALES</span></label>
+<div style="display: flex; gap: 8px">
+<div style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 46px; display: flex; align-items: center; font-size: 15px; color: var(--ink-4)">+234</div>
+<input id="wa-num" aria-label="WhatsApp number" inputmode="tel" placeholder="803 123 4567" style="flex-grow: 1; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 46px; font: 15px var(--font-body); color: var(--ink); min-width: 0">
+</div>
+<div id="prefill-note" style="font-size: 12px; line-height: 1.45; color: var(--ink-3); background: var(--bg); border-radius: 10px; padding: 10px"></div>
+</div>
+
+<label class="method"><input type="radio" name="m" value="call"> Phone call</label>
+<label class="method"><input type="radio" name="m" value="dm"> Instagram DM</label>
+<label class="method"><input type="radio" name="m" value="form" disabled style="opacity:.5"> Order form <span style="font-weight: 400; font-size: 13px; color: var(--ink-3)">name, phone, address</span></label>
+<label class="method"><input type="radio" name="m" value="pay" disabled style="opacity:.5"> Pay online <span style="margin-left: auto; font-size: 11px; font-weight: 700; color: #FFFFFF; background: var(--ink); padding: 3px 8px; border-radius: 999px">PRO</span></label>
+
+<div style="margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--ink-4); letter-spacing: 0.04em">BUY BAR PREVIEW · PINNED ON EVERY SCREEN</div>
+<div style="background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px 10px 10px 14px; display: flex; align-items: center; gap: 10px">
+<div style="flex-grow: 1"><div id="bar-title" style="font-size: 11px; color: var(--ink-3)"></div><div id="bar-price" style="font-size: 16px; font-weight: 700"></div></div>
+<div id="bar-btn" style="min-height: 44px; padding: 0 14px; border-radius: 10px; background: var(--whatsapp); color: var(--whatsapp-ink); font-size: 14px; font-weight: 700; display: flex; align-items: center">Buy on WhatsApp</div>
+</div>
+</section>
+
+<div style="padding: 14px 20px 26px">
+<button type="button" id="generate" class="btn-primary">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+Generate my page</button>
+<div id="err" style="color: var(--danger); font-size: 13px; text-align: center; margin-top: 10px; display: none"></div>
+</div>
+
+</div>
+
+<script>
+const id = new URLSearchParams(location.search).get('id');
+if (!id) location.href = '/create';
+let page = null;
+
+fetch('/api/pages/' + id).then(r => r.json()).then(p => {
+  page = p;
+  const priceFmt = Number(p.price).toLocaleString('en-NG');
+  document.getElementById('prefill-note').textContent =
+    `Buyer's message is pre-filled: "Hi, I want to order the ${p.title} (₦${priceFmt})"`;
+  document.getElementById('bar-title').textContent = p.title;
+  document.getElementById('bar-price').textContent = '₦' + priceFmt;
+});
+
+const BTN_LABEL = { whatsapp: 'Buy on WhatsApp', call: 'Call to buy', dm: 'DM us' };
+document.querySelectorAll('input[name=m]').forEach(r => r.addEventListener('change', () => {
+  document.getElementById('wa-card').style.border = r.value === 'whatsapp' ? '2px solid var(--accent)' : '1.5px solid var(--border)';
+  document.querySelectorAll('.method').forEach(m => m.classList.toggle('selected', m.querySelector('input').checked));
+  document.getElementById('bar-btn').textContent = BTN_LABEL[r.value] || 'Order now';
+}));
+
+document.getElementById('generate').addEventListener('click', async () => {
+  const method = document.querySelector('input[name=m]:checked').value;
+  const num = document.getElementById('wa-num').value.replace(/\D/g, '');
+  const err = document.getElementById('err');
+  err.style.display = 'none';
+  if ((method === 'whatsapp' || method === 'call') && num.length < 10) {
+    err.textContent = 'Enter a valid phone number.'; err.style.display = '';
+    return;
+  }
+  const btn = document.getElementById('generate');
+  btn.disabled = true;
+  await fetch('/api/pages/' + id + '/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ method, whatsapp: num }),
+  });
+  location.href = '/generating?id=' + id;
+});
+</script>
+</body>
+</html>

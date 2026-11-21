@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Your page is live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px">
+<div id="brand" style="font-family: var(--font-heading); font-size: 18px; font-weight: 700"></div>
+<a href="/" style="font-size: 14px; font-weight: 600; min-height: 44px; display: flex; align-items: center">Done</a>
+</header>
+
+<section style="padding: 4px 20px 0; display: flex; flex-direction: column; gap: 16px; flex-grow: 1">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--success)"><span style="width: 10px; height: 10px; border-radius: 5px; background: var(--whatsapp)"></span>LIVE</div>
+<h1 class="h1" style="font-size: 32px; line-height: 1.05">Your page is ready. Go run that ad.</h1>
+
+<div style="display: flex; gap: 14px; align-items: stretch">
+<div style="width: 128px; height: 230px; flex-shrink: 0; border-radius: 20px; border: 6px solid var(--ink); overflow: hidden; background: #fff">
+<iframe id="preview" title="Page preview" style="width: 390px; height: 700px; border: none; transform: scale(0.2965); transform-origin: 0 0; pointer-events: none"></iframe>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; justify-content: center; min-width: 0; flex-grow: 1">
+<div style="font-size: 13px; color: var(--ink-3)">Your link</div>
+<div id="domain" style="font-size: 15px; font-weight: 600; word-break: break-all"></div>
+<button type="button" id="copy" style="min-height: 44px; border-radius: 12px; border: none; background: var(--accent); color: #FFFFFF; font: 700 14px var(--font-body); display: flex; align-items: center; justify-content: center; gap: 8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a1 1 0 0 1 1-1h10"></path></svg>Copy link</button>
+<a id="edit" href="#" style="min-height: 44px; border-radius: 12px; border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center">Edit page</a>
+<a id="open" href="#" target="_blank" style="font-size: 13px; font-weight: 600; text-align: center">Open page ↗</a>
+</div>
+</div>
+
+<button type="button" id="ig-btn" style="min-height: 56px; border: none; border-radius: 16px; background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF); color: #fff; font: 700 16px var(--font-body); display: flex; align-items: center; justify-content: center; gap: 10px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+Put it on Instagram
+</button>
+<div id="ig-toast" style="display: none; background: var(--success-bg); color: var(--success); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; font-weight: 600; line-height: 1.45">✓ Your link is copied. In Instagram: tap <strong>Boost</strong> on your post (or Edit profile → bio) and paste it as the website.</div>
+
+<div style="background: var(--surface); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 14px; font-weight: 700">Put it in your ad</div>
+<div style="display: flex; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--ink-2)"><span style="font-weight: 700; color: var(--accent)">1</span>In Instagram, tap Boost or Ads Manager</div>
+<div style="display: flex; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--ink-2)"><span style="font-weight: 700; color: var(--accent)">2</span>Choose "Website" as the destination</div>
+<div style="display: flex; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--ink-2)"><span style="font-weight: 700; color: var(--accent)">3</span>Paste your link. Same for TikTok and your bio.</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<button type="button" id="share-wa" style="min-height: 64px; border-radius: 14px; border: none; background: var(--surface); font: 600 12px var(--font-body); color: var(--ink)">Share to<br>WhatsApp</button>
+<button type="button" id="copy2" style="min-height: 64px; border-radius: 14px; border: none; background: var(--surface); font: 600 12px var(--font-body); color: var(--ink)">Add to<br>IG bio</button>
+<a id="qr" href="#" download style="min-height: 64px; border-radius: 14px; background: var(--surface); font: 600 12px var(--font-body); color: var(--ink); display: flex; align-items: center; justify-content: center; text-align: center">Download<br>QR code</a>
+</div>
+</section>
+
+<div id="upsell" style="margin: 14px 20px 26px; background: var(--ink); color: var(--bg); border-radius: 16px; padding: 14px 16px; display: none; align-items: center; gap: 12px">
+<div id="upsell-text" style="flex-grow: 1; font-size: 13px; line-height: 1.4"></div>
+<a href="/upgrade" style="flex-shrink: 0; min-height: 40px; padding: 0 14px; border-radius: 10px; background: var(--bg); color: var(--ink); font-size: 13px; font-weight: 700; display: flex; align-items: center">Go Pro</a>
+</div>
+
+</div>
+
+<script>
+const id = new URLSearchParams(location.search).get('id');
+if (!id) location.href = '/';
+let shareUrl = '';
+
+Promise.all([
+  fetch('/api/me').then(r => r.json()),
+  fetch('/api/pages/' + id).then(r => r.json()),
+]).then(([me, p]) => {
+  document.getElementById('brand').textContent = me.brand;
+  document.getElementById('domain').textContent = p.displayDomain;
+  shareUrl = location.origin + p.liveUrl;
+  document.getElementById('preview').src = p.liveUrl + '?preview=1';
+  document.getElementById('edit').href = '/editor?id=' + p.id;
+  document.getElementById('open').href = p.liveUrl;
+  document.getElementById('qr').href = '/qr/' + p.slug;
+  document.getElementById('qr').download = p.slug + '-qr.png';
+  if (!p.pro) {
+    document.getElementById('upsell').style.display = 'flex';
+    document.getElementById('upsell-text').innerHTML =
+      `Your page stays live <strong>free, forever</strong>. Go Pro to see who's clicking, use your own domain and drop the badge.`;
+  }
+});
+
+function copyLink(btn, label) {
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    const prev = btn.innerHTML;
+    btn.innerHTML = 'Copied ✓';
+    setTimeout(() => btn.innerHTML = prev, 1500);
+  });
+}
+document.getElementById('copy').addEventListener('click', e => copyLink(e.currentTarget));
+document.getElementById('copy2').addEventListener('click', e => copyLink(e.currentTarget));
+document.getElementById('share-wa').addEventListener('click', () => {
+  window.open('https://wa.me/?text=' + encodeURIComponent(shareUrl), '_blank');
+});
+
+// One click: copy the live link, show what to do, open Instagram
+document.getElementById('ig-btn').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(shareUrl); } catch {}
+  document.getElementById('ig-toast').style.display = '';
+  setTimeout(() => window.open('https://www.instagram.com/', '_blank'), 600);
+});
+</script>
+</body>
+</html>

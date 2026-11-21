@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Templates — pick one, then just chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+<style>
+body { background: var(--bg); }
+.gallery-wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px 60px; }
+.tpl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.tpl-card { background: var(--surface); border-radius: 18px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; transition: transform .12s, box-shadow .12s; }
+.tpl-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+.tpl-preview { height: 300px; overflow: hidden; position: relative; background: var(--surface-muted); }
+.tpl-preview iframe { width: 390px; height: 700px; border: none; transform: scale(0.6155); transform-origin: 0 0; pointer-events: none; }
+.tpl-info { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tpl-name { font-weight: 800; font-size: 16px; }
+.tpl-vertical { font-size: 12.5px; color: var(--ink-3); }
+.tpl-use { margin-top: 10px; min-height: 44px; border: none; border-radius: 12px; background: var(--accent); color: #fff; font: 700 14px var(--font-body); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.tpl-card:not(:hover) .tpl-use { background: var(--ink); }
+@media (max-width: 600px) { .tpl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } .tpl-preview { height: 220px; } .tpl-preview iframe { transform: scale(0.44); } }
+</style>
+</head>
+<body>
+
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; max-width: 1200px; margin: 0 auto">
+<a href="/" style="display: flex; align-items: center; gap: 10px; color: var(--ink)">
+<div style="width: 40px; height: 40px; border-radius: 12px; background: var(--surface); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></div>
+<span id="brand" style="font-family: var(--font-heading); font-size: 18px; font-weight: 700"></span>
+</a>
+<a href="/create" style="min-height: 44px; padding: 0 18px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px">✦ Just describe it instead</a>
+</header>
+
+<div class="gallery-wrap">
+<div style="padding: 20px 0 28px; text-align: center">
+<h1 class="h1" style="font-size: clamp(28px, 5vw, 44px); line-height: 1.05">Pick a look. Then just chat.</h1>
+<p style="margin: 10px auto 0; max-width: 520px; font-size: 16px; color: var(--ink-2); line-height: 1.5">Every template is free. Pick one, describe what you sell like you're texting a friend, and your ad page is live in under a minute.</p>
+</div>
+
+<div id="grid" class="tpl-grid"></div>
+</div>
+
+<script>
+Promise.all([
+  fetch('/api/me').then(r => r.json()),
+  fetch('/api/meta').then(r => r.json()),
+]).then(([me, meta]) => {
+  document.getElementById('brand').textContent = me.brand;
+  const grid = document.getElementById('grid');
+  Object.entries(meta.themes).forEach(([key, t]) => {
+    const card = document.createElement('a');
+    card.className = 'tpl-card';
+    card.href = '/create?template=' + key;
+    card.style.color = 'var(--ink)';
+    card.innerHTML = `
+      <div class="tpl-preview"><iframe src="/sample/${key}" title="${t.label} template preview" loading="lazy" tabindex="-1"></iframe></div>
+      <div class="tpl-info">
+        <div class="tpl-name">${t.label}</div>
+        <div class="tpl-vertical">${t.vertical}</div>
+        <div class="tpl-use">Use this template</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+});
+</script>
+</body>
+</html>

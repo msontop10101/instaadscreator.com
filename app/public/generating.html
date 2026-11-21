@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Generating your page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body style="background: #111113">
+<div class="phone" style="background: #111113; color: #F6F5F1; padding: 0 24px">
+
+<div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; gap: 32px">
+
+<div style="width: 180px; height: 300px; align-self: center; border-radius: 26px; border: 2px solid #34343B; background: #1C1C20; padding: 12px; display: flex; flex-direction: column; gap: 8px">
+<div class="shimmer" style="height: 110px; border-radius: 12px; background: #2A2A30"></div>
+<div class="shimmer" style="height: 12px; width: 85%; border-radius: 6px; background: #3A3A42"></div>
+<div class="shimmer" style="height: 12px; width: 60%; border-radius: 6px; background: #3A3A42"></div>
+<div class="shimmer" style="height: 8px; width: 90%; border-radius: 4px; background: #2A2A30"></div>
+<div class="shimmer" style="height: 8px; width: 75%; border-radius: 4px; background: #2A2A30"></div>
+<div style="flex-grow: 1"></div>
+<div style="height: 30px; border-radius: 8px; background: #25D366"></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; text-align: center">
+<h1 class="h1" style="font-size: 28px">Building your ad page</h1>
+<div style="font-size: 15px; color: #B4B4BC">Usually under 40 seconds</div>
+</div>
+
+<div id="steps" style="display: flex; flex-direction: column; gap: 14px; background: #1C1C20; border-radius: 18px; padding: 18px"></div>
+
+</div>
+<div style="padding-bottom: 32px; text-align: center; font-size: 13px; color: #8C8C95">Tip: use your best photo first. It becomes your hero image.</div>
+
+</div>
+
+<style>
+.shimmer { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.45 } }
+</style>
+
+<script>
+const id = new URLSearchParams(location.search).get('id');
+if (!id) location.href = '/create';
+
+const DONE = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>`;
+const BUSY = `<svg class="spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B78FF" stroke-width="2.5" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg>`;
+const TODO = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5A5A63" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle></svg>`;
+
+let labels = [
+  'Writing your headline and benefits',
+  'Picking a layout for your product',
+  'Wiring your order button',
+  'Publishing your page',
+];
+let current = 0;
+
+function renderSteps() {
+  document.getElementById('steps').innerHTML = labels.map((l, i) => {
+    const icon = i < current ? DONE : i === current ? BUSY : TODO;
+    const style = i < current ? '' : i === current ? 'font-weight: 600' : 'color: #8C8C95';
+    return `<div style="display: flex; align-items: center; gap: 12px; font-size: 15px; ${style}">${icon}${l}</div>`;
+  }).join('');
+}
+
+fetch('/api/pages/' + id).then(r => r.json()).then(p => {
+  labels[3] = `Publishing to ${p.displayDomain}`;
+  renderSteps();
+});
+renderSteps();
+
+// advance the visual steps on a timer; final step completes when the API says live
+const stepTimer = setInterval(() => {
+  if (current < labels.length - 1) { current++; renderSteps(); }
+}, 1600);
+
+const poll = setInterval(async () => {
+  const p = await fetch('/api/pages/' + id).then(r => r.json());
+  if (p.status === 'live') {
+    clearInterval(poll); clearInterval(stepTimer);
+    current = labels.length; renderSteps();
+    // land in the editor so you see the whole page and can keep shaping it
+    setTimeout(() => location.href = '/editor?id=' + id + '&new=1', 500);
+  } else if (p.status === 'error') {
+    clearInterval(poll); clearInterval(stepTimer);
+    document.getElementById('steps').innerHTML = `<div style="color: #FF7A7F; font-size: 14px">Something went wrong. <a href="/order-method?id=${id}" style="color: #8B78FF">Try again</a></div>`;
+  }
+}, 1200);
+</script>
+</body>
+</html>

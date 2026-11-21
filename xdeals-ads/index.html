@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Xdeals — Genuine iPhones & Laptops | Lagos & Ife | Pay on Pickup</title>
+<meta name="description" content="Nigeria's most trusted gadget plug. Genuine iPhones, MacBooks & gaming laptops. 10,000+ sold since 2016. Walk into our Lagos or Ife store or order on WhatsApp." />
+<link rel="icon" href="images/xdeals-logo.jpeg" />
+<style>
+  :root{
+    --bg:#0b0b0f; --card:#14141b; --card2:#1a1a23;
+    --text:#f4f4f6; --muted:#9a9aa8;
+    --accent:#ff6a00; --accent2:#ffb347;
+    --green:#25d366; --green-dark:#1da851;
+    --gold:#ffc53d; --red:#ff4d4f;
+    --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; overflow-x:hidden;
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:480px;margin:0 auto;padding:0 16px}
+  @media(min-width:768px){.wrap{max-width:520px}}
+
+  /* ticker */
+  .ticker{background:var(--accent);color:#000;font-weight:700;font-size:13px;overflow:hidden;white-space:nowrap;padding:8px 0}
+  .ticker-track{display:inline-block;animation:tick 18s linear infinite}
+  .ticker-track span{margin:0 24px}
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* header */
+  header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;position:sticky;top:0;background:rgba(11,11,15,.92);backdrop-filter:blur(12px);z-index:50;border-bottom:1px solid #22222c}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{width:38px;height:38px;border-radius:10px;object-fit:cover}
+  .brand-name{font-weight:800;font-size:16px;letter-spacing:.3px}
+  .brand-sub{font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}
+  .header-cta{background:var(--green);color:#fff;font-weight:700;font-size:13px;padding:9px 14px;border-radius:999px;display:flex;align-items:center;gap:6px}
+  .header-cta svg{width:15px;height:15px}
+
+  /* hero */
+  .hero{padding:28px 0 8px;text-align:center;position:relative}
+  .hero::before{content:"";position:absolute;inset:-60px -100px auto;height:420px;background:radial-gradient(ellipse at 50% 0%,rgba(255,106,0,.18),transparent 65%);pointer-events:none}
+  .stars{color:var(--gold);font-size:15px;letter-spacing:2px}
+  .rating-line{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .rating-line b{color:var(--text)}
+  h1{font-size:clamp(30px,8.5vw,40px);line-height:1.1;font-weight:900;margin:14px 0 10px}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{color:var(--muted);font-size:15px;max-width:380px;margin:0 auto}
+  .hero-sub b{color:var(--text)}
+  .hero-img{margin:18px auto 0;max-width:340px;filter:drop-shadow(0 24px 48px rgba(255,106,0,.25))}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+  .badge{font-size:11.5px;font-weight:600;color:var(--text);background:var(--card);border:1px solid #26262f;padding:7px 12px;border-radius:999px;display:flex;align-items:center;gap:5px}
+  .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+  /* deal bar */
+  .dealbar{margin:22px 0 6px;background:linear-gradient(135deg,#1c1206,#241003);border:1px solid rgba(255,106,0,.35);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .dealbar-label{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent2)}
+  .dealbar-title{font-weight:800;font-size:14.5px;margin-top:2px}
+  .countdown{display:flex;gap:6px}
+  .cd{background:#000;border:1px solid #2c2c36;border-radius:10px;min-width:44px;padding:6px 4px;text-align:center}
+  .cd b{font-size:17px;display:block;font-variant-numeric:tabular-nums}
+  .cd span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+  /* section heads */
+  section{padding:34px 0 6px}
+  .sec-tag{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--accent);text-align:center}
+  .sec-hed{font-size:clamp(23px,6.5vw,30px);font-weight:900;text-align:center;margin:6px 0 20px}
+
+  /* product cards */
+  .products{display:flex;flex-direction:column;gap:16px}
+  .pcard{background:var(--card);border:1px solid #23232d;border-radius:var(--radius);overflow:hidden;position:relative}
+  .pcard-img{background:#0e0e13;display:flex;align-items:center;justify-content:center;height:230px;padding:18px}
+  .pcard-img img{max-height:100%;object-fit:contain}
+  .pill{position:absolute;top:12px;left:12px;background:var(--red);color:#fff;font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;letter-spacing:.5px;z-index:2}
+  .pill.hot{background:var(--accent)}
+  .pcard-body{padding:16px}
+  .pcard-title{font-weight:800;font-size:17px}
+  .pcard-meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .price-row{display:flex;align-items:baseline;gap:9px;margin:10px 0 4px}
+  .price{font-size:21px;font-weight:900;color:var(--accent2)}
+  .price-was{font-size:14px;color:var(--muted);text-decoration:line-through}
+  .stock{font-size:12px;color:var(--red);font-weight:700;margin-bottom:12px}
+  .stock .bar{height:5px;background:#2a2a33;border-radius:99px;margin-top:5px;overflow:hidden}
+  .stock .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--accent));border-radius:99px}
+  .buy-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--green);color:#fff;font-weight:800;font-size:15px;padding:14px;border-radius:12px;width:100%;transition:transform .1s}
+  .buy-btn:active{transform:scale(.97)}
+  .buy-btn svg{width:18px;height:18px}
+
+  /* receipts */
+  .receipts-scroll{display:flex;gap:12px;overflow-x:auto;padding:4px 16px 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .receipts-scroll::-webkit-scrollbar{display:none}
+  .receipt{flex:0 0 200px;scroll-snap-align:start;border-radius:14px;overflow:hidden;border:1px solid #26262f;position:relative}
+  .receipt img{height:300px;width:100%;object-fit:cover}
+  .receipt-tag{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);color:#fff;font-size:11.5px;font-weight:700;padding:7px 10px;border-radius:9px;text-align:center}
+  .receipts-note{text-align:center;font-size:12.5px;color:var(--muted);padding:0 24px}
+
+  /* why / trust grid */
+  .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tcard{background:var(--card);border:1px solid #23232d;border-radius:14px;padding:16px 14px}
+  .tcard .ico{font-size:22px}
+  .tcard b{display:block;font-size:14px;margin:8px 0 3px}
+  .tcard p{font-size:12px;color:var(--muted)}
+
+  /* founder */
+  .founder{background:var(--card);border:1px solid #23232d;border-radius:var(--radius);overflow:hidden}
+  .founder img{width:100%;height:300px;object-fit:cover;object-position:top}
+  .founder-body{padding:18px}
+  .founder-name{font-weight:900;font-size:19px}
+  .founder-role{font-size:12px;color:var(--accent2);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px}
+  .founder-body p{font-size:14px;color:var(--muted)}
+  .founder-body p b{color:var(--text)}
+
+  /* testimonials */
+  .quotes{display:flex;flex-direction:column;gap:12px}
+  .quote{background:var(--card);border:1px solid #23232d;border-radius:14px;padding:16px}
+  .quote .stars{font-size:13px}
+  .quote p{font-size:14px;margin:8px 0 10px}
+  .quote .who{font-size:12px;color:var(--muted);font-weight:600}
+  .quote .who b{color:var(--text)}
+
+  /* locations */
+  .loc{background:var(--card);border:1px solid #23232d;border-radius:14px;padding:16px;margin-bottom:12px;display:block}
+  .loc b{font-size:15px}
+  .loc p{font-size:13px;color:var(--muted);margin-top:4px}
+  .loc .maps{font-size:12.5px;color:var(--accent2);font-weight:700;margin-top:8px;display:inline-block}
+
+  /* faq */
+  details{background:var(--card);border:1px solid #23232d;border-radius:12px;margin-bottom:10px;overflow:hidden}
+  summary{padding:15px 16px;font-weight:700;font-size:14.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  summary::after{content:"+";font-size:19px;color:var(--accent);font-weight:400}
+  details[open] summary::after{content:"–"}
+  details p{padding:0 16px 15px;font-size:13.5px;color:var(--muted)}
+
+  /* final cta */
+  .final{background:linear-gradient(135deg,#1c1206,#2a1403);border:1px solid rgba(255,106,0,.35);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-top:8px}
+  .final h2{font-size:23px;font-weight:900;margin-bottom:8px}
+  .final p{font-size:14px;color:var(--muted);margin-bottom:18px}
+
+  footer{padding:30px 16px 110px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid #1d1d26;margin-top:40px}
+  footer .socials{display:flex;justify-content:center;gap:16px;margin:12px 0;font-weight:600;font-size:12.5px}
+  footer .socials a{color:var(--text)}
+
+  /* sticky cta */
+  .sticky-cta{position:fixed;bottom:0;left:0;right:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(11,11,15,.9);backdrop-filter:blur(14px);border-top:1px solid #23232d;z-index:60}
+  .sticky-cta .buy-btn{max-width:480px;margin:0 auto;box-shadow:0 8px 28px rgba(37,211,102,.35)}
+
+  /* social proof toast */
+  .toast{position:fixed;left:12px;bottom:92px;background:var(--card2);border:1px solid #2c2c36;border-radius:12px;padding:10px 14px;font-size:12.5px;z-index:55;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);transition:all .4s;max-width:270px;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast b{color:var(--accent2)}
+</style>
+</head>
+<body>
+
+<!-- urgency ticker -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>🔥 NOVEMBER MEGA DEALS — WHILE STOCK LASTS</span><span>✅ 10,000+ GADGETS SOLD SINCE 2016</span><span>📍 WALK-IN: COMPUTER VILLAGE IKEJA & OAU ILE-IFE</span><span>💬 ORDER NOW ON WHATSAPP — 09042223451</span>
+    <span>🔥 NOVEMBER MEGA DEALS — WHILE STOCK LASTS</span><span>✅ 10,000+ GADGETS SOLD SINCE 2016</span><span>📍 WALK-IN: COMPUTER VILLAGE IKEJA & OAU ILE-IFE</span><span>💬 ORDER NOW ON WHATSAPP — 09042223451</span>
+  </div>
+</div>
+
+<header>
+  <div class="brand">
+    <img src="images/xdeals-logo.jpeg" alt="Xdeals logo" />
+    <div>
+      <div class="brand-name">Xdeals</div>
+      <div class="brand-sub">Multiservices Ltd</div>
+    </div>
+  </div>
+  <a class="header-cta" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%20saw%20your%20ad%20and%20I%27m%20interested%20in%20a%20gadget." target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Chat Us
+  </a>
+</header>
+
+<!-- HERO -->
+<div class="wrap">
+  <section class="hero" style="padding-top:26px">
+    <div class="stars">★★★★★</div>
+    <div class="rating-line"><b>4.9/5</b> rated · trusted by <b>10,000+ customers</b> since 2016</div>
+    <h1>Genuine Gadgets.<br><span class="grad">Naija's Best Prices.</span></h1>
+    <p class="hero-sub">iPhones, MacBooks & gaming laptops — <b>100% original</b>, sealed or UK-used, with warranty. Walk in or get it delivered nationwide.</p>
+    <img class="hero-img" src="images/render-iphone17pm.jpg" alt="iPhone 17 Pro Max" />
+    <div class="badges">
+      <div class="badge"><span class="dot"></span>Pay on Pickup Available</div>
+      <div class="badge"><span class="dot"></span>Nationwide Delivery</div>
+      <div class="badge"><span class="dot"></span>Physical Stores — Lagos & Ife</div>
+      <div class="badge"><span class="dot"></span>Swap Deals Accepted</div>
+    </div>
+
+    <!-- deal countdown -->
+    <div class="dealbar">
+      <div>
+        <div class="dealbar-label">⚡ Flash Deals End In</div>
+        <div class="dealbar-title">November Mega Sale</div>
+      </div>
+      <div class="countdown" id="countdown">
+        <div class="cd"><b id="cd-h">11</b><span>hrs</span></div>
+        <div class="cd"><b id="cd-m">42</b><span>min</span></div>
+        <div class="cd"><b id="cd-s">19</b><span>sec</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="deals">
+    <div class="sec-tag">This Week's Hottest</div>
+    <h2 class="sec-hed">🔥 Deals Flying Off The Shelf</h2>
+    <div class="products">
+
+      <div class="pcard">
+        <div class="pill hot">BEST SELLER</div>
+        <div class="pcard-img"><img src="images/render-iphone17pm.jpg" alt="iPhone 17 Pro Max" /></div>
+        <div class="pcard-body">
+          <div class="pcard-title">iPhone 17 Pro Max</div>
+          <div class="pcard-meta">Brand new · Sealed · 1-year Apple warranty</div>
+          <div class="price-row"><span class="price">From ₦2,450,000</span><span class="price-was">₦2,750,000</span></div>
+          <div class="stock">🔥 Selling fast — limited units this week<div class="bar"><i style="width:22%"></i></div></div>
+          <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%20want%20the%20iPhone%2017%20Pro%20Max.%20Is%20it%20still%20available%3F" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Get Yours on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pill">HOT PRICE</div>
+        <div class="pcard-img"><img src="images/render-iphone16.jpg" alt="iPhone 16" /></div>
+        <div class="pcard-body">
+          <div class="pcard-title">iPhone 16</div>
+          <div class="pcard-meta">Brand new · All colours in stock</div>
+          <div class="price-row"><span class="price">From ₦1,350,000</span><span class="price-was">₦1,550,000</span></div>
+          <div class="stock">⚡ All colours available — today only price<div class="bar"><i style="width:38%"></i></div></div>
+          <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%20want%20the%20iPhone%2016.%20What%20colours%20do%20you%20have%3F" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Get Yours on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pill">PRO SETUP</div>
+        <div class="pcard-img"><img src="images/render-macbook.jpg" alt="MacBook Pro" /></div>
+        <div class="pcard-body">
+          <div class="pcard-title">MacBook Pro M4</div>
+          <div class="pcard-meta">Space Black · Sealed · Full warranty</div>
+          <div class="price-row"><span class="price">From ₦2,850,000</span><span class="price-was">₦3,200,000</span></div>
+          <div class="stock">🔥 Few units left in stock<div class="bar"><i style="width:18%"></i></div></div>
+          <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%27m%20interested%20in%20the%20MacBook%20Pro%20M4." target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Get Yours on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pill">GAMERS' CHOICE</div>
+        <div class="pcard-img"><img src="images/render-victus.png" alt="HP Victus gaming laptop" /></div>
+        <div class="pcard-body">
+          <div class="pcard-title">HP Victus Gaming Laptop</div>
+          <div class="pcard-meta">RTX graphics · 144Hz display · Brand new</div>
+          <div class="price-row"><span class="price">From ₦1,150,000</span><span class="price-was">₦1,350,000</span></div>
+          <div class="stock">⚡ Gamers are grabbing these fast<div class="bar"><i style="width:30%"></i></div></div>
+          <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%20want%20the%20HP%20Victus%20gaming%20laptop." target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Get Yours on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="pill">POWERHOUSE</div>
+        <div class="pcard-img"><img src="images/render-alienware.png" alt="Alienware laptop" /></div>
+        <div class="pcard-body">
+          <div class="pcard-title">Alienware Gaming Laptop</div>
+          <div class="pcard-meta">Top-spec · For serious gamers & creators</div>
+          <div class="price-row"><span class="price">From ₦2,200,000</span><span class="price-was">₦2,500,000</span></div>
+          <div class="stock">🔥 Very limited stock<div class="bar"><i style="width:12%"></i></div></div>
+          <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%27m%20interested%20in%20the%20Alienware%20laptop." target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Get Yours on WhatsApp
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- RECEIPTS / PROOF -->
+<section id="proof">
+  <div class="sec-tag">No Cap — See For Yourself</div>
+  <h2 class="sec-hed">📦 Real Stock. Real Sales. Daily.</h2>
+  <div class="receipts-scroll">
+    <div class="receipt"><img src="images/view1.jpeg" alt="iPhones in stock at Xdeals store" /><div class="receipt-tag">Fresh stock — Ikeja store 🏪</div></div>
+    <div class="receipt"><img src="images/wa1.jpeg" alt="Customer purchase at Xdeals" /><div class="receipt-tag">SOLD 🤝 Another happy customer</div></div>
+    <div class="receipt"><img src="images/view4.jpeg" alt="iPhone 16 units in stock" /><div class="receipt-tag">iPhone 16s — all colours 🌈</div></div>
+    <div class="receipt"><img src="images/wa3.jpeg" alt="Xdeals sale" /><div class="receipt-tag">Sold & delivered same day ⚡</div></div>
+    <div class="receipt"><img src="images/view2.jpeg" alt="Gaming laptop at Xdeals store" /><div class="receipt-tag">Gaming laptops in store 🎮</div></div>
+    <div class="receipt"><img src="images/wa5.jpeg" alt="Xdeals customer" /><div class="receipt-tag">Walk in, walk out happy ✅</div></div>
+    <div class="receipt"><img src="images/wa7.jpeg" alt="Xdeals sale" /><div class="receipt-tag">Deals closing every day 🔥</div></div>
+  </div>
+  <p class="receipts-note">Swipe → These are real photos & sales from our stores. Follow <b>@xdeals_multiservices</b> on Instagram & TikTok to watch deals happen live.</p>
+</section>
+
+<div class="wrap">
+  <!-- WHY US -->
+  <section>
+    <div class="sec-tag">Why 10,000+ People Buy From Us</div>
+    <h2 class="sec-hed">Buy With Zero Fear 🛡️</h2>
+    <div class="trust-grid">
+      <div class="tcard"><div class="ico">✅</div><b>100% Genuine</b><p>Every device verified original. No refurbs sold as new. Ever.</p></div>
+      <div class="tcard"><div class="ico">🏪</div><b>Physical Stores</b><p>Real shops in Computer Village Ikeja & OAU Ile-Ife. Come see us.</p></div>
+      <div class="tcard"><div class="ico">💵</div><b>Pay on Pickup</b><p>Inspect your gadget first. Pay when you're satisfied.</p></div>
+      <div class="tcard"><div class="ico">🚚</div><b>Nationwide Delivery</b><p>Fast, secure delivery to all 36 states + FCT.</p></div>
+      <div class="tcard"><div class="ico">🔄</div><b>Swap Deals</b><p>Trade in your old device and top up for a new one.</p></div>
+      <div class="tcard"><div class="ico">🛡️</div><b>Warranty Backed</b><p>Warranty on everything we sell. We stand by our gadgets.</p></div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section>
+    <div class="sec-tag">The Face Behind The Brand</div>
+    <h2 class="sec-hed">You Know Who You're Buying From</h2>
+    <div class="founder">
+      <img src="images/ola.jpeg" alt="Ola Iyanda — Founder & CEO, Xdeals Multiservices Limited" />
+      <div class="founder-body">
+        <div class="founder-name">Ola Iyanda</div>
+        <div class="founder-role">Founder & CEO — Est. 2016</div>
+        <p>Started selling gadgets as an undergraduate at <b>OAU</b> in 2016. Today Xdeals runs physical stores in <b>Lagos and Osun State</b> with <b>10,000+ gadgets sold</b> — built on genuine products, honest pricing and consistency. When you buy from Xdeals, you're buying from a name and a face, not a faceless page.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="sec-tag">Word On The Street</div>
+    <h2 class="sec-hed">What Customers Say 💬</h2>
+    <div class="quotes">
+      <div class="quote"><div class="stars">★★★★★</div><p>"I was scared of buying online but they told me to come to their Ikeja shop. Inspected my iPhone 15 Pro, paid on the spot. Omo, legit plug!"</p><div class="who"><b>Chidinma A.</b> — Lagos · Verified buyer</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Ordered a MacBook from Ibadan, it landed the next day, sealed. Price was better than everywhere else I checked. 10/10."</p><div class="who"><b>Tunde O.</b> — Ibadan · Verified buyer</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Swapped my old iPhone 12 and topped up for a 16. Smooth deal, no stories. Been buying from Ola since my OAU days."</p><div class="who"><b>Fateemah S.</b> — Ile-Ife · Repeat customer</div></div>
+    </div>
+  </section>
+
+  <!-- LOCATIONS -->
+  <section>
+    <div class="sec-tag">Prefer To Walk In?</div>
+    <h2 class="sec-hed">📍 Visit Our Stores</h2>
+    <a class="loc" href="https://maps.google.com/maps?q=9+Ola+Ayeni+Platinum+Plaza+2+Computer+Village+Ikeja+Lagos+Nigeria" target="_blank">
+      <b>Lagos — Computer Village</b>
+      <p>9, Ola Ayeni, Platinum Plaza 2, Computer Village, Ikeja, Lagos.</p>
+      <span class="maps">Open in Google Maps →</span>
+    </a>
+    <a class="loc" href="https://maps.google.com/maps?q=Hi+Speed+Cyber+Cafe+Angola+Hall+OAU+Campus+Ile+Ife+Osun+State+Nigeria" target="_blank">
+      <b>Osun — OAU Campus, Ile-Ife</b>
+      <p>Hi Speed Cyber Cafe, Entrance of Angola Hall, OAU Campus, Ile-Ife.</p>
+      <span class="maps">Open in Google Maps →</span>
+    </a>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="sec-tag">Quick Answers</div>
+    <h2 class="sec-hed">FAQs</h2>
+    <details><summary>Are your gadgets original?</summary><p>100%. Every device is verified genuine — brand new sealed or clean UK-used, clearly labelled. We've sold 10,000+ gadgets since 2016 on that reputation.</p></details>
+    <details><summary>Can I pay when I pick up?</summary><p>Yes. Walk into our Ikeja or Ile-Ife store, inspect your device, then pay. For deliveries, we'll explain secure payment options on WhatsApp.</p></details>
+    <details><summary>Do you deliver outside Lagos?</summary><p>Yes — fast nationwide delivery to all 36 states and FCT. Most orders arrive within 1–2 working days.</p></details>
+    <details><summary>Do you accept swap?</summary><p>Yes! Bring your old device, we value it on the spot, and you top up the difference for your new gadget.</p></details>
+    <details><summary>Is there a warranty?</summary><p>Every gadget comes with warranty. Brand new devices carry full manufacturer warranty.</p></details>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="buy-now">
+    <div class="final">
+      <h2>Your New Gadget Is One Message Away 📲</h2>
+      <p>Chat with us now — tell us what you want and your budget. We'll sort you out in minutes.</p>
+      <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%20saw%20your%20ad.%20Here%27s%20what%20I%27m%20looking%20for%3A" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat Us on WhatsApp — 09042223451
+      </a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <b style="color:var(--text)">Xdeals Multiservices Limited</b>
+  <div class="socials">
+    <a href="https://www.instagram.com/xdeals_multiservices" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@xdealsmultiservices" target="_blank">TikTok</a>
+    <a href="https://www.snapchat.com/add/xdealsgadgets" target="_blank">Snapchat</a>
+    <a href="https://linker.ee/xdealsmultiservices" target="_blank">Linktree</a>
+  </div>
+  <p>© 2026 Xdeals Multiservices Limited · Est. 2016 · Nigeria's Premium Gadget Store</p>
+</footer>
+
+<!-- sticky CTA -->
+<div class="sticky-cta">
+  <a class="buy-btn" href="https://wa.me/2349042223451?text=Hi%20Xdeals!%20I%20saw%20your%20ad%20and%20I%20want%20to%20buy%20a%20gadget." target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    💬 Order Now on WhatsApp
+  </a>
+</div>
+
+<!-- social proof toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // countdown — resets daily at midnight so the deal always "ends today"
+  function tickCountdown(){
+    var now = new Date();
+    var end = new Date(now); end.setHours(23,59,59,999);
+    var diff = Math.max(0, end - now);
+    var h = Math.floor(diff/3.6e6), m = Math.floor(diff%3.6e6/6e4), s = Math.floor(diff%6e4/1e3);
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tickCountdown(); setInterval(tickCountdown, 1000);
+
+  // rotating social-proof toasts
+  var proofs = [
+    '🛍️ <b>Emeka from Enugu</b> just ordered an iPhone 16',
+    '🔥 <b>Blessing from Lagos</b> bought a MacBook Pro M4',
+    '✅ <b>Ibrahim from Abuja</b> completed a swap deal',
+    '📦 <b>Ada from PH</b> got her iPhone delivered today',
+    '🎮 <b>Seun from Ife</b> picked up an HP Victus'
+  ];
+  var toast = document.getElementById('toast'), pi = 0;
+  function showToast(){
+    toast.innerHTML = proofs[pi % proofs.length]; pi++;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 4000);
+  }
+  setTimeout(function(){ showToast(); setInterval(showToast, 12000); }, 5000);
+</script>
+</body>
+</html>

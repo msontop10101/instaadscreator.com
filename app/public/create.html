@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — What are you selling?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px">
+<a href="/" aria-label="Back" style="width: 44px; height: 44px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+<div style="font-size: 13px; font-weight: 600; color: var(--ink-4)">Step 1 of 2</div>
+<div style="width: 44px"></div>
+</header>
+<div style="margin: 0 20px; height: 4px; background: var(--border); border-radius: 2px"><div style="width: 50%; height: 4px; background: var(--accent); border-radius: 2px"></div></div>
+
+<section style="padding: 22px 20px 0; display: flex; flex-direction: column; gap: 18px; flex-grow: 1">
+
+<!-- chat-style composer -->
+<div style="background: var(--ink); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 8px; color: var(--bg); font-size: 14px; font-weight: 700"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B78FF" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Just describe it — we'll build it</div>
+<textarea id="m-compose" rows="4" placeholder="e.g. I sell 22 inch bone straight wigs, ₦185,000 (was ₦240,000). My business is Luxe by Tolu, based in Lekki. WhatsApp 0803 123 4567." style="border: none; border-radius: 12px; padding: 12px; font: 15px/1.5 var(--font-body); background: #26262B; color: var(--bg); resize: none; outline: none"></textarea>
+<div id="m-compose-thumbs" style="display: flex; gap: 6px; flex-wrap: wrap"></div>
+<div style="display: flex; gap: 8px">
+<button type="button" id="m-compose-attach" aria-label="Add photos" style="width: 48px; min-height: 48px; border: 1.5px dashed #4A4A52; border-radius: 12px; background: transparent; color: #9A9AA2; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg></button>
+<button type="button" id="m-compose-go" style="flex-grow: 1; min-height: 48px; border: none; border-radius: 12px; background: var(--accent); color: #fff; font: 700 15px var(--font-body); display: flex; align-items: center; justify-content: center; gap: 8px">✦ Create my page</button>
+</div>
+<div id="m-compose-status" style="font-size: 12.5px; color: #C9C9D0; display: none"></div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; color: var(--ink-3); font-size: 12px; font-weight: 600"><span style="flex-grow: 1; height: 1px; background: var(--border)"></span>or fill it in yourself<span style="flex-grow: 1; height: 1px; background: var(--border)"></span></div>
+
+<h1 class="h1" style="font-size: 30px; line-height: 1.1">What are you selling?</h1>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="desc" class="field-label">Describe it like you would on WhatsApp</label>
+<textarea id="desc" rows="3" placeholder="e.g. 22 inch bone straight wig, double drawn, HD lace, raw human hair" style="border: 1.5px solid var(--border-strong); border-radius: 14px; padding: 14px; font: 15px/1.5 var(--font-body); background: var(--surface); color: var(--ink); resize: none; width: 100%"></textarea>
+<div style="font-size: 12px; color: var(--ink-3)">AI writes the headline, benefits and FAQ from this.</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div class="field-label">Photos <span style="font-weight: 400; color: var(--ink-3)">(up to 8)</span></div>
+<div id="photo-grid" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<button type="button" id="add-photo" aria-label="Add photo" style="height: 76px; border-radius: 12px; border: 1.5px dashed var(--border-dashed); background: var(--surface); display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#57575E" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+<input type="file" id="file-input" accept="image/*" multiple style="display: none">
+<div id="photo-hint" style="font-size: 12px; color: var(--ink-3)">Your best photo first — it becomes the hero image.</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="price" class="field-label">Price</label>
+<div style="display: flex; align-items: center; border: 1.5px solid var(--border-strong); border-radius: 14px; background: var(--surface); padding: 0 14px; min-height: 50px"><span style="color: var(--ink-4); margin-right: 6px">₦</span><input id="price" inputmode="numeric" placeholder="185,000" style="border: none; outline: none; font: 600 16px var(--font-body); width: 100%; background: transparent; color: var(--ink)"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="old" class="field-label">Old price <span style="font-weight: 400; color: var(--ink-3)">(optional)</span></label>
+<div style="display: flex; align-items: center; border: 1.5px solid var(--border-strong); border-radius: 14px; background: var(--surface); padding: 0 14px; min-height: 50px"><span style="color: var(--ink-4); margin-right: 6px">₦</span><input id="old" inputmode="numeric" placeholder="240,000" style="border: none; outline: none; font: 16px var(--font-body); width: 100%; background: transparent; color: var(--ink)"></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="biz" class="field-label">Business name</label>
+<input id="biz" class="field-input" placeholder="e.g. Luxe by Tolu">
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="loc" class="field-label">Location <span style="font-weight: 400; color: var(--ink-3)">(optional)</span></label>
+<input id="loc" class="field-input" placeholder="e.g. Lekki, Lagos">
+</div>
+</section>
+
+<div style="padding: 16px 20px 28px">
+<button type="button" id="next" class="btn-primary">Next: how buyers order</button>
+<div id="err" style="color: var(--danger); font-size: 13px; text-align: center; margin-top: 10px; display: none"></div>
+</div>
+
+</div>
+
+<!-- ================= DESKTOP (per DeskCreate handoff: product + ordering on one screen) ================= -->
+<div class="desk" style="flex-direction: column; flex-wrap: nowrap">
+
+<header style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 16px clamp(16px, 3vw, 32px); background: var(--surface); border-bottom: 1px solid var(--border)">
+<div style="display: flex; align-items: center; gap: 16px">
+<a href="/" aria-label="Back to home" style="width: 44px; height: 44px; border-radius: 12px; background: var(--bg); display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+<div style="font-family: var(--font-heading); font-size: 20px; font-weight: 700">New ad page</div>
+</div>
+<div style="display: flex; gap: 8px; font-size: 13px; font-weight: 600">
+<span style="padding: 8px 12px; border-radius: 999px; background: var(--ink); color: #FFFFFF">1 Product</span>
+<span style="padding: 8px 12px; border-radius: 999px; background: var(--ink); color: #FFFFFF">2 Ordering</span>
+<span style="padding: 8px 12px; border-radius: 999px; background: var(--surface-muted); color: var(--ink-2)">3 Generate</span>
+</div>
+</header>
+
+<div style="flex-grow: 1; display: flex; flex-wrap: wrap; gap: 32px; padding: 32px clamp(16px, 3vw, 48px); max-width: 1320px; width: 100%; margin: 0 auto; box-sizing: border-box">
+
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+
+<!-- chat-style composer -->
+<section style="background: var(--ink); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px; color: var(--bg); font-size: 16px; font-weight: 700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B78FF" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Just describe it — we'll build the page</div>
+<textarea id="dd-compose" rows="4" placeholder="e.g. I sell 22 inch bone straight wigs, ₦185,000 (was ₦240,000). My business is Luxe by Tolu, based in Lekki. Buyers order on WhatsApp 0803 123 4567." style="border: none; border-radius: 14px; padding: 14px; font: 15px/1.55 var(--font-body); background: #26262B; color: var(--bg); resize: vertical; outline: none"></textarea>
+<div id="dd-compose-thumbs" style="display: flex; gap: 8px; flex-wrap: wrap"></div>
+<div style="display: flex; gap: 10px; align-items: center">
+<button type="button" id="dd-compose-attach" style="min-height: 48px; padding: 0 16px; border: 1.5px dashed #4A4A52; border-radius: 12px; background: transparent; color: #C9C9D0; font: 600 13px var(--font-body); display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg>Add photos</button>
+<button type="button" id="dd-compose-go" style="flex-grow: 1; min-height: 48px; border: none; border-radius: 12px; background: var(--accent); color: #fff; font: 700 15px var(--font-body); display: flex; align-items: center; justify-content: center; gap: 8px">✦ Create my page</button>
+</div>
+<div id="dd-compose-status" style="font-size: 13px; color: #C9C9D0; display: none"></div>
+</section>
+
+<div style="display: flex; align-items: center; gap: 12px; color: var(--ink-3); font-size: 12px; font-weight: 600"><span style="flex-grow: 1; height: 1px; background: var(--border-strong)"></span>or fill it in yourself<span style="flex-grow: 1; height: 1px; background: var(--border-strong)"></span></div>
+
+<section class="desk-card" style="padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<h2 style="margin: 0; font-family: var(--font-heading); font-size: 22px; font-weight: 700">What are you selling?</h2>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="dd-desc" class="field-label">Describe it like you would on WhatsApp</label>
+<textarea id="dd-desc" rows="3" placeholder="e.g. 22 inch bone straight wig, double drawn, HD lace, raw human hair" style="border: 1.5px solid var(--border-strong); border-radius: 14px; padding: 14px; font: 15px/1.5 var(--font-body); color: var(--ink); resize: vertical"></textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div class="field-label">Photos <span style="font-weight: 400; color: var(--ink-3)">· drag to reorder — first one is the hero</span></div>
+<div id="dd-photo-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px">
+<button type="button" id="dd-add-photo" style="height: 96px; border-radius: 12px; border: 1.5px dashed var(--border-dashed); background: #FAFAF7; font: 600 13px var(--font-body); color: var(--ink-2)">+ Add photos</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="dd-price" class="field-label">Price</label><div style="display: flex; align-items: center; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; background: var(--surface)"><span style="color: var(--ink-4); margin-right: 6px">₦</span><input id="dd-price" inputmode="numeric" placeholder="185,000" style="border: none; outline: none; font: 600 15px var(--font-body); width: 100%; color: var(--ink); background: transparent"></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="dd-old" class="field-label">Old price</label><div style="display: flex; align-items: center; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; background: var(--surface)"><span style="color: var(--ink-4); margin-right: 6px">₦</span><input id="dd-old" inputmode="numeric" placeholder="240,000" style="border: none; outline: none; font: 15px var(--font-body); width: 100%; color: var(--ink); background: transparent"></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="dd-biz" class="field-label">Business name</label><input id="dd-biz" placeholder="e.g. Luxe by Tolu" style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; font: 15px var(--font-body); color: var(--ink)"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="dd-loc" class="field-label">Location <span style="font-weight: 400; color: var(--ink-3)">(optional)</span></label><input id="dd-loc" placeholder="e.g. Lekki, Lagos" style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; font: 15px var(--font-body); color: var(--ink)"></div>
+</div>
+</section>
+
+<section class="desk-card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: var(--font-heading); font-size: 22px; font-weight: 700">How should buyers order?</h2>
+<div role="radiogroup" aria-label="Order method" id="dd-methods" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+<label style="border: 2px solid var(--accent); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700"><input type="radio" name="ddm" value="whatsapp" checked style="width: 18px; height: 18px; accent-color: var(--accent)">WhatsApp</label>
+<label style="border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600"><input type="radio" name="ddm" value="call" style="width: 18px; height: 18px">Phone call</label>
+<label style="border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600"><input type="radio" name="ddm" value="dm" style="width: 18px; height: 18px">Instagram DM</label>
+<label style="border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--ink-3)"><input type="radio" name="ddm" value="form" disabled style="width: 18px; height: 18px">Order form</label>
+<label style="border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--ink-3)"><input type="radio" name="ddm" value="pay" disabled style="width: 18px; height: 18px">Pay online<span style="margin-left: auto; font-size: 10px; font-weight: 700; background: var(--ink); color: #FFFFFF; padding: 3px 6px; border-radius: 999px">PRO</span></label>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="dd-wa" class="field-label">WhatsApp number</label><div style="display: flex; gap: 8px"><span style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; display: flex; align-items: center; color: var(--ink-4)">+234</span><input id="dd-wa" inputmode="tel" placeholder="803 123 4567" style="flex-grow: 1; min-width: 0; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; font: 15px var(--font-body); color: var(--ink)"></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="dd-btn" class="field-label">Button text <span style="font-weight: 400; color: var(--ink-3)">(optional)</span></label><input id="dd-btn" placeholder="Buy on WhatsApp" style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 48px; font: 15px var(--font-body); color: var(--ink)"></div>
+</div>
+<div id="dd-prefill" style="font-size: 13px; line-height: 1.5; color: var(--ink-2); background: var(--bg); border-radius: 12px; padding: 12px 14px">Pre-filled message: "Hi, I want to order…"</div>
+</section>
+
+<div style="display: flex; justify-content: flex-end; align-items: center; gap: 14px">
+<div id="dd-err" style="color: var(--danger); font-size: 13px; display: none"></div>
+<button type="button" id="dd-generate" style="display: flex; align-items: center; gap: 8px; min-height: 54px; padding: 0 28px; border-radius: 14px; border: none; background: var(--accent); color: #FFFFFF; font-size: 16px; font-weight: 700"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Generate my page</button>
+</div>
+</div>
+
+<aside aria-label="Live preview" style="flex: 0 1 360px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div style="font-size: 12px; font-weight: 700; color: var(--ink-4); letter-spacing: 0.06em">LIVE PREVIEW</div>
+<div id="pv-frame" style="width: 320px; max-width: 100%; height: 640px; border-radius: 40px; border: 10px solid var(--ink); background: #FBF6F1; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column; position: relative">
+<div style="background: #1A1412; color: #FBF6F1; font-size: 10px; text-align: center; padding: 7px">Free delivery · Pay on delivery</div>
+<div id="pv-biz" style="padding: 10px 14px; font-family: 'Playfair Display', Georgia, serif; font-size: 15px; font-weight: 700">Your brand</div>
+<div id="pv-hero" style="margin: 0 14px; height: 210px; border-radius: 14px; background: #E9DCD2; background-size: cover; background-position: center"></div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div id="pv-headline" style="font-family: 'Playfair Display', Georgia, serif; font-size: 22px; line-height: 1.12; font-weight: 700">Your product headline appears here.</div>
+<div id="pv-desc" style="font-size: 12px; line-height: 1.45; color: #4A3E38">Describe your product on the left and watch this preview update.</div>
+<div style="display: flex; gap: 8px; align-items: baseline"><span id="pv-price" style="font-size: 20px; font-weight: 700">₦—</span><span id="pv-old" style="font-size: 12px; color: #6B5A51; text-decoration: line-through"></span></div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; background: #FBF6F1; border-top: 1px solid #E1D0C3; padding: 10px 12px 14px; display: flex; align-items: center; gap: 8px">
+<div style="flex-grow: 1"><div id="pv-bar-title" style="font-size: 10px; color: #5C4F49">Your product</div><div id="pv-bar-price" style="font-size: 14px; font-weight: 700">₦—</div></div>
+<div id="pv-bar-btn" style="min-height: 38px; padding: 0 12px; border-radius: 10px; background: var(--whatsapp); color: var(--whatsapp-ink); font-size: 12px; font-weight: 700; display: flex; align-items: center">Buy on WhatsApp</div>
+</div>
+</div>
+<div style="font-size: 12px; color: var(--ink-3); text-align: center; max-width: 300px">The buy bar stays pinned as buyers scroll. The AI picks the final design for your product.</div>
+</aside>
+
+</div>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<script>
+const files = [];
+const pickedTemplate = new URLSearchParams(location.search).get('template');
+// picked template: show chip in both composers + swap the preview phone to the real template
+if (pickedTemplate) {
+  fetch('/api/meta').then(r => r.json()).then(meta => {
+    const t = meta.themes[pickedTemplate];
+    if (!t) return;
+    for (const prefix of ['m', 'dd']) {
+      const box = document.getElementById(prefix + '-compose');
+      const chip = document.createElement('div');
+      chip.style.cssText = 'display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #C9C9D0';
+      chip.innerHTML = `<span style="width: 14px; height: 14px; border-radius: 4px; background: ${t.accent}; display: inline-block"></span>Template: <strong style="color: #fff">${t.label}</strong>&nbsp;·&nbsp;<a href="/templates" style="color: #8B78FF">change</a>`;
+      box.parentNode.insertBefore(chip, box);
+    }
+    // real template in the preview frame, updating live as you type
+    const frame = document.getElementById('pv-frame');
+    if (frame) {
+      frame.innerHTML = `<iframe id="pv-iframe" title="Template preview" style="width: 390px; height: 806px; border: none; transform: scale(0.769); transform-origin: 0 0; pointer-events: none"></iframe>`;
+      updateTplPreview();
+    }
+  });
+}
+
+let tplPreviewTimer = null;
+function updateTplPreview() {
+  const iframe = document.getElementById('pv-iframe');
+  if (!iframe) return;
+  clearTimeout(tplPreviewTimer);
+  tplPreviewTimer = setTimeout(() => {
+    const params = new URLSearchParams();
+    const read = id => (document.getElementById(id) || {}).value || '';
+    const desc = read('dd-compose') || read('dd-desc') || read('m-compose') || read('desc');
+    if (desc.trim()) params.set('desc', desc.trim().slice(0, 300));
+    if (read('dd-biz').trim()) params.set('biz', read('dd-biz').trim());
+    if (read('dd-price').trim()) params.set('price', read('dd-price').trim());
+    if (read('dd-old').trim()) params.set('old', read('dd-old').trim());
+    if (read('dd-loc').trim()) params.set('loc', read('dd-loc').trim());
+    iframe.src = '/sample/' + pickedTemplate + (params.toString() ? '?' + params.toString() : '');
+  }, 700);
+}
+['dd-compose', 'm-compose'].forEach(fid => {
+  const el = document.getElementById(fid);
+  if (el) el.addEventListener('input', updateTplPreview);
+});
+const grid = document.getElementById('photo-grid');
+const addBtn = document.getElementById('add-photo');
+const fileInput = document.getElementById('file-input');
+
+addBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => {
+  for (const f of fileInput.files) {
+    if (files.length >= 8) break;
+    files.push(f);
+  }
+  fileInput.value = '';
+  renderAllPhotoGrids();
+});
+
+// Mobile grid: tap a photo to make it the hero (move to front), × to remove.
+function mRenderPhotos() {
+  grid.querySelectorAll('[data-pv]').forEach(n => n.remove());
+  files.forEach((f, i) => {
+    const url = URL.createObjectURL(f);
+    const cell = document.createElement('div');
+    cell.dataset.pv = '1';
+    cell.style.cssText = `height: 76px; border-radius: 12px; background: url('${url}') center/cover; position: relative; ${i === 0 ? 'outline: 2px solid var(--accent); outline-offset: 2px' : ''}`;
+    if (i === 0) cell.innerHTML = `<span style="position: absolute; bottom: 4px; left: 4px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 6px">HERO</span>`;
+    cell.innerHTML += `<button type="button" aria-label="Remove photo" style="position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 11px; border: none; background: rgba(0,0,0,0.6); color: #fff; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center">×</button>`;
+    cell.querySelector('button').addEventListener('click', e => {
+      e.stopPropagation();
+      files.splice(files.indexOf(f), 1);
+      renderAllPhotoGrids();
+    });
+    cell.addEventListener('click', () => {
+      // tap → becomes the hero
+      files.splice(files.indexOf(f), 1);
+      files.unshift(f);
+      renderAllPhotoGrids();
+    });
+    grid.insertBefore(cell, addBtn);
+  });
+  addBtn.style.display = files.length >= 8 ? 'none' : '';
+  const hint = document.getElementById('photo-hint');
+  if (hint) hint.textContent = files.length > 1
+    ? 'Tap a photo to make it the hero. The hero is your main image.'
+    : 'Your best photo first — it becomes the hero image.';
+}
+
+document.getElementById('next').addEventListener('click', async () => {
+  const desc = document.getElementById('desc').value.trim();
+  const price = document.getElementById('price').value.trim();
+  const biz = document.getElementById('biz').value.trim();
+  const err = document.getElementById('err');
+  err.style.display = 'none';
+  if (!desc || !price || !biz) {
+    err.textContent = 'Please fill the description, price and business name.';
+    err.style.display = '';
+    return;
+  }
+  const btn = document.getElementById('next');
+  btn.disabled = true; btn.textContent = 'Saving…';
+  const fd = new FormData();
+  fd.append('desc', desc);
+  fd.append('price', price);
+  fd.append('oldPrice', document.getElementById('old').value.trim());
+  fd.append('biz', biz);
+  fd.append('location', document.getElementById('loc').value.trim());
+  if (pickedTemplate) fd.append('template', pickedTemplate);
+  files.forEach(f => fd.append('photos', f));
+  try {
+    const res = await fetch('/api/pages', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error((await res.json()).error || 'Failed');
+    const page = await res.json();
+    location.href = '/order-method?id=' + page.id;
+  } catch (e) {
+    err.textContent = e.message; err.style.display = '';
+    btn.disabled = false; btn.textContent = 'Next: how buyers order';
+  }
+});
+
+// ================= desktop wiring =================
+const ddAdd = document.getElementById('dd-add-photo');
+const ddGrid = document.getElementById('dd-photo-grid');
+ddAdd.addEventListener('click', () => fileInput.click());
+
+// Desktop grid: drag to reorder — first slot is the hero.
+let dragIdx = null;
+function ddRenderPhotos() {
+  ddGrid.querySelectorAll('[data-pv]').forEach(n => n.remove());
+  files.forEach((f, i) => {
+    const url = URL.createObjectURL(f);
+    const cell = document.createElement('div');
+    cell.dataset.pv = '1';
+    cell.draggable = true;
+    cell.style.cssText = `height: 96px; border-radius: 12px; background: url('${url}') center/cover; position: relative; cursor: grab; ${i === 0 ? 'outline: 2px solid var(--accent); outline-offset: 2px' : ''}`;
+    cell.innerHTML = `${i === 0 ? `<span style="position: absolute; bottom: 5px; left: 5px; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; pointer-events: none">HERO</span>` : ''}
+      <button type="button" aria-label="Remove photo" style="position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 11px; border: none; background: rgba(0,0,0,0.6); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center">×</button>`;
+    cell.querySelector('button').addEventListener('click', e => { e.stopPropagation(); files.splice(files.indexOf(f), 1); renderAllPhotoGrids(); });
+    cell.addEventListener('dragstart', () => { dragIdx = i; cell.style.opacity = '0.4'; });
+    cell.addEventListener('dragend', () => { cell.style.opacity = ''; });
+    cell.addEventListener('dragover', e => e.preventDefault());
+    cell.addEventListener('drop', e => {
+      e.preventDefault();
+      if (dragIdx === null || dragIdx === i) return;
+      const [moved] = files.splice(dragIdx, 1);
+      files.splice(i, 0, moved);
+      dragIdx = null;
+      renderAllPhotoGrids();
+    });
+    ddGrid.insertBefore(cell, ddAdd);
+  });
+  ddAdd.style.display = files.length >= 8 ? 'none' : '';
+  pvUpdate();
+}
+
+function renderAllPhotoGrids() { mRenderPhotos(); ddRenderPhotos(); renderComposerThumbs(); }
+
+// ---------- chat-style composer (shared) ----------
+
+function renderComposerThumbs() {
+  for (const elId of ['m-compose-thumbs', 'dd-compose-thumbs']) {
+    const el = document.getElementById(elId);
+    el.innerHTML = '';
+    files.forEach((f, i) => {
+      const d = document.createElement('div');
+      d.style.cssText = `width: 44px; height: 44px; border-radius: 10px; background: url('${URL.createObjectURL(f)}') center/cover; position: relative; ${i === 0 ? 'outline: 2px solid #8B78FF' : ''}`;
+      const x = document.createElement('button');
+      x.setAttribute('aria-label', 'Remove photo');
+      x.textContent = '×';
+      x.style.cssText = 'position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; border-radius: 9px; border: none; background: #fff; color: #111; font-size: 11px; line-height: 1';
+      x.addEventListener('click', () => { files.splice(i, 1); renderAllPhotoGrids(); });
+      d.appendChild(x);
+      el.appendChild(d);
+    });
+  }
+}
+
+document.getElementById('m-compose-attach').addEventListener('click', () => fileInput.click());
+document.getElementById('dd-compose-attach').addEventListener('click', () => fileInput.click());
+
+const FIELD_MAP = { // compose field → [mobile input, desktop input]
+  desc: ['desc', 'dd-desc'], price: ['price', 'dd-price'], oldPrice: ['old', 'dd-old'],
+  biz: ['biz', 'dd-biz'], location: ['loc', 'dd-loc'],
+};
+
+function composeStatus(prefix, msg, isErr) {
+  const el = document.getElementById(prefix + '-compose-status');
+  el.style.display = '';
+  el.style.color = isErr ? '#FF9A9E' : '#C9C9D0';
+  el.textContent = msg;
+}
+
+async function composeGo(prefix) {
+  const prompt = document.getElementById(prefix + '-compose').value.trim();
+  const btn = document.getElementById(prefix + '-compose-go');
+  if (!prompt) { composeStatus(prefix, 'Tell me what you sell first — one or two sentences is enough.', true); return; }
+  btn.disabled = true; btn.textContent = 'Reading your brief…';
+  try {
+    const res = await fetch('/api/compose', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt }),
+    });
+    const { fields, missing, error } = await res.json();
+    if (error) throw new Error(error);
+
+    // fill both forms so the user can see what was understood
+    for (const [key, [mId, dId]] of Object.entries(FIELD_MAP)) {
+      if (fields[key]) {
+        document.getElementById(mId).value = key === 'price' || key === 'oldPrice'
+          ? Number(fields[key]).toLocaleString('en-NG') : fields[key];
+        document.getElementById(dId).value = document.getElementById(mId).value;
+      }
+    }
+    if (fields.whatsapp) document.getElementById('dd-wa').value = fields.whatsapp;
+    if (fields.buttonText) document.getElementById('dd-btn').value = fields.buttonText;
+    const methodRadio = document.querySelector(`input[name=ddm][value=${fields.method || 'whatsapp'}]`);
+    if (methodRadio && !methodRadio.disabled) methodRadio.checked = true;
+    if (typeof pvUpdate === 'function') pvUpdate();
+
+    if (missing.length) {
+      const NAMES = { price: 'your price', biz: 'your business name', whatsapp: 'your WhatsApp number' };
+      btn.disabled = false; btn.textContent = '✦ Create my page';
+      composeStatus(prefix, `Almost there — I just need ${missing.map(m => NAMES[m]).join(' and ')}. Add it above or in the form below.`, true);
+      return;
+    }
+
+    // everything's there — create and generate in one go
+    btn.textContent = 'Creating your page…';
+    composeStatus(prefix, files.length ? 'Building with your photos…' : 'Tip: pages with photos sell better — you can add them later in the editor.');
+    const fd = new FormData();
+    fd.append('desc', fields.desc);
+    fd.append('price', fields.price);
+    fd.append('oldPrice', fields.oldPrice || '');
+    fd.append('biz', fields.biz);
+    fd.append('location', fields.location || '');
+    if (pickedTemplate) fd.append('template', pickedTemplate);
+    files.forEach(f => fd.append('photos', f));
+    const page = await (await fetch('/api/pages', { method: 'POST', body: fd })).json();
+    if (page.error) throw new Error(page.error);
+    if (fields.buttonText) {
+      await fetch('/api/pages/' + page.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ buttonText: fields.buttonText }) });
+    }
+    await fetch('/api/pages/' + page.id + '/generate', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ method: fields.method || 'whatsapp', whatsapp: fields.whatsapp || '' }),
+    });
+    location.href = '/generating?id=' + page.id;
+  } catch (e) {
+    btn.disabled = false; btn.textContent = '✦ Create my page';
+    composeStatus(prefix, e.message, true);
+  }
+}
+document.getElementById('m-compose-go').addEventListener('click', () => composeGo('m'));
+document.getElementById('dd-compose-go').addEventListener('click', () => composeGo('dd'));
+
+// live preview driven by desktop form fields
+function pvVal(id) { return document.getElementById(id).value.trim(); }
+function pvFmt(v) { const n = Number(v.replace(/[^\d]/g, '')); return n ? '₦' + n.toLocaleString('en-NG') : '₦—'; }
+function pvUpdate() {
+  if (!document.getElementById('pv-biz')) { updateTplPreview(); return; } // template preview mode
+  const desc = pvVal('dd-desc'), biz = pvVal('dd-biz'), price = pvVal('dd-price'), old = pvVal('dd-old');
+  document.getElementById('pv-biz').textContent = biz || 'Your brand';
+  document.getElementById('pv-headline').textContent = desc
+    ? desc.split(/[,.]/)[0].replace(/\b\w/g, c => c.toUpperCase()) + '. Yours for less.'
+    : 'Your product headline appears here.';
+  document.getElementById('pv-desc').textContent = desc || 'Describe your product on the left and watch this preview update.';
+  document.getElementById('pv-price').textContent = pvFmt(price);
+  document.getElementById('pv-old').textContent = old ? pvFmt(old) : '';
+  document.getElementById('pv-bar-title').textContent = desc ? desc.split(/[,.]/)[0] : 'Your product';
+  document.getElementById('pv-bar-price').textContent = pvFmt(price);
+  document.getElementById('pv-bar-btn').textContent = pvVal('dd-btn') || 'Buy on WhatsApp';
+  document.getElementById('dd-prefill').textContent = desc && price
+    ? `Pre-filled message: "Hi, I want to order the ${desc.split(/[,.]/)[0]} (${pvFmt(price)})"`
+    : 'Pre-filled message: "Hi, I want to order…"';
+  if (files.length) {
+    const url = URL.createObjectURL(files[0]);
+    document.getElementById('pv-hero').style.backgroundImage = `url('${url}')`;
+  } else {
+    document.getElementById('pv-hero').style.backgroundImage = '';
+  }
+}
+['dd-desc', 'dd-biz', 'dd-price', 'dd-old', 'dd-btn'].forEach(id =>
+  document.getElementById(id).addEventListener('input', pvUpdate));
+
+document.querySelectorAll('input[name=ddm]').forEach(r => r.addEventListener('change', () => {
+  document.querySelectorAll('#dd-methods label').forEach(l => {
+    const sel = l.querySelector('input').checked;
+    l.style.border = sel ? '2px solid var(--accent)' : '1.5px solid var(--border)';
+    l.style.fontWeight = sel ? '700' : '600';
+  });
+}));
+
+document.getElementById('dd-generate').addEventListener('click', async () => {
+  const desc = pvVal('dd-desc'), price = pvVal('dd-price'), biz = pvVal('dd-biz');
+  const method = document.querySelector('input[name=ddm]:checked').value;
+  const num = pvVal('dd-wa').replace(/\D/g, '');
+  const err = document.getElementById('dd-err');
+  err.style.display = 'none';
+  if (!desc || !price || !biz) { err.textContent = 'Fill the description, price and business name.'; err.style.display = ''; return; }
+  if ((method === 'whatsapp' || method === 'call') && num.length < 10) { err.textContent = 'Enter a valid phone number.'; err.style.display = ''; return; }
+  const btn = document.getElementById('dd-generate');
+  btn.disabled = true; btn.textContent = 'Creating…';
+  try {
+    const fd = new FormData();
+    fd.append('desc', desc); fd.append('price', price);
+    fd.append('oldPrice', pvVal('dd-old')); fd.append('biz', biz);
+    fd.append('location', pvVal('dd-loc'));
+    if (pickedTemplate) fd.append('template', pickedTemplate);
+    files.forEach(f => fd.append('photos', f));
+    const page = await (await fetch('/api/pages', { method: 'POST', body: fd })).json();
+    if (page.error) throw new Error(page.error);
+    if (pvVal('dd-btn')) {
+      await fetch('/api/pages/' + page.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ buttonText: pvVal('dd-btn') }) });
+    }
+    await fetch('/api/pages/' + page.id + '/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, whatsapp: num }) });
+    location.href = '/generating?id=' + page.id;
+  } catch (e) {
+    err.textContent = e.message; err.style.display = '';
+    btn.disabled = false; btn.innerHTML = 'Generate my page';
+  }
+});
+</script>
+</body>
+</html>

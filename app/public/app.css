@@ -1,0 +1,96 @@
+/* Builder app shared styles — from design handoff tokens.css */
+:root {
+  --bg: #F6F5F1; --surface: #FFFFFF; --surface-muted: #F0EEE8; --surface-sunken: #E9E7E0;
+  --border: #E3E1DA; --border-strong: #D9D7CF; --border-dashed: #B9B6AC;
+  --ink: #111113; --ink-2: #3A3A40; --ink-3: #5F5F66; --ink-4: #57575E;
+  --accent: #4A2FE0; --accent-hover: #3420B0; --accent-soft: #EEEBFF; --accent-on-dark: #8B78FF;
+  --success: #0B6B3A; --success-bg: #DDF5E6;
+  --warning: #8A4B00; --warning-bg: #FFF1D6;
+  --danger: #A3151B; --danger-bg: #FDE7E8; --danger-solid: #C4252B;
+  --whatsapp: #25D366; --whatsapp-ink: #062B16;
+  --font-heading: 'Space Grotesk', sans-serif; --font-body: 'Inter', system-ui, sans-serif;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-pill: 999px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: #E9E7E0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+button { cursor: pointer; font-family: var(--font-body); }
+input, textarea, select { font-family: var(--font-body); }
+
+.phone {
+  max-width: 430px; margin: 0 auto; min-height: 100dvh; position: relative;
+  background: var(--bg); color: var(--ink); font-family: var(--font-body);
+  display: flex; flex-direction: column;
+}
+.h1 { margin: 0; font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.02em; }
+
+.tabbar {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 6px 8px calc(10px + env(safe-area-inset-bottom));
+  position: sticky; bottom: 0; margin-top: auto;
+}
+.tabbar a {
+  min-height: 52px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 3px; font-size: 11px; font-weight: 600; color: var(--ink-4);
+}
+.tabbar a.active { font-weight: 700; color: var(--accent); }
+
+.btn-primary {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 56px; border-radius: 16px; border: none; width: 100%;
+  background: var(--accent); color: #fff; font-size: 16px; font-weight: 700;
+}
+.btn-primary:disabled { opacity: 0.5; cursor: default; }
+.field-label { font-size: 14px; font-weight: 600; }
+.field-input {
+  border: 1.5px solid var(--border-strong); border-radius: 14px; padding: 0 14px;
+  min-height: 50px; font-size: 16px; background: var(--surface); color: var(--ink); width: 100%;
+}
+.field-input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+.spin { animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- desktop shell (per DeskHome/DeskAnalytics handoff) ---------- */
+.desk { display: none; }
+@media (min-width: 900px) {
+  body { background: var(--bg); }
+  .phone { display: none; }
+  .desk { display: flex; flex-wrap: wrap; min-height: 100dvh; background: var(--bg); color: var(--ink); font-family: var(--font-body); }
+
+  .desk-side {
+    flex: 0 0 240px; background: var(--surface); border-right: 1px solid var(--border);
+    padding: 24px 16px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .desk-brand { font-family: var(--font-heading); font-size: 20px; font-weight: 700; padding: 0 10px 18px; }
+  .desk-new {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 46px; border-radius: 12px; background: var(--accent); color: #fff;
+    font-size: 14px; font-weight: 700; margin-bottom: 14px;
+  }
+  .desk-nav { display: flex; flex-direction: column; gap: 2px; }
+  .desk-nav a, .desk-nav .soon {
+    display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px;
+    border-radius: 10px; color: var(--ink-2); font-size: 14px; font-weight: 500;
+  }
+  .desk-nav a.active { background: var(--surface-muted); color: var(--ink); font-weight: 700; }
+  .desk-nav .soon { color: #6B6B72; }
+  .desk-nav .soon-chip { margin-left: auto; font-size: 11px; font-weight: 700; background: var(--surface-muted); color: var(--ink-2); padding: 3px 8px; border-radius: 999px; }
+  .desk-plan {
+    margin-top: auto; background: var(--ink); color: var(--bg); border-radius: 16px;
+    padding: 16px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .desk-plan a {
+    min-height: 40px; border-radius: 10px; background: #fff; color: var(--ink);
+    font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .desk-main { flex: 999 1 560px; min-width: 0; padding: 32px clamp(16px, 4vw, 48px); }
+  .desk-main-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+  .desk-card { background: var(--surface); border-radius: 20px; }
+  .desk-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
+  .desk-table thead tr { text-align: left; color: var(--ink-3); font-size: 12px; }
+  .desk-table th { padding: 10px; font-weight: 600; }
+  .desk-table td { padding: 14px 10px; }
+  .desk-table tbody tr { border-top: 1px solid var(--surface-muted); }
+}

@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Edit page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+<style>
+.tab { min-height: 40px; border: none; border-radius: 9px; background: transparent; font: 600 12.5px var(--font-body); color: var(--ink-4); }
+.tab[aria-selected="true"] { background: var(--surface); font-weight: 700; color: var(--ink); }
+.tpl-btn { border: 1.5px solid var(--border); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; gap: 4px; align-items: stretch; cursor: pointer; }
+.tpl-btn[aria-pressed="true"] { border: 2px solid var(--accent); padding: 5.5px; }
+.ed-field { display: flex; flex-direction: column; gap: 6px; }
+.ed-field label { font-size: 13px; font-weight: 700; }
+.ed-field input, .ed-field textarea, .ed-field select { border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 10px 12px; font: 14px/1.45 var(--font-body); background: var(--surface); color: var(--ink); width: 100%; resize: none; }
+
+.blk-row { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 4px 0 8px; border-bottom: 1px solid var(--surface-muted); font-size: 14px; }
+.blk-row:last-child { border-bottom: none; }
+.blk-row .grip { color: #9A9AA2; cursor: grab; font-size: 13px; user-select: none; }
+.blk-row .lbl { flex-grow: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.blk-btn { width: 32px; height: 32px; border: none; border-radius: 8px; background: var(--surface-muted); color: var(--ink-2); font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.blk-btn:disabled { opacity: 0.3; }
+.blk-btn.del { color: var(--danger); }
+.blk-row.dragging { opacity: 0.4; }
+
+.add-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.add-list button { min-height: 40px; border: 1.5px dashed var(--border-dashed); border-radius: 10px; background: var(--surface); font: 600 12.5px var(--font-body); color: var(--ink-2); }
+
+.chat-box { display: flex; flex-direction: column; gap: 10px; }
+.chat-msgs { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 260px; min-height: 80px; }
+.msg { max-width: 85%; padding: 10px 13px; border-radius: 14px; font-size: 13.5px; line-height: 1.45; }
+.msg.user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+.msg.bot { align-self: flex-start; background: var(--surface-muted); color: var(--ink); border-bottom-left-radius: 4px; }
+.msg .thumbs { display: flex; gap: 4px; margin-top: 6px; }
+.msg .thumbs div { width: 42px; height: 42px; border-radius: 8px; background-size: cover; background-position: center; }
+.chat-input-row { display: flex; gap: 8px; align-items: flex-end; }
+.chat-input-row textarea { flex-grow: 1; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 10px 12px; font: 14px/1.4 var(--font-body); resize: none; min-height: 44px; max-height: 110px; }
+.chat-ico { width: 44px; height: 44px; border: none; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.chat-attach-preview { display: flex; gap: 6px; flex-wrap: wrap; }
+.chat-attach-preview div { width: 48px; height: 48px; border-radius: 10px; background-size: cover; background-position: center; position: relative; }
+.chat-attach-preview button { position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; border-radius: 9px; border: none; background: var(--ink); color: #fff; font-size: 10px; line-height: 1; }
+.chat-hint { font-size: 11.5px; color: var(--ink-3); }
+</style>
+</head>
+<body>
+<div class="phone" style="background: var(--border)">
+
+<header style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--bg); position: sticky; top: 0; z-index: 5">
+<a href="/" aria-label="Back" style="width: 44px; height: 44px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+<div style="flex-grow: 1; min-width: 0"><div id="title" style="font-size: 15px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"></div><div id="subtitle" style="font-size: 12px; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap"></div></div>
+<a id="m-share" href="#" aria-label="Share page" style="width: 44px; height: 44px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"></path></svg></a>
+<button type="button" id="publish" style="min-height: 44px; padding: 0 16px; border-radius: 12px; border: none; background: var(--accent); color: #FFFFFF; font: 700 14px var(--font-body); flex-shrink: 0">Publish</button>
+</header>
+
+<div id="new-banner" style="display: none; margin: 10px 16px 0; background: var(--success-bg); color: var(--success); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; font-weight: 600; line-height: 1.45">🎉 Your page is live! Edit anything below — or tap the share button to put it on Instagram.</div>
+
+<div style="flex-grow: 1; display: flex; justify-content: center; padding: 16px 0; position: relative; min-height: 330px">
+<div style="width: 200px; height: 330px; border-radius: 22px; border: 6px solid var(--ink); overflow: hidden; background: #fff; position: relative">
+<iframe id="preview" title="Page preview" style="width: 390px; height: 648px; border: none; transform: scale(0.483); transform-origin: 0 0"></iframe>
+</div>
+</div>
+
+<section style="background: var(--surface); border-radius: 24px 24px 0 0; padding: 10px 18px calc(26px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 16px">
+<div style="width: 40px; height: 4px; border-radius: 2px; background: var(--border-strong); align-self: center"></div>
+<div role="tablist" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--surface-muted); border-radius: 12px; padding: 4px">
+<button type="button" class="tab" role="tab" data-tab="design" aria-selected="true">Design</button>
+<button type="button" class="tab" role="tab" data-tab="content" aria-selected="false">Content</button>
+<button type="button" class="tab" role="tab" data-tab="buybar" aria-selected="false">Buy bar</button>
+<button type="button" class="tab" role="tab" data-tab="chat" aria-selected="false">✦ AI</button>
+</div>
+
+<!-- DESIGN -->
+<div id="tab-design" style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 13px; font-weight: 700">Template</div>
+<div id="m-themes" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<div style="font-size: 13px; font-weight: 700">Sections</div>
+<button type="button" id="m-add-toggle" style="min-height: 32px; padding: 0 12px; border: none; border-radius: 999px; background: var(--accent-soft); color: var(--accent-hover); font: 700 12px var(--font-body)">+ Add section</button>
+</div>
+<div id="m-add-list" class="add-list" style="display: none"></div>
+<div id="m-blocks"></div>
+<div style="display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 8px; border-radius: 10px; font-size: 13px; border: 1.5px solid var(--border); font-weight: 600; color: var(--ink-3)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 17h14M7 13h10"></path></svg>Buy bar · always on</div>
+</div>
+</div>
+
+<!-- CONTENT -->
+<div id="tab-content" style="display: none; flex-direction: column; gap: 14px">
+<div class="ed-field"><label for="f-headline">Headline <span style="font-weight: 400; color: var(--ink-3)">(wrap words in [[em]]…[[/em]] to style them)</span></label><textarea id="f-headline" rows="2"></textarea></div>
+<div class="ed-field"><label for="f-subhead">Description</label><textarea id="f-subhead" rows="3"></textarea></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div class="ed-field"><label for="f-price">Price (₦)</label><input id="f-price" inputmode="numeric"></div>
+<div class="ed-field"><label for="f-old">Old price (₦)</label><input id="f-old" inputmode="numeric"></div>
+</div>
+<button type="button" id="rewrite" style="min-height: 44px; border: none; border-radius: 12px; background: var(--ink); color: #fff; font: 600 13px var(--font-body); display: flex; align-items: center; justify-content: center; gap: 8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Rewrite with AI</button>
+</div>
+
+<!-- BUY BAR -->
+<div id="tab-buybar" style="display: none; flex-direction: column; gap: 14px">
+<div class="ed-field"><label for="f-bar-label">Buy bar label</label><input id="f-bar-label" placeholder="defaults to the product title"></div>
+<div class="ed-field"><label for="f-btn-text">Button text</label><input id="f-btn-text" placeholder="e.g. Buy on WhatsApp"></div>
+<div class="ed-field"><label for="f-method">Order method</label>
+<select id="f-method">
+<option value="whatsapp">WhatsApp</option>
+<option value="call">Phone call</option>
+<option value="dm">Instagram DM</option>
+</select></div>
+<div class="ed-field"><label for="f-wa">WhatsApp / phone number (without +234)</label><input id="f-wa" inputmode="tel"></div>
+</div>
+
+<!-- CHAT -->
+<div id="tab-chat" class="chat-box" style="display: none">
+<div id="m-chat-msgs" class="chat-msgs"></div>
+<div id="m-attach-preview" class="chat-attach-preview"></div>
+<div class="chat-input-row">
+<button type="button" class="chat-ico" id="m-attach" aria-label="Attach photos" style="background: var(--surface-muted); color: var(--ink-2)"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg></button>
+<textarea id="m-chat-input" rows="1" placeholder='e.g. "remove the FAQ and make it more urgent"'></textarea>
+<button type="button" class="chat-ico" id="m-send" aria-label="Send" style="background: var(--accent); color: #fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg></button>
+</div>
+<div class="chat-hint">Try: "add a countdown" · "change price to ₦50,000" · "switch to the Noir theme" · attach a photo + "use this as the hero"</div>
+</div>
+</section>
+
+</div>
+
+<!-- ================= DESKTOP ================= -->
+<div class="desk" style="flex-direction: column; flex-wrap: nowrap; background: var(--surface-sunken)">
+
+<header style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border)">
+<a href="/" aria-label="Back to home" style="width: 44px; height: 44px; border-radius: 12px; background: var(--bg); display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+<div style="flex: 1 1 200px; min-width: 0"><div id="de-title" style="font-size: 15px; font-weight: 700"></div><div id="de-subtitle" style="font-size: 12px; color: var(--ink-3)"></div></div>
+<div role="radiogroup" aria-label="Preview device" style="display: flex; background: var(--surface-muted); border-radius: 10px; padding: 3px">
+<button type="button" role="radio" id="dev-mobile" aria-checked="true" style="min-height: 38px; padding: 0 14px; border: none; border-radius: 8px; background: var(--surface); font: 700 13px var(--font-body); color: var(--ink)">Mobile</button>
+<button type="button" role="radio" id="dev-desktop" aria-checked="false" style="min-height: 38px; padding: 0 14px; border: none; border-radius: 8px; background: transparent; font: 600 13px var(--font-body); color: var(--ink-2)">Desktop</button>
+</div>
+<a id="de-share" href="#" style="min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--border-strong); background: var(--surface); font: 600 14px var(--font-body); color: var(--ink); display: flex; align-items: center; gap: 8px">Share<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"></path></svg></a>
+<button type="button" id="de-copy" style="min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--border-strong); background: var(--surface); font: 600 14px var(--font-body); color: var(--ink)">Copy link</button>
+<button type="button" id="de-publish" style="min-height: 44px; padding: 0 18px; border-radius: 12px; border: none; background: var(--accent); color: #FFFFFF; font: 700 14px var(--font-body)">Publish</button>
+</header>
+
+<div style="flex-grow: 1; display: flex; flex-wrap: wrap">
+
+<aside aria-label="Sections" style="flex: 1 1 250px; max-width: 290px; background: var(--surface); border-right: 1px solid var(--border); padding: 18px 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; color: var(--ink-4); letter-spacing: 0.06em; padding: 0 8px">SECTIONS · drag to reorder</div>
+<div id="de-blocks"></div>
+<button type="button" id="de-add-toggle" style="min-height: 40px; border: 1.5px dashed var(--border-dashed); border-radius: 10px; background: var(--surface); font: 700 13px var(--font-body); color: var(--accent)">+ Add section</button>
+<div id="de-add-list" class="add-list" style="display: none"></div>
+<div style="display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 0 8px; border-radius: 10px; font-size: 14px; border: 1.5px solid var(--border); font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 17h14M7 13h10"></path></svg>Buy bar · always on</div>
+</aside>
+
+<main style="flex: 999 1 420px; min-width: 0; display: flex; justify-content: center; align-items: flex-start; padding: 32px 16px">
+<div id="de-frame-wrap" style="width: 340px; max-width: 100%; height: 760px; border-radius: 42px; border: 10px solid var(--ink); background: #fff; overflow: hidden; box-sizing: border-box; position: relative">
+<iframe id="de-preview" title="Page preview" style="width: 390px; height: 926px; border: none; transform: scale(0.8205); transform-origin: 0 0"></iframe>
+</div>
+</main>
+
+<aside aria-label="Properties" style="flex: 1 1 320px; max-width: 380px; background: var(--surface); border-left: 1px solid var(--border); padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 18px">
+
+<div role="tablist" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--surface-muted); border-radius: 12px; padding: 4px">
+<button type="button" class="tab" id="de-tab-edit" aria-selected="true" style="min-height: 38px">Edit</button>
+<button type="button" class="tab" id="de-tab-chat" aria-selected="false" style="min-height: 38px">✦ AI Chat</button>
+</div>
+
+<div id="de-panel-edit" style="display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; color: var(--ink-4); letter-spacing: 0.06em">HERO HEADLINE</div>
+<textarea id="de-headline" aria-label="Hero headline" rows="2" style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 12px; font: 600 15px/1.4 var(--font-body); color: var(--ink); resize: vertical"></textarea>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<button type="button" class="rw-chip" data-style="" style="min-height: 36px; padding: 0 12px; border-radius: 999px; border: none; background: var(--accent-soft); color: var(--accent-hover); font: 600 12px var(--font-body); display: flex; align-items: center; gap: 6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Rewrite</button>
+<button type="button" class="rw-chip" data-style="urgent" style="min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); font: 600 12px var(--font-body)">More urgent</button>
+<button type="button" class="rw-chip" data-style="pidgin" style="min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); font: 600 12px var(--font-body)">Pidgin</button>
+<button type="button" class="rw-chip" data-style="shorter" style="min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); font: 600 12px var(--font-body)">Shorter</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; color: var(--ink-4); letter-spacing: 0.06em">TEMPLATE</div>
+<div id="de-themes" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px"></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; color: var(--ink-4); letter-spacing: 0.06em">BUY BAR</div>
+<div class="ed-field"><label for="de-method">Order via</label>
+<select id="de-method">
+<option value="whatsapp">WhatsApp</option>
+<option value="call">Phone call</option>
+<option value="dm">Instagram DM</option>
+</select></div>
+<div class="ed-field"><label for="de-btn-text">Button text</label><input id="de-btn-text" placeholder="Buy on WhatsApp"></div>
+<div class="ed-field"><label for="de-wa">Number (without +234)</label><input id="de-wa" inputmode="tel"></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px"><span>Price shown</span><span id="de-price-shown" style="font-weight: 700"></span></div>
+</div>
+</div>
+
+<div id="de-panel-chat" class="chat-box" style="display: none; flex-grow: 1">
+<div id="de-chat-msgs" class="chat-msgs" style="max-height: none; flex-grow: 1"></div>
+<div id="de-attach-preview" class="chat-attach-preview"></div>
+<div class="chat-input-row">
+<button type="button" class="chat-ico" id="de-attach" aria-label="Attach photos" style="background: var(--surface-muted); color: var(--ink-2)"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg></button>
+<textarea id="de-chat-input" rows="1" placeholder='Tell the AI what to change…'></textarea>
+<button type="button" class="chat-ico" id="de-send" aria-label="Send" style="background: var(--accent); color: #fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg></button>
+</div>
+<div class="chat-hint">"remove the FAQ" · "add a countdown" · "price to ₦50,000" · "switch to Noir" · attach a photo + "use as hero"</div>
+</div>
+
+</aside>
+
+</div>
+</div>
+
+<input type="file" id="chat-file" accept="image/*" multiple style="display: none">
+
+<script>
+const id = new URLSearchParams(location.search).get('id');
+if (!id) location.href = '/';
+let page = null, meta = null, dirty = {};
+
+// ---------- data ----------
+
+async function patch(body) {
+  const res = await fetch('/api/pages/' + id, {
+    method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+  });
+  return res.json();
+}
+
+function refreshPreview() {
+  if (!page) return;
+  const url = '/s/' + page.slug + '?preview=1&_=' + Date.now();
+  document.getElementById('preview').src = url;
+  document.getElementById('de-preview').src = url;
+}
+
+function dirtyCount() { return Object.keys(dirty).length; }
+function val(fid) { return document.getElementById(fid).value; }
+
+// ---------- blocks UI (shared renderer for both layouts) ----------
+
+function blockLabel(b) { return (meta.blockTypes[b.type] || {}).label || b.type; }
+
+async function saveBlocks(blocks) {
+  const p = await patch({ blocks });
+  hydrate(p); refreshPreview();
+}
+
+function renderBlockList(elId, { draggable }) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  (page.blocks || []).forEach((b, i) => {
+    const row = document.createElement('div');
+    row.className = 'blk-row';
+    row.dataset.bid = b.id;
+    if (draggable) row.draggable = true;
+    row.innerHTML = `
+      ${draggable ? '<span class="grip" aria-hidden="true">⋮⋮</span>' : ''}
+      <span class="lbl">${blockLabel(b)}</span>
+      ${!draggable ? `<button type="button" class="blk-btn" data-act="up" aria-label="Move up" ${i === 0 ? 'disabled' : ''}>↑</button>
+      <button type="button" class="blk-btn" data-act="down" aria-label="Move down" ${i === page.blocks.length - 1 ? 'disabled' : ''}>↓</button>` : ''}
+      <button type="button" class="blk-btn del" data-act="del" aria-label="Remove ${blockLabel(b)}">×</button>`;
+    row.querySelectorAll('.blk-btn').forEach(btn => btn.addEventListener('click', () => {
+      const blocks = [...page.blocks];
+      const idx = blocks.findIndex(x => x.id === b.id);
+      if (btn.dataset.act === 'del') blocks.splice(idx, 1);
+      if (btn.dataset.act === 'up' && idx > 0) blocks.splice(idx - 1, 0, blocks.splice(idx, 1)[0]);
+      if (btn.dataset.act === 'down' && idx < blocks.length - 1) blocks.splice(idx + 1, 0, blocks.splice(idx, 1)[0]);
+      saveBlocks(blocks);
+    }));
+    el.appendChild(row);
+  });
+
+  if (draggable) {
+    let dragId = null;
+    el.querySelectorAll('.blk-row').forEach(row => {
+      row.addEventListener('dragstart', () => { dragId = row.dataset.bid; row.classList.add('dragging'); });
+      row.addEventListener('dragend', () => { row.classList.remove('dragging'); });
+      row.addEventListener('dragover', e => e.preventDefault());
+      row.addEventListener('drop', e => {
+        e.preventDefault();
+        if (!dragId || dragId === row.dataset.bid) return;
+        const blocks = [...page.blocks];
+        const from = blocks.findIndex(x => x.id === dragId);
+        const to = blocks.findIndex(x => x.id === row.dataset.bid);
+        blocks.splice(to, 0, blocks.splice(from, 1)[0]);
+        saveBlocks(blocks);
+      });
+    });
+  }
+}
+
+function renderAddList(elId) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  Object.entries(meta.blockTypes).forEach(([type, info]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = '+ ' + info.label;
+    btn.addEventListener('click', async () => {
+      const blocks = [...page.blocks];
+      // insert before urgency if present, else at end
+      const u = blocks.findIndex(b => b.type === 'urgency');
+      blocks.splice(u >= 0 ? u : blocks.length, 0, { type });
+      el.style.display = 'none';
+      await saveBlocks(blocks);
+    });
+    el.appendChild(btn);
+  });
+}
+
+document.getElementById('m-add-toggle').addEventListener('click', () => {
+  const el = document.getElementById('m-add-list');
+  el.style.display = el.style.display === 'none' ? 'grid' : 'none';
+});
+document.getElementById('de-add-toggle').addEventListener('click', () => {
+  const el = document.getElementById('de-add-list');
+  el.style.display = el.style.display === 'none' ? 'grid' : 'none';
+});
+
+// ---------- themes UI ----------
+
+function renderThemes(elId) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  Object.entries(meta.themes).forEach(([key, t]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tpl-btn';
+    btn.style.background = t.bg;
+    btn.title = t.vertical;
+    btn.setAttribute('aria-pressed', page.template === key);
+    btn.innerHTML = `<span style="height: 34px; border-radius: 5px; background: ${t.accent}"></span><span style="font: 600 11px var(--font-body); color: ${t.bg === '#0B1220' || t.bg === '#0E0C0A' ? t.ink : '#111113'}">${t.label}</span>`;
+    btn.addEventListener('click', async () => {
+      const p = await patch({ template: key });
+      hydrate(p); refreshPreview();
+    });
+    el.appendChild(btn);
+  });
+}
+
+// ---------- hydrate both layouts ----------
+
+function offerBlock() { return (page.blocks || []).find(b => b.type === 'offer') || {}; }
+
+function hydrate(p) {
+  page = p;
+  const saved = dirtyCount() ? 'Unsaved changes · ' : 'Saved · ';
+  document.getElementById('title').textContent = p.title;
+  document.getElementById('subtitle').textContent = saved + p.displayDomain;
+  document.getElementById('de-title').textContent = p.title;
+  document.getElementById('de-subtitle').textContent = p.displayDomain + (dirtyCount() ? ' · unsaved changes' : ' · saved');
+
+  renderThemes('m-themes'); renderThemes('de-themes');
+  renderBlockList('m-blocks', { draggable: false });
+  renderBlockList('de-blocks', { draggable: true });
+  renderAddList('m-add-list'); renderAddList('de-add-list');
+
+  const o = offerBlock();
+  document.getElementById('f-headline').value = o.headline || '';
+  document.getElementById('f-subhead').value = o.subhead || '';
+  document.getElementById('de-headline').value = o.headline || '';
+  document.getElementById('f-price').value = p.price || '';
+  document.getElementById('f-old').value = p.oldPrice || '';
+  document.getElementById('f-bar-label').value = p.buyBarLabel || '';
+  document.getElementById('f-btn-text').value = p.buttonText || '';
+  document.getElementById('f-method').value = p.method || 'whatsapp';
+  document.getElementById('f-wa').value = p.whatsapp || '';
+  document.getElementById('de-method').value = p.method || 'whatsapp';
+  document.getElementById('de-btn-text').value = p.buttonText || '';
+  document.getElementById('de-wa').value = p.whatsapp || '';
+  document.getElementById('de-price-shown').textContent = '₦' + Number(p.price).toLocaleString('en-NG');
+}
+
+function markDirty() {
+  document.getElementById('subtitle').textContent = 'Unsaved changes · ' + page.displayDomain;
+  document.getElementById('de-subtitle').textContent = page.displayDomain + ' · unsaved changes';
+}
+
+Promise.all([
+  fetch('/api/meta').then(r => r.json()),
+  fetch('/api/pages/' + id).then(r => r.json()),
+]).then(([m, p]) => { meta = m; hydrate(p); refreshPreview(); });
+
+// share buttons → the Live/share screen; fresh pages get a welcome banner
+document.getElementById('m-share').href = '/live?id=' + id;
+document.getElementById('de-share').href = '/live?id=' + id;
+if (new URLSearchParams(location.search).get('new')) {
+  document.getElementById('new-banner').style.display = '';
+  setTimeout(() => document.getElementById('new-banner').style.display = 'none', 8000);
+}
+
+// ---------- mobile tabs ----------
+
+document.querySelectorAll('[role=tab][data-tab]').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('[role=tab][data-tab]').forEach(x => x.setAttribute('aria-selected', x === t));
+  ['design', 'content', 'buybar', 'chat'].forEach(name => {
+    document.getElementById('tab-' + name).style.display = t.dataset.tab === name ? 'flex' : 'none';
+  });
+}));
+
+// ---------- staged field edits ----------
+
+[['f-headline', () => dirty.headline = val('f-headline')],
+ ['f-subhead', () => dirty.subhead = val('f-subhead')],
+ ['de-headline', () => dirty.headline = val('de-headline')],
+ ['f-price', () => dirty.price = val('f-price')],
+ ['f-old', () => dirty.oldPrice = val('f-old')],
+ ['f-bar-label', () => dirty.buyBarLabel = val('f-bar-label')],
+ ['f-btn-text', () => dirty.buttonText = val('f-btn-text')],
+ ['f-method', () => dirty.method = val('f-method')],
+ ['f-wa', () => dirty.whatsapp = val('f-wa')],
+ ['de-btn-text', () => dirty.buttonText = val('de-btn-text')],
+ ['de-method', () => dirty.method = val('de-method')],
+ ['de-wa', () => dirty.whatsapp = val('de-wa')],
+].forEach(([fid, fn]) => document.getElementById(fid).addEventListener('input', () => { fn(); markDirty(); }));
+
+async function publish(btn) {
+  btn.textContent = 'Publishing…'; btn.disabled = true;
+  const body = {};
+  if ('headline' in dirty || 'subhead' in dirty) {
+    body.content = {};
+    if ('headline' in dirty) body.content.headline = dirty.headline;
+    if ('subhead' in dirty) body.content.subhead = dirty.subhead;
+  }
+  ['price', 'oldPrice', 'buyBarLabel', 'buttonText', 'method', 'whatsapp'].forEach(k => { if (k in dirty) body[k] = dirty[k]; });
+  const p = await patch(body);
+  dirty = {};
+  hydrate(p); refreshPreview();
+  btn.textContent = 'Published ✓'; btn.disabled = false;
+  setTimeout(() => btn.textContent = 'Publish', 1500);
+}
+document.getElementById('publish').addEventListener('click', e => publish(e.currentTarget));
+document.getElementById('de-publish').addEventListener('click', e => publish(e.currentTarget));
+
+document.getElementById('de-copy').addEventListener('click', e => {
+  navigator.clipboard.writeText(location.origin + page.liveUrl).then(() => {
+    e.target.textContent = 'Copied ✓';
+    setTimeout(() => e.target.textContent = 'Copy link', 1500);
+  });
+});
+
+// ---------- rewrite ----------
+
+async function doRewrite(style) {
+  const res = await fetch('/api/pages/' + id + '/rewrite', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(style ? { style } : {}),
+  });
+  const p = await res.json();
+  hydrate(p); refreshPreview();
+}
+document.getElementById('rewrite').addEventListener('click', async e => {
+  const btn = e.currentTarget; const prev = btn.innerHTML;
+  btn.textContent = 'Rewriting…';
+  await doRewrite();
+  btn.innerHTML = prev;
+});
+document.querySelectorAll('.rw-chip').forEach(chip => chip.addEventListener('click', async () => {
+  const prev = chip.innerHTML;
+  chip.textContent = '…';
+  await doRewrite(chip.dataset.style || null);
+  chip.innerHTML = prev;
+}));
+
+// ---------- device toggle ----------
+
+function setDevice(mobile) {
+  const wrap = document.getElementById('de-frame-wrap');
+  const frame = document.getElementById('de-preview');
+  const bm = document.getElementById('dev-mobile'), bd = document.getElementById('dev-desktop');
+  bm.setAttribute('aria-checked', mobile); bd.setAttribute('aria-checked', !mobile);
+  bm.style.background = mobile ? 'var(--surface)' : 'transparent';
+  bd.style.background = mobile ? 'transparent' : 'var(--surface)';
+  if (mobile) {
+    wrap.style.cssText = 'width: 340px; max-width: 100%; height: 760px; border-radius: 42px; border: 10px solid var(--ink); background: #fff; overflow: hidden; box-sizing: border-box; position: relative';
+    frame.style.cssText = 'width: 390px; height: 926px; border: none; transform: scale(0.8205); transform-origin: 0 0';
+  } else {
+    wrap.style.cssText = 'width: 100%; max-width: 960px; height: 760px; border-radius: 16px; border: 1px solid var(--border-strong); background: #fff; overflow: hidden; box-sizing: border-box; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.08)';
+    frame.style.cssText = 'width: 100%; height: 100%; border: none';
+  }
+}
+document.getElementById('dev-mobile').addEventListener('click', () => setDevice(true));
+document.getElementById('dev-desktop').addEventListener('click', () => setDevice(false));
+
+// ---------- desktop right-panel tabs ----------
+
+document.getElementById('de-tab-edit').addEventListener('click', () => setDeskPanel(true));
+document.getElementById('de-tab-chat').addEventListener('click', () => setDeskPanel(false));
+function setDeskPanel(edit) {
+  document.getElementById('de-tab-edit').setAttribute('aria-selected', edit);
+  document.getElementById('de-tab-chat').setAttribute('aria-selected', !edit);
+  document.getElementById('de-panel-edit').style.display = edit ? 'flex' : 'none';
+  document.getElementById('de-panel-chat').style.display = edit ? 'none' : 'flex';
+}
+
+// ---------- chat (shared between layouts) ----------
+
+const chatHistory = [];
+let attachments = [];
+const fileInput = document.getElementById('chat-file');
+
+function renderChat() {
+  for (const elId of ['m-chat-msgs', 'de-chat-msgs']) {
+    const el = document.getElementById(elId);
+    el.innerHTML = chatHistory.map(m => `
+      <div class="msg ${m.role}">${m.text}
+        ${m.thumbs && m.thumbs.length ? `<div class="thumbs">${m.thumbs.map(u => `<div style="background-image: url('${u}')"></div>`).join('')}</div>` : ''}
+      </div>`).join('');
+    el.scrollTop = el.scrollHeight;
+  }
+  for (const elId of ['m-attach-preview', 'de-attach-preview']) {
+    const el = document.getElementById(elId);
+    el.innerHTML = '';
+    attachments.forEach((f, i) => {
+      const d = document.createElement('div');
+      d.style.backgroundImage = `url('${URL.createObjectURL(f)}')`;
+      const x = document.createElement('button');
+      x.textContent = '×';
+      x.addEventListener('click', () => { attachments.splice(i, 1); renderChat(); });
+      d.appendChild(x);
+      el.appendChild(d);
+    });
+  }
+}
+
+document.getElementById('m-attach').addEventListener('click', () => fileInput.click());
+document.getElementById('de-attach').addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => {
+  attachments.push(...fileInput.files);
+  fileInput.value = '';
+  renderChat();
+});
+
+async function sendChat(inputId) {
+  const input = document.getElementById(inputId);
+  const text = input.value.trim();
+  if (!text && !attachments.length) return;
+  const thumbs = attachments.map(f => URL.createObjectURL(f));
+  chatHistory.push({ role: 'user', text: text || '(photos attached)', thumbs });
+  chatHistory.push({ role: 'bot', text: '…' });
+  input.value = '';
+  renderChat();
+
+  const fd = new FormData();
+  fd.append('message', text);
+  attachments.forEach(f => fd.append('images', f));
+  attachments = [];
+  renderChat();
+
+  try {
+    const res = await fetch('/api/pages/' + id + '/chat', { method: 'POST', body: fd });
+    const out = await res.json();
+    chatHistory[chatHistory.length - 1] = { role: 'bot', text: out.error ? 'Something went wrong — try again.' : out.reply };
+    if (out.page) { hydrate(out.page); refreshPreview(); }
+  } catch (e) {
+    chatHistory[chatHistory.length - 1] = { role: 'bot', text: 'Network error — try again.' };
+  }
+  renderChat();
+}
+document.getElementById('m-send').addEventListener('click', () => sendChat('m-chat-input'));
+document.getElementById('de-send').addEventListener('click', () => sendChat('de-chat-input'));
+['m-chat-input', 'de-chat-input'].forEach(fid => document.getElementById(fid).addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(fid); }
+}));
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder — Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app.css">
+<style>
+.acct-card { background: var(--surface); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.acct-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font-size: 14px; }
+.acct-row + .acct-row { border-top: 1px solid var(--surface-muted); }
+.acct-label { color: var(--ink-3); }
+.acct-value { font-weight: 600; text-align: right; }
+.acct-link { display: flex; align-items: center; justify-content: space-between; min-height: 48px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.acct-link + .acct-link { border-top: 1px solid var(--surface-muted); }
+.acct-link svg { color: var(--ink-3); }
+</style>
+</head>
+<body>
+<div class="phone">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 8px">
+<h1 class="h1" style="font-size: 28px">Account</h1>
+<div id="avatar" style="width: 40px; height: 40px; border-radius: 20px; background: #E1D0C3; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700"></div>
+</header>
+
+<section style="padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1">
+
+<!-- profile -->
+<div class="acct-card">
+<div style="font-size: 14px; font-weight: 700">Profile</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-name" class="field-label" style="font-size: 13px">Your name</label>
+<input id="f-name" class="field-input" style="min-height: 46px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-biz" class="field-label" style="font-size: 13px">Business name <span style="font-weight: 400; color: var(--ink-3)">(default for new pages)</span></label>
+<input id="f-biz" class="field-input" style="min-height: 46px" placeholder="e.g. Luxe by Tolu">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="f-phone" class="field-label" style="font-size: 13px">WhatsApp number</label>
+<div style="display: flex; gap: 8px">
+<div style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 46px; display: flex; align-items: center; font-size: 15px; color: var(--ink-4)">+234</div>
+<input id="f-phone" inputmode="tel" placeholder="803 123 4567" style="flex-grow: 1; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 46px; font: 15px var(--font-body); color: var(--ink); min-width: 0">
+</div>
+</div>
+<button type="button" id="save" style="min-height: 48px; border-radius: 12px; border: none; background: var(--ink); color: #fff; font: 700 14px var(--font-body)">Save changes</button>
+</div>
+
+<!-- plan -->
+<div class="acct-card" id="plan-card">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<div style="font-size: 14px; font-weight: 700">Your plan</div>
+<span id="plan-chip" style="font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px"></span>
+</div>
+<div class="acct-row"><span class="acct-label">Pages used</span><span class="acct-value" id="pages-used">—</span></div>
+<div class="acct-row"><span class="acct-label">Your link style</span><span class="acct-value" id="domain-style"></span></div>
+<a href="/upgrade" id="plan-cta" style="min-height: 48px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center">Upgrade to Pro</a>
+</div>
+
+<!-- help -->
+<div class="acct-card" style="gap: 0">
+<div style="font-size: 14px; font-weight: 700; padding-bottom: 8px">Help &amp; about</div>
+<a class="acct-link" id="support-link" href="#" target="_blank">Chat with support on WhatsApp<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a class="acct-link" href="/upgrade">Plans &amp; pricing<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+<div class="acct-link" style="color: var(--ink-3); font-weight: 400; cursor: default"><span id="about-line"></span></div>
+</div>
+
+<button type="button" disabled style="min-height: 48px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); color: var(--ink-3); font: 600 14px var(--font-body)">Sign out · coming with accounts</button>
+
+</section>
+
+<nav class="tabbar" aria-label="Main">
+<a href="/"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+<a href="/create"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M12 8v8M8 12h8"></path></svg>Create</a>
+<a href="/analytics"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Analytics</a>
+<a href="/account" class="active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Account</a>
+</nav>
+
+</div>
+
+<!-- ================= DESKTOP ================= -->
+<div class="desk">
+
+<aside class="desk-side">
+<div class="desk-brand" id="d-brand"></div>
+<a href="/create" class="desk-new"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New ad page</a>
+<nav class="desk-nav" aria-label="Main">
+<a href="/"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+<a href="/analytics"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Analytics</a>
+<div class="soon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Online store<span class="soon-chip">Soon</span></div>
+<a href="/account" class="active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Account</a>
+</nav>
+</aside>
+
+<main class="desk-main">
+<div class="desk-main-inner" style="max-width: 760px">
+
+<div style="display: flex; align-items: center; gap: 16px">
+<div id="d-avatar" style="width: 56px; height: 56px; border-radius: 28px; background: #E1D0C3; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700"></div>
+<div><h1 class="h1" id="d-title" style="font-size: 34px"></h1><div id="d-sub" style="font-size: 15px; color: var(--ink-3); margin-top: 4px"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start">
+
+<div class="acct-card desk-card" style="border-radius: 20px; padding: 24px">
+<div style="font-size: 16px; font-weight: 700">Profile</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="df-name" class="field-label" style="font-size: 13px">Your name</label>
+<input id="df-name" class="field-input" style="min-height: 46px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="df-biz" class="field-label" style="font-size: 13px">Business name <span style="font-weight: 400; color: var(--ink-3)">(default for new pages)</span></label>
+<input id="df-biz" class="field-input" style="min-height: 46px" placeholder="e.g. Luxe by Tolu">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="df-phone" class="field-label" style="font-size: 13px">WhatsApp number</label>
+<div style="display: flex; gap: 8px">
+<div style="border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 46px; display: flex; align-items: center; font-size: 15px; color: var(--ink-4)">+234</div>
+<input id="df-phone" inputmode="tel" placeholder="803 123 4567" style="flex-grow: 1; border: 1.5px solid var(--border-strong); border-radius: 12px; padding: 0 12px; min-height: 46px; font: 15px var(--font-body); color: var(--ink); min-width: 0">
+</div>
+</div>
+<button type="button" id="d-save" style="min-height: 48px; border-radius: 12px; border: none; background: var(--ink); color: #fff; font: 700 14px var(--font-body)">Save changes</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="acct-card desk-card" style="border-radius: 20px; padding: 24px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<div style="font-size: 16px; font-weight: 700">Your plan</div>
+<span id="d-plan-chip" style="font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px"></span>
+</div>
+<div class="acct-row"><span class="acct-label">Pages used</span><span class="acct-value" id="d-pages-used">—</span></div>
+<div class="acct-row"><span class="acct-label">Your link style</span><span class="acct-value" id="d-domain-style"></span></div>
+<a href="/upgrade" id="d-plan-cta" style="min-height: 48px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center">Upgrade to Pro</a>
+</div>
+
+<div class="acct-card desk-card" style="border-radius: 20px; padding: 24px; gap: 0">
+<div style="font-size: 16px; font-weight: 700; padding-bottom: 8px">Help &amp; about</div>
+<a class="acct-link" id="d-support-link" href="#" target="_blank">Chat with support on WhatsApp<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a class="acct-link" href="/upgrade">Plans &amp; pricing<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+<div class="acct-link" style="color: var(--ink-3); font-weight: 400; cursor: default"><span id="d-about-line"></span></div>
+</div>
+</div>
+
+</div>
+
+</div>
+</main>
+
+</div>
+
+<script>
+let me = null;
+
+async function init() {
+  const [m, pages] = await Promise.all([
+    fetch('/api/me').then(r => r.json()),
+    fetch('/api/pages').then(r => r.json()),
+  ]);
+  me = m;
+  const u = m.user;
+
+  // both layouts
+  const initial = (u.name || 'S')[0].toUpperCase();
+  document.getElementById('avatar').textContent = initial;
+  document.getElementById('d-avatar').textContent = initial;
+  document.getElementById('d-brand').textContent = m.brand;
+  document.getElementById('d-title').textContent = u.name || 'Your account';
+  document.getElementById('d-sub').textContent = u.pro ? 'Pro seller' : 'Free plan';
+
+  [['f-name', 'df-name', u.name || ''], ['f-biz', 'df-biz', u.biz || ''], ['f-phone', 'df-phone', u.phone || '']]
+    .forEach(([a, b, v]) => { document.getElementById(a).value = v; document.getElementById(b).value = v; });
+
+  const live = pages.filter(p => p.status === 'live').length;
+  const used = `${pages.length} of ${m.pageLimit} page${m.pageLimit === 1 ? '' : 's'}${live ? ` · ${live} live` : ''}`;
+  const domainStyle = u.pro ? 'Your own domain' : `yourname.${m.domain}`;
+
+  for (const pre of ['', 'd-']) {
+    const chip = document.getElementById(pre + 'plan-chip');
+    chip.textContent = u.pro ? 'PRO' : 'FREE';
+    chip.style.background = u.pro ? 'var(--accent)' : 'var(--surface-muted)';
+    chip.style.color = u.pro ? '#fff' : 'var(--ink-2)';
+    document.getElementById(pre + 'pages-used').textContent = used;
+    document.getElementById(pre + 'domain-style').textContent = domainStyle;
+    if (u.pro) {
+      const cta = document.getElementById(pre + 'plan-cta');
+      cta.textContent = 'Manage plan';
+      cta.style.background = 'var(--surface-muted)';
+      cta.style.color = 'var(--ink)';
+    }
+    document.getElementById(pre + 'about-line').textContent = `${m.brand} · made for Nigerian sellers`;
+  }
+  // support chat placeholder — point at your own support number in config later
+  const support = 'https://wa.me/?text=' + encodeURIComponent(`Hi ${m.brand} support, I need help with my ad page.`);
+  document.getElementById('support-link').href = support;
+  document.getElementById('d-support-link').href = support;
+}
+
+async function save(nameId, bizId, phoneId, btn) {
+  btn.disabled = true; btn.textContent = 'Saving…';
+  const body = {
+    name: document.getElementById(nameId).value,
+    biz: document.getElementById(bizId).value,
+    phone: document.getElementById(phoneId).value,
+  };
+  await fetch('/api/me', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  btn.textContent = 'Saved ✓'; btn.disabled = false;
+  setTimeout(() => btn.textContent = 'Save changes', 1500);
+  init();
+}
+document.getElementById('save').addEventListener('click', e => save('f-name', 'f-biz', 'f-phone', e.currentTarget));
+document.getElementById('d-save').addEventListener('click', e => save('df-name', 'df-biz', 'df-phone', e.currentTarget));
+
+init();
+</script>
+</body>
+</html>

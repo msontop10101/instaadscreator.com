@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+# local test data — seller uploads and the dev database
+app/data/uploads/*
+app/data/db.json
