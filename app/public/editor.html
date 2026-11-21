@@ -342,7 +342,10 @@ function renderThemes(elId) {
 
 // ---------- hydrate both layouts ----------
 
-function offerBlock() { return (page.blocks || []).find(b => b.type === 'offer') || {}; }
+function offerBlock() {
+  const blocks = page.blocks || [];
+  return blocks.find(b => b.type === 'offer' && b.headline) || blocks.find(b => b.type === 'hero' && b.headline) || blocks.find(b => b.type === 'offer') || {};
+}
 
 function hydrate(p) {
   page = p;

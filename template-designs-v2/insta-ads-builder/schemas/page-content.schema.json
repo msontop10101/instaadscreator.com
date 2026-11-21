@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "page-content.schema.json",
+  "title": "Ad page content",
+  "description": "What the AI generates and the template engine renders. The template decides the look; this decides the words, images and order. Prices are integer kobo.",
+  "type": "object",
+  "required": ["kind", "template_id", "business", "cta", "sections"],
+  "properties": {
+    "kind": { "enum": ["product", "service", "app"] },
+    "template_id": { "type": "string", "description": "e.g. P01..P24 or A01..A20 from templates/manifest.json" },
+    "accent": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+    "business": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "maxLength": 40 },
+        "location": { "type": "string" },
+        "handle": { "type": "string" },
+        "app_icon_media_id": { "type": "string" }
+      }
+    },
+    "cta": {
+      "type": "object",
+      "required": ["type", "label"],
+      "properties": {
+        "type": { "enum": ["whatsapp", "call", "dm", "form", "pay", "app_download"] },
+        "label": { "type": "string", "maxLength": 32 },
+        "bar_label": { "type": "string", "maxLength": 18 },
+        "whatsapp_number": { "type": "string", "description": "E.164 without +, e.g. 2348031234567" },
+        "whatsapp_message": { "type": "string", "description": "Pre-filled text. The edge appends the order code." },
+        "phone": { "type": "string" },
+        "instagram_handle": { "type": "string" },
+        "app_store_url": { "type": "string", "format": "uri" },
+        "play_store_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "price": {
+      "type": "object",
+      "properties": {
+        "amount_kobo": { "type": "integer", "minimum": 0 },
+        "old_amount_kobo": { "type": "integer", "minimum": 0 },
+        "display": { "type": "string", "description": "Optional override, e.g. 'From ₦45,000' or '₦9,500 / yard'" },
+        "badge": { "type": "string", "maxLength": 16 }
+      }
+    },
+    "bar": {
+      "type": "object",
+      "description": "Pinned bottom bar text",
+      "properties": { "item": { "type": "string", "maxLength": 28 }, "price_display": { "type": "string" } }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "enabled"],
+        "properties": {
+          "type": {
+            "enum": ["announce", "header", "hero", "trust", "benefits", "problem", "gallery", "offer", "specs", "modules", "steps", "proof", "compare", "guarantee", "countdown", "faq", "final", "footer", "nav", "strip", "features", "screens", "reviews", "pricing"]
+          },
+          "enabled": { "type": "boolean" },
+          "variant": { "type": "string", "description": "Layout variant; defaults come from the template manifest" },
+          "eyebrow": { "type": "string", "maxLength": 40 },
+          "title": { "type": "string", "maxLength": 90 },
+          "subtitle": { "type": "string", "maxLength": 220 },
+          "text": { "type": "string" },
+          "media_ids": { "type": "array", "items": { "type": "string" } },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "text": { "type": "string" },
+                "value": { "type": "string" },
+                "price_kobo": { "type": "integer" },
+                "tag": { "type": "string" },
+                "features": { "type": "array", "items": { "type": "string" } },
+                "media_id": { "type": "string" }
+              }
+            }
+          },
+          "ends_at": { "type": "string", "format": "date-time", "description": "countdown only; must be a real deadline set by the seller" }
+        }
+      }
+    }
+  },
+  "x-rules": [
+    "The AI never invents reviews, ratings, download counts, registration numbers or licence details. Those come from seller input or stay out.",
+    "Health, money-making and legal claims are flagged for moderation.",
+    "hero and the pinned bar cannot be disabled."
+  ]
+}

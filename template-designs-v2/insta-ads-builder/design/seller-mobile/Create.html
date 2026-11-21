@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Builder — What are you selling?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#4A2FE0}a:hover{color:#3420B0}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F5F1; color: #111113; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px">
+<button type="button" aria-label="Back" style="width: 44px; height: 44px; border: none; background: #FFFFFF; border-radius: 12px; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111113" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<div style="font-size: 13px; font-weight: 600; color: #57575E">Step 1 of 2</div>
+<div style="width: 44px"></div>
+</header>
+<div style="margin: 0 20px; height: 4px; background: #E3E1DA; border-radius: 2px"><div style="width: 50%; height: 4px; background: #4A2FE0; border-radius: 2px"></div></div>
+
+<section style="padding: 22px 20px 0; display: flex; flex-direction: column; gap: 18px; flex-grow: 1">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em">What are you selling?</h1>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="desc" style="font-size: 14px; font-weight: 600">Describe it like you would on WhatsApp</label>
+<textarea id="desc" rows="3" style="border: 1.5px solid #D9D7CF; border-radius: 14px; padding: 14px; font: 15px/1.5 'Inter', sans-serif; background: #FFFFFF; color: #111113; resize: none">22 inch bone straight wig, double drawn, HD lace, raw human hair</textarea>
+<div style="font-size: 12px; color: #5F5F66">AI writes the headline, benefits and FAQ from this.</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; font-weight: 600">Photos <span style="font-weight: 400; color: #5F5F66">(up to 8)</span></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<div style="height: 76px; border-radius: 12px; background: #E9DCD2"></div>
+<div style="height: 76px; border-radius: 12px; background: #E1D0C3"></div>
+<div style="height: 76px; border-radius: 12px; background: #E9DCD2"></div>
+<button type="button" aria-label="Add photo" style="height: 76px; border-radius: 12px; border: 1.5px dashed #B9B6AC; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#57575E" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="price" style="font-size: 14px; font-weight: 600">Price</label>
+<div style="display: flex; align-items: center; border: 1.5px solid #D9D7CF; border-radius: 14px; background: #FFFFFF; padding: 0 14px; min-height: 50px"><span style="color: #57575E; margin-right: 6px">₦</span><input id="price" value="185,000" style="border: none; outline: none; font: 600 16px 'Inter', sans-serif; width: 100%; background: transparent; color: #111113"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="old" style="font-size: 14px; font-weight: 600">Old price <span style="font-weight: 400; color: #5F5F66">(optional)</span></label>
+<div style="display: flex; align-items: center; border: 1.5px solid #D9D7CF; border-radius: 14px; background: #FFFFFF; padding: 0 14px; min-height: 50px"><span style="color: #57575E; margin-right: 6px">₦</span><input id="old" value="240,000" style="border: none; outline: none; font: 16px 'Inter', sans-serif; width: 100%; background: transparent; color: #111113"></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="biz" style="font-size: 14px; font-weight: 600">Business name</label>
+<input id="biz" value="Luxe by Tolu" style="border: 1.5px solid #D9D7CF; border-radius: 14px; padding: 0 14px; min-height: 50px; font: 16px 'Inter', sans-serif; background: #FFFFFF; color: #111113">
+</div>
+</section>
+
+<div style="padding: 16px 20px 28px">
+<a href="OrderMethod.html" style="display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 16px; background: #4A2FE0; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none">Next: how buyers order</a>
+</div>
+
+</div>
+
+</body>
+</html>

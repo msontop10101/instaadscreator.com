@@ -1,0 +1,3251 @@
+{
+ "product": [
+  {
+   "id": "P01",
+   "file": "templates/product/P01-Luxe-wigs.html",
+   "name": "Luxe",
+   "niche": "Wigs & beauty",
+   "fonts": {
+    "heading": "Playfair Display",
+    "body": "DM Sans"
+   },
+   "colors": {
+    "bg": "#FBF6F1",
+    "ink": "#1A1412",
+    "accent": "#9A5434",
+    "soft": "#E9DCD2",
+    "muted": "#4A3E38"
+   },
+   "order_method": "whatsapp"
+  },
+  {
+   "id": "P02",
+   "file": "templates/product/P02-Soft-skincare.html",
+   "name": "Soft",
+   "niche": "Skincare & wellness",
+   "fonts": {
+    "heading": "Fraunces",
+    "body": "Inter"
+   },
+   "colors": {
+    "bg": "#F4F1EA",
+    "ink": "#1F2A22",
+    "accent": "#3F5B45",
+    "soft": "#DDE5D8",
+    "muted": "#45524A"
+   },
+   "order_method": "whatsapp"
+  },
+  {
+   "id": "P03",
+   "file": "templates/product/P03-Tech-gadgets.html",
+   "name": "Tech",
+   "niche": "Gadgets",
+   "fonts": {
+    "heading": "Space Grotesk",
+    "body": "Inter"
+   },
+   "colors": {
+    "bg": "#0B1220",
+    "ink": "#F1F4F9",
+    "accent": "#FFD60A",
+    "soft": "#16213A",
+    "muted": "#C3CBD8"
+   },
+   "order_method": "whatsapp"
+  },
+  {
+   "id": "P04",
+   "file": "templates/product/P04-Street-sneakers.html",
+   "name": "Street",
+   "niche": "Fashion & sneakers",
+   "fonts": {
+    "heading": "Archivo Black",
+    "body": "Archivo"
+   },
+   "colors": {
+    "bg": "#FFFFFF",
+    "ink": "#111111",
+    "accent": "#C83A0C",
+    "soft": "#F1EDE8",
+    "muted": "#44403C"
+   },
+   "order_method": "whatsapp"
+  },
+  {
+   "id": "P05",
+   "file": "templates/product/TplOud.html",
+   "name": "Oud",
+   "niche": "Perfume oils",
+   "fonts": {
+    "heading": "Cormorant Garamond",
+    "body": "Jost"
+   },
+   "type": {
+    "heading_weight": 600,
+    "uppercase_headings": false,
+    "letter_spacing": "0"
+   },
+   "shape": {
+    "radius": 4,
+    "button_radius": 2
+   },
+   "colors": {
+    "bg": "#14110F",
+    "surface": "#1E1915",
+    "soft": "#2A231D",
+    "line": "#3A3129",
+    "ink": "#F3EBDD",
+    "muted": "#BFB4A3",
+    "accent": "#C9A45C",
+    "aink": "#14110F",
+    "atext": "#C9A45C",
+    "dark": "#F3EBDD",
+    "dink": "#14110F"
+   },
+   "accent_options": [
+    "#C9A45C",
+    "#B7895A",
+    "#D8C3A5"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "fullbleed"
+    },
+    {
+     "section": "benefits",
+     "variant": "checks"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "gallery",
+     "variant": "grid"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P06",
+   "file": "templates/product/TplOwambe.html",
+   "name": "Owambe",
+   "niche": "Aso-ebi & Ankara",
+   "fonts": {
+    "heading": "Bricolage Grotesque",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.03em"
+   },
+   "shape": {
+    "radius": 20,
+    "button_radius": 14
+   },
+   "colors": {
+    "bg": "#FFF8EE",
+    "surface": "#FFFFFF",
+    "soft": "#F6D9B8",
+    "line": "#EDD3B6",
+    "ink": "#2A1408",
+    "muted": "#6B4A36",
+    "accent": "#B8311A",
+    "aink": "#FFFFFF",
+    "atext": "#B8311A",
+    "dark": "#2A1408",
+    "dink": "#FFF8EE"
+   },
+   "accent_options": [
+    "#B8311A",
+    "#1D5C4A",
+    "#5B2A86"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Reserve my yards",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "collage"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "offer",
+     "variant": "list"
+    },
+    {
+     "section": "steps",
+     "variant": "circles"
+    },
+    {
+     "section": "proof",
+     "variant": "shots"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P07",
+   "file": "templates/product/TplEstate.html",
+   "name": "Estate",
+   "niche": "Land & real estate",
+   "fonts": {
+    "heading": "Instrument Serif",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.01em"
+   },
+   "shape": {
+    "radius": 10,
+    "button_radius": 10
+   },
+   "colors": {
+    "bg": "#F5F7FA",
+    "surface": "#FFFFFF",
+    "soft": "#DCE4EE",
+    "line": "#D3DCE7",
+    "ink": "#0E1B2C",
+    "muted": "#4A5868",
+    "accent": "#1F4E8C",
+    "aink": "#FFFFFF",
+    "atext": "#1F4E8C",
+    "dark": "#0E1B2C",
+    "dink": "#F5F7FA"
+   },
+   "accent_options": [
+    "#1F4E8C",
+    "#0F5E4C",
+    "#7A2E2E"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Book a free inspection",
+    "short": "Book inspection"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "stack"
+    },
+    {
+     "section": "specs"
+    },
+    {
+     "section": "compare"
+    },
+    {
+     "section": "steps",
+     "variant": "timeline"
+    },
+    {
+     "section": "guarantee"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P08",
+   "file": "templates/product/TplSugar.html",
+   "name": "Sugar",
+   "niche": "Cakes & pastries",
+   "fonts": {
+    "heading": "Fredoka",
+    "body": "Nunito"
+   },
+   "type": {
+    "heading_weight": 600,
+    "uppercase_headings": false,
+    "letter_spacing": "0"
+   },
+   "shape": {
+    "radius": 24,
+    "button_radius": 999
+   },
+   "colors": {
+    "bg": "#FFF4F7",
+    "surface": "#FFFFFF",
+    "soft": "#FFD6E4",
+    "line": "#F7D3DF",
+    "ink": "#3B1424",
+    "muted": "#7A4A5C",
+    "accent": "#C72A63",
+    "aink": "#FFFFFF",
+    "atext": "#C72A63",
+    "dark": "#3B1424",
+    "dink": "#FFF4F7"
+   },
+   "accent_options": [
+    "#C72A63",
+    "#7B3FA0",
+    "#B4541A"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order my cake",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "centered"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "gallery",
+     "variant": "strip"
+    },
+    {
+     "section": "countdown"
+    },
+    {
+     "section": "steps",
+     "variant": "circles"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P09",
+   "file": "templates/product/TplBotanica.html",
+   "name": "Botanica",
+   "niche": "Hair growth oil",
+   "fonts": {
+    "heading": "DM Serif Display",
+    "body": "DM Sans"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.01em"
+   },
+   "shape": {
+    "radius": 14,
+    "button_radius": 12
+   },
+   "colors": {
+    "bg": "#F3F6EF",
+    "surface": "#FFFFFF",
+    "soft": "#D7E4CF",
+    "line": "#D2DDCB",
+    "ink": "#1D2B1F",
+    "muted": "#4D5E4F",
+    "accent": "#2F6B3A",
+    "aink": "#FFFFFF",
+    "atext": "#2F6B3A",
+    "dark": "#1D2B1F",
+    "dink": "#F3F6EF"
+   },
+   "accent_options": [
+    "#2F6B3A",
+    "#6B4E2F",
+    "#2F4F6B"
+   ],
+   "order_method": {
+    "type": "form",
+    "label": "Order now, pay on delivery",
+    "short": "Order now"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "stack"
+    },
+    {
+     "section": "proof",
+     "variant": "beforeafter"
+    },
+    {
+     "section": "benefits",
+     "variant": "cards"
+    },
+    {
+     "section": "offer",
+     "variant": "list"
+    },
+    {
+     "section": "guarantee"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P10",
+   "file": "templates/product/TplVolt.html",
+   "name": "Volt",
+   "niche": "Power banks & phone accessories",
+   "fonts": {
+    "heading": "Unbounded",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 700,
+    "uppercase_headings": true,
+    "letter_spacing": "-0.02em"
+   },
+   "shape": {
+    "radius": 18,
+    "button_radius": 14
+   },
+   "colors": {
+    "bg": "#0E0E0E",
+    "surface": "#161616",
+    "soft": "#1F1F1F",
+    "line": "#2A2A2A",
+    "ink": "#F5F5F5",
+    "muted": "#B5B5B5",
+    "accent": "#C6F432",
+    "aink": "#0E0E0E",
+    "atext": "#C6F432",
+    "dark": "#C6F432",
+    "dink": "#0E0E0E"
+   },
+   "accent_options": [
+    "#C6F432",
+    "#5CE1E6",
+    "#FF8A3D"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "hero",
+     "variant": "poster"
+    },
+    {
+     "section": "trust",
+     "variant": "row"
+    },
+    {
+     "section": "specs"
+    },
+    {
+     "section": "compare"
+    },
+    {
+     "section": "countdown"
+    },
+    {
+     "section": "proof",
+     "variant": "shots"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P11",
+   "file": "templates/product/TplPlayful.html",
+   "name": "Playful",
+   "niche": "Kids clothing",
+   "fonts": {
+    "heading": "Baloo 2",
+    "body": "Nunito"
+   },
+   "type": {
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.01em"
+   },
+   "shape": {
+    "radius": 22,
+    "button_radius": 16
+   },
+   "colors": {
+    "bg": "#FFFBEA",
+    "surface": "#FFFFFF",
+    "soft": "#FFE38A",
+    "line": "#F2E2A6",
+    "ink": "#23213A",
+    "muted": "#55536B",
+    "accent": "#2C5CC5",
+    "aink": "#FFFFFF",
+    "atext": "#2C5CC5",
+    "dark": "#23213A",
+    "dink": "#FFFBEA"
+   },
+   "accent_options": [
+    "#2C5CC5",
+    "#C2361F",
+    "#1F7A4D"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "centered"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "benefits",
+     "variant": "numbered"
+    },
+    {
+     "section": "gallery",
+     "variant": "grid"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P12",
+   "file": "templates/product/TplSnatched.html",
+   "name": "Snatched",
+   "niche": "Shapewear",
+   "fonts": {
+    "heading": "Anton",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": true,
+    "letter_spacing": "0.01em"
+   },
+   "shape": {
+    "radius": 6,
+    "button_radius": 6
+   },
+   "colors": {
+    "bg": "#111111",
+    "surface": "#1A1A1A",
+    "soft": "#262626",
+    "line": "#333333",
+    "ink": "#FAFAFA",
+    "muted": "#BDBDBD",
+    "accent": "#FF4D8D",
+    "aink": "#111111",
+    "atext": "#FF4D8D",
+    "dark": "#FF4D8D",
+    "dink": "#111111"
+   },
+   "accent_options": [
+    "#FF4D8D",
+    "#FF8A3D",
+    "#B98CFF"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "hero",
+     "variant": "poster"
+    },
+    {
+     "section": "benefits",
+     "variant": "statements"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "proof",
+     "variant": "beforeafter"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P13",
+   "file": "templates/product/TplRugged.html",
+   "name": "Rugged",
+   "niche": "Men's grooming",
+   "fonts": {
+    "heading": "Oswald",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 600,
+    "uppercase_headings": true,
+    "letter_spacing": "0.02em"
+   },
+   "shape": {
+    "radius": 4,
+    "button_radius": 4
+   },
+   "colors": {
+    "bg": "#EFE8DF",
+    "surface": "#F8F4EE",
+    "soft": "#D9CBB9",
+    "line": "#D3C4B1",
+    "ink": "#1E1712",
+    "muted": "#5A4A3D",
+    "accent": "#7A4B2A",
+    "aink": "#FFFFFF",
+    "atext": "#7A4B2A",
+    "dark": "#1E1712",
+    "dink": "#EFE8DF"
+   },
+   "accent_options": [
+    "#7A4B2A",
+    "#2F3A2C",
+    "#1E1712"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "stack"
+    },
+    {
+     "section": "specs"
+    },
+    {
+     "section": "benefits",
+     "variant": "numbered"
+    },
+    {
+     "section": "offer",
+     "variant": "list"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P14",
+   "file": "templates/product/TplNest.html",
+   "name": "Nest",
+   "niche": "Home decor",
+   "fonts": {
+    "heading": "Gloock",
+    "body": "Manrope"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.01em"
+   },
+   "shape": {
+    "radius": 2,
+    "button_radius": 2
+   },
+   "colors": {
+    "bg": "#F4EEE6",
+    "surface": "#FBF8F3",
+    "soft": "#E3D3C1",
+    "line": "#DCCAB6",
+    "ink": "#2B211B",
+    "muted": "#5E5047",
+    "accent": "#A64B24",
+    "aink": "#FFFFFF",
+    "atext": "#A64B24",
+    "dark": "#2B211B",
+    "dink": "#F4EEE6"
+   },
+   "accent_options": [
+    "#A64B24",
+    "#4F5B3A",
+    "#2B211B"
+   ],
+   "order_method": {
+    "type": "dm",
+    "label": "Order on Instagram",
+    "short": "DM to order"
+   },
+   "sections": [
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "collage"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "problem"
+    },
+    {
+     "section": "gallery",
+     "variant": "strip"
+    },
+    {
+     "section": "proof",
+     "variant": "rating"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "outline"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P15",
+   "file": "templates/product/TplCrisp.html",
+   "name": "Crisp",
+   "niche": "Kitchen appliances",
+   "fonts": {
+    "heading": "Plus Jakarta Sans",
+    "body": "Plus Jakarta Sans"
+   },
+   "type": {
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.03em"
+   },
+   "shape": {
+    "radius": 20,
+    "button_radius": 14
+   },
+   "colors": {
+    "bg": "#FFFFFF",
+    "surface": "#FFFFFF",
+    "soft": "#FFE8D9",
+    "line": "#EEE7E1",
+    "ink": "#16181D",
+    "muted": "#555A63",
+    "accent": "#F26B1D",
+    "aink": "#16181D",
+    "atext": "#B44A0E",
+    "dark": "#16181D",
+    "dink": "#FFFFFF"
+   },
+   "accent_options": [
+    "#F26B1D",
+    "#E6B800",
+    "#3DBE8B"
+   ],
+   "order_method": {
+    "type": "call",
+    "label": "Call to order",
+    "short": "Call to order"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "stack"
+    },
+    {
+     "section": "compare"
+    },
+    {
+     "section": "specs"
+    },
+    {
+     "section": "benefits",
+     "variant": "cards"
+    },
+    {
+     "section": "countdown"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P16",
+   "file": "templates/product/TplAurum.html",
+   "name": "Aurum",
+   "niche": "Jewellery",
+   "fonts": {
+    "heading": "Italiana",
+    "body": "Lato"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": true,
+    "letter_spacing": "0.04em"
+   },
+   "shape": {
+    "radius": 0,
+    "button_radius": 0
+   },
+   "colors": {
+    "bg": "#FBF8F2",
+    "surface": "#FFFFFF",
+    "soft": "#EFE6D6",
+    "line": "#E8DECB",
+    "ink": "#1C1A17",
+    "muted": "#5E574C",
+    "accent": "#8C6A2F",
+    "aink": "#FFFFFF",
+    "atext": "#8C6A2F",
+    "dark": "#1C1A17",
+    "dink": "#FBF8F2"
+   },
+   "accent_options": [
+    "#8C6A2F",
+    "#6E6E6E",
+    "#8A3B5C"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "centered"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "gallery",
+     "variant": "grid"
+    },
+    {
+     "section": "guarantee"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P17",
+   "file": "templates/product/TplEditorial.html",
+   "name": "Editorial",
+   "niche": "Handbags",
+   "fonts": {
+    "heading": "Bodoni Moda",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em"
+   },
+   "shape": {
+    "radius": 0,
+    "button_radius": 0
+   },
+   "colors": {
+    "bg": "#FFFFFF",
+    "surface": "#FFFFFF",
+    "soft": "#EDEDED",
+    "line": "#E2E2E2",
+    "ink": "#0A0A0A",
+    "muted": "#555555",
+    "accent": "#B3122E",
+    "aink": "#FFFFFF",
+    "atext": "#B3122E",
+    "dark": "#0A0A0A",
+    "dink": "#FFFFFF"
+   },
+   "accent_options": [
+    "#B3122E",
+    "#0A0A0A",
+    "#1F4FD1"
+   ],
+   "order_method": {
+    "type": "dm",
+    "label": "Order on Instagram",
+    "short": "DM to order"
+   },
+   "sections": [
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "fullbleed"
+    },
+    {
+     "section": "gallery",
+     "variant": "strip"
+    },
+    {
+     "section": "specs"
+    },
+    {
+     "section": "benefits",
+     "variant": "statements"
+    },
+    {
+     "section": "proof",
+     "variant": "rating"
+    },
+    {
+     "section": "final",
+     "variant": "outline"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P18",
+   "file": "templates/product/TplCourse.html",
+   "name": "Course",
+   "niche": "Online course",
+   "fonts": {
+    "heading": "Sora",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.03em"
+   },
+   "shape": {
+    "radius": 18,
+    "button_radius": 14
+   },
+   "colors": {
+    "bg": "#F7F5FF",
+    "surface": "#FFFFFF",
+    "soft": "#E6DEFF",
+    "line": "#E0D9F7",
+    "ink": "#1A1530",
+    "muted": "#565170",
+    "accent": "#7A2EE5",
+    "aink": "#FFFFFF",
+    "atext": "#7A2EE5",
+    "dark": "#1A1530",
+    "dink": "#F7F5FF"
+   },
+   "accent_options": [
+    "#7A2EE5",
+    "#1F6FD1",
+    "#C2361F"
+   ],
+   "order_method": {
+    "type": "pay",
+    "label": "Pay ₦25,000 and start now",
+    "short": "Enrol now"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "centered"
+    },
+    {
+     "section": "modules"
+    },
+    {
+     "section": "benefits",
+     "variant": "checks"
+    },
+    {
+     "section": "proof",
+     "variant": "shots"
+    },
+    {
+     "section": "guarantee"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P19",
+   "file": "templates/product/TplGlam.html",
+   "name": "Glam",
+   "niche": "Makeup artist",
+   "fonts": {
+    "heading": "Marcellus",
+    "body": "Karla"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "0.01em"
+   },
+   "shape": {
+    "radius": 28,
+    "button_radius": 999
+   },
+   "colors": {
+    "bg": "#FFF6F2",
+    "surface": "#FFFFFF",
+    "soft": "#F7DCD3",
+    "line": "#F0D6CC",
+    "ink": "#2D1A1A",
+    "muted": "#6A4E4E",
+    "accent": "#A8475A",
+    "aink": "#FFFFFF",
+    "atext": "#A8475A",
+    "dark": "#2D1A1A",
+    "dink": "#FFF6F2"
+   },
+   "accent_options": [
+    "#A8475A",
+    "#7A4A3A",
+    "#5B2A86"
+   ],
+   "order_method": {
+    "type": "dm",
+    "label": "Book on Instagram",
+    "short": "Book now"
+   },
+   "sections": [
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "collage"
+    },
+    {
+     "section": "offer",
+     "variant": "packages"
+    },
+    {
+     "section": "steps",
+     "variant": "timeline"
+    },
+    {
+     "section": "gallery",
+     "variant": "grid"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P20",
+   "file": "templates/product/TplSolar.html",
+   "name": "Solar",
+   "niche": "Solar & inverters",
+   "fonts": {
+    "heading": "Barlow Condensed",
+    "body": "Barlow"
+   },
+   "type": {
+    "heading_weight": 700,
+    "uppercase_headings": true,
+    "letter_spacing": "0"
+   },
+   "shape": {
+    "radius": 10,
+    "button_radius": 10
+   },
+   "colors": {
+    "bg": "#F2F7F2",
+    "surface": "#FFFFFF",
+    "soft": "#D8E8DA",
+    "line": "#CFE0D2",
+    "ink": "#0F2416",
+    "muted": "#46584B",
+    "accent": "#F5B400",
+    "aink": "#0F2416",
+    "atext": "#1E6B3A",
+    "dark": "#0F2416",
+    "dink": "#F2F7F2"
+   },
+   "accent_options": [
+    "#F5B400",
+    "#3DBE8B",
+    "#FF8A3D"
+   ],
+   "order_method": {
+    "type": "call",
+    "label": "Call an engineer",
+    "short": "Call engineer"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "stack"
+    },
+    {
+     "section": "offer",
+     "variant": "packages"
+    },
+    {
+     "section": "compare"
+    },
+    {
+     "section": "steps",
+     "variant": "circles"
+    },
+    {
+     "section": "guarantee"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P21",
+   "file": "templates/product/TplPitlane.html",
+   "name": "Pitlane",
+   "niche": "Car accessories",
+   "fonts": {
+    "heading": "Russo One",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": true,
+    "letter_spacing": "0"
+   },
+   "shape": {
+    "radius": 8,
+    "button_radius": 8
+   },
+   "colors": {
+    "bg": "#101114",
+    "surface": "#17191D",
+    "soft": "#22252B",
+    "line": "#2C3038",
+    "ink": "#F2F2F2",
+    "muted": "#B0B3BA",
+    "accent": "#D11F27",
+    "aink": "#FFFFFF",
+    "atext": "#FF5A60",
+    "dark": "#F2F2F2",
+    "dink": "#101114"
+   },
+   "accent_options": [
+    "#D11F27",
+    "#1F6FD1",
+    "#E6B800"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "fullbleed"
+    },
+    {
+     "section": "trust",
+     "variant": "row"
+    },
+    {
+     "section": "specs"
+    },
+    {
+     "section": "benefits",
+     "variant": "statements"
+    },
+    {
+     "section": "countdown"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  },
+  {
+   "id": "P22",
+   "file": "templates/product/TplNoor.html",
+   "name": "Noor",
+   "niche": "Modest fashion",
+   "fonts": {
+    "heading": "Amiri",
+    "body": "Mulish"
+   },
+   "type": {
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "0"
+   },
+   "shape": {
+    "radius": 18,
+    "button_radius": 999
+   },
+   "colors": {
+    "bg": "#F3EEE6",
+    "surface": "#FAF7F2",
+    "soft": "#E2D8C8",
+    "line": "#DDD2C0",
+    "ink": "#24261E",
+    "muted": "#5C5A4E",
+    "accent": "#4F5B3A",
+    "aink": "#FFFFFF",
+    "atext": "#4F5B3A",
+    "dark": "#24261E",
+    "dink": "#F3EEE6"
+   },
+   "accent_options": [
+    "#4F5B3A",
+    "#7A4A3A",
+    "#2F4858"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Order on WhatsApp",
+    "short": "Buy on WhatsApp"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "centered"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "gallery",
+     "variant": "strip"
+    },
+    {
+     "section": "benefits",
+     "variant": "checks"
+    },
+    {
+     "section": "proof",
+     "variant": "quotes"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P23",
+   "file": "templates/product/TplHarvest.html",
+   "name": "Harvest",
+   "niche": "Foodstuff & groceries",
+   "fonts": {
+    "heading": "Rubik",
+    "body": "Rubik"
+   },
+   "type": {
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em"
+   },
+   "shape": {
+    "radius": 12,
+    "button_radius": 12
+   },
+   "colors": {
+    "bg": "#FFFDF5",
+    "surface": "#FFFFFF",
+    "soft": "#F1E6C8",
+    "line": "#EADFC0",
+    "ink": "#22200F",
+    "muted": "#5B5640",
+    "accent": "#2E6B30",
+    "aink": "#FFFFFF",
+    "atext": "#2E6B30",
+    "dark": "#22200F",
+    "dink": "#FFFDF5"
+   },
+   "accent_options": [
+    "#2E6B30",
+    "#B44A0E",
+    "#7A4B2A"
+   ],
+   "order_method": {
+    "type": "form",
+    "label": "Place my order",
+    "short": "Order now"
+   },
+   "sections": [
+    {
+     "section": "announce"
+    },
+    {
+     "section": "header"
+    },
+    {
+     "section": "hero",
+     "variant": "collage"
+    },
+    {
+     "section": "offer",
+     "variant": "tiers"
+    },
+    {
+     "section": "offer",
+     "variant": "grid"
+    },
+    {
+     "section": "benefits",
+     "variant": "checks"
+    },
+    {
+     "section": "steps",
+     "variant": "circles"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "dark"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "flat"
+    }
+   ]
+  },
+  {
+   "id": "P24",
+   "file": "templates/product/TplShred.html",
+   "name": "Shred",
+   "niche": "Fitness coaching",
+   "fonts": {
+    "heading": "Bebas Neue",
+    "body": "Inter"
+   },
+   "type": {
+    "heading_weight": 400,
+    "uppercase_headings": true,
+    "letter_spacing": "0.02em"
+   },
+   "shape": {
+    "radius": 12,
+    "button_radius": 10
+   },
+   "colors": {
+    "bg": "#0B0F0D",
+    "surface": "#121815",
+    "soft": "#1B231F",
+    "line": "#26302B",
+    "ink": "#F1F5F2",
+    "muted": "#A9B5AD",
+    "accent": "#3DFF8B",
+    "aink": "#0B0F0D",
+    "atext": "#3DFF8B",
+    "dark": "#3DFF8B",
+    "dink": "#0B0F0D"
+   },
+   "accent_options": [
+    "#3DFF8B",
+    "#FFD60A",
+    "#5CE1E6"
+   ],
+   "order_method": {
+    "type": "whatsapp",
+    "label": "Join on WhatsApp",
+    "short": "Join now"
+   },
+   "sections": [
+    {
+     "section": "hero",
+     "variant": "poster"
+    },
+    {
+     "section": "trust",
+     "variant": "row"
+    },
+    {
+     "section": "modules"
+    },
+    {
+     "section": "benefits",
+     "variant": "checks"
+    },
+    {
+     "section": "proof",
+     "variant": "beforeafter"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final",
+     "variant": "accent"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "buybar",
+     "variant": "pill"
+    }
+   ]
+  }
+ ],
+ "app": [
+  {
+   "id": "A01",
+   "file": "templates/app/AppGlass.html",
+   "style": "Glassmorphism",
+   "concept": "Savings app",
+   "fonts": {
+    "heading": "Outfit",
+    "body": "Outfit"
+   },
+   "type": {
+    "h1": 44,
+    "h2": 30,
+    "body": 15,
+    "heading_weight": 600,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#E9ECFF",
+    "ink": "#15172E",
+    "muted": "#474B6B",
+    "accent": "#5B3FE8",
+    "aink": "#FFFFFF",
+    "atext": "#5B3FE8",
+    "soft": "rgba(255,255,255,0.5)",
+    "line": "rgba(21,23,46,0.12)",
+    "phone": "#15172E",
+    "screen": "#F6F5FF",
+    "barbg": "#F4F5FF"
+   },
+   "style_css": {
+    "card": "background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); border-radius: 24px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 8px 32px rgba(60,50,140,0.12)",
+    "button_primary": "background: #15172E; color: #FFFFFF; border-radius: 16px",
+    "button_secondary": "background: rgba(255,255,255,0.6); color: #15172E; border: 1px solid rgba(255,255,255,0.95); border-radius: 16px; backdrop-filter: blur(12px)",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "floating"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "screens"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A02",
+   "file": "templates/app/AppNeu.html",
+   "style": "Neumorphism",
+   "concept": "Sleep & meditation",
+   "fonts": {
+    "heading": "Nunito",
+    "body": "Nunito"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 28,
+    "body": 16,
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.01em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#E4E8EE",
+    "ink": "#262E3A",
+    "muted": "#525C6A",
+    "accent": "#3F51C4",
+    "aink": "#FFFFFF",
+    "atext": "#3F51C4",
+    "soft": "#E4E8EE",
+    "line": "#CDD2DA",
+    "phone": "#C9CED6",
+    "screen": "#E4E8EE",
+    "barbg": "#E4E8EE"
+   },
+   "style_css": {
+    "card": "background: #E4E8EE; border-radius: 28px; box-shadow: 9px 9px 18px #C3C8D0, -9px -9px 18px #FFFFFF",
+    "button_primary": "background: #3F51C4; color: #FFFFFF; border-radius: 999px; box-shadow: 6px 6px 14px #C3C8D0, -6px -6px 14px #FFFFFF",
+    "button_secondary": "background: #E4E8EE; color: #262E3A; border-radius: 999px; box-shadow: 6px 6px 14px #C3C8D0, -6px -6px 14px #FFFFFF",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "center"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "checks"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A03",
+   "file": "templates/app/AppBrutal.html",
+   "style": "Brutalism",
+   "concept": "Food delivery",
+   "fonts": {
+    "heading": "Archivo Black",
+    "body": "Space Mono"
+   },
+   "type": {
+    "h1": 48,
+    "h2": 32,
+    "body": 15,
+    "heading_weight": 400,
+    "uppercase_headings": true,
+    "letter_spacing": "-0.02em",
+    "line_height": 0.95
+   },
+   "colors": {
+    "bg": "#FFE14D",
+    "ink": "#000000",
+    "muted": "#2B2B2B",
+    "accent": "#000000",
+    "aink": "#FFE14D",
+    "atext": "#000000",
+    "soft": "#FFFFFF",
+    "line": "#000000",
+    "phone": "#000000",
+    "screen": "#FFFFFF",
+    "barbg": "#FFFFFF"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border: 3px solid #000000; border-radius: 0; box-shadow: 6px 6px 0 #000000",
+    "button_primary": "background: #FF4F1F; color: #000000; border: 3px solid #000000; border-radius: 0; box-shadow: 4px 4px 0 #000000",
+    "button_secondary": "background: #FFFFFF; color: #000000; border: 3px solid #000000; border-radius: 0; box-shadow: 4px 4px 0 #000000",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "tilt"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "screens"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A04",
+   "file": "templates/app/AppBento.html",
+   "style": "Bento grid",
+   "concept": "Team tasks",
+   "fonts": {
+    "heading": "Inter Tight",
+    "body": "Inter Tight"
+   },
+   "type": {
+    "h1": 42,
+    "h2": 30,
+    "body": 15,
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.04em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#F5F5F4",
+    "ink": "#1C1917",
+    "muted": "#57534E",
+    "accent": "#2563EB",
+    "aink": "#FFFFFF",
+    "atext": "#2563EB",
+    "soft": "#E7E5E4",
+    "line": "#E7E5E4",
+    "phone": "#1C1917",
+    "screen": "#FFFFFF",
+    "barbg": "#F5F5F4"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border: 1px solid #E7E5E4; border-radius: 26px",
+    "button_primary": "background: #1C1917; color: #FFFFFF; border-radius: 14px",
+    "button_secondary": "background: #FFFFFF; color: #1C1917; border: 1px solid #D6D3D1; border-radius: 14px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "duo"
+    },
+    {
+     "section": "features",
+     "variant": "bento"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A05",
+   "file": "templates/app/AppClay.html",
+   "style": "Claymorphism",
+   "concept": "Kids learning",
+   "fonts": {
+    "heading": "Quicksand",
+    "body": "Quicksand"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 30,
+    "body": 16,
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.01em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#F1ECFF",
+    "ink": "#2A1E5C",
+    "muted": "#5A4F86",
+    "accent": "#7A5AF8",
+    "aink": "#FFFFFF",
+    "atext": "#6A47F0",
+    "soft": "#FFE38A",
+    "line": "#DED5FB",
+    "phone": "#2A1E5C",
+    "screen": "#FFF7D6",
+    "barbg": "#F1ECFF"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border-radius: 34px; box-shadow: 0 16px 28px rgba(110,80,200,0.18), inset 0 -8px 0 rgba(110,80,200,0.10)",
+    "button_primary": "background: #7A5AF8; color: #FFFFFF; border-radius: 999px; box-shadow: inset 0 -5px 0 rgba(0,0,0,0.2), 0 8px 16px rgba(122,90,248,0.3)",
+    "button_secondary": "background: #FFD23F; color: #2A1E5C; border-radius: 999px; box-shadow: inset 0 -5px 0 rgba(0,0,0,0.12)",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "center"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "bento"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A06",
+   "file": "templates/app/AppY2K.html",
+   "style": "Retro Y2K",
+   "concept": "Music streaming",
+   "fonts": {
+    "heading": "Rubik Mono One",
+    "body": "Space Grotesk"
+   },
+   "type": {
+    "h1": 36,
+    "h2": 24,
+    "body": 15,
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em",
+    "line_height": 1.1
+   },
+   "colors": {
+    "bg": "#DCE3F0",
+    "ink": "#14112B",
+    "muted": "#454866",
+    "accent": "#C2007A",
+    "aink": "#FFFFFF",
+    "atext": "#C2007A",
+    "soft": "#C7D1E3",
+    "line": "#AEB8CC",
+    "phone": "#14112B",
+    "screen": "#0F0D24",
+    "barbg": "#DCE3F0"
+   },
+   "style_css": {
+    "card": "background: linear-gradient(180deg, #FFFFFF 0%, #D6DCE8 100%); border: 1.5px solid #8C97AA; border-radius: 22px; box-shadow: inset 0 1px 0 #FFFFFF, 0 6px 14px rgba(40,50,90,0.15)",
+    "button_primary": "background: #C2007A; color: #FFFFFF; border-radius: 999px; border: 2px solid #14112B",
+    "button_secondary": "background: linear-gradient(180deg, #FFFFFF, #C9D1DE); color: #14112B; border-radius: 999px; border: 2px solid #14112B",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "tilt"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "alt"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A07",
+   "file": "templates/app/AppSwiss.html",
+   "style": "Swiss minimal",
+   "concept": "News app",
+   "fonts": {
+    "heading": "Inter",
+    "body": "Inter"
+   },
+   "type": {
+    "h1": 58,
+    "h2": 34,
+    "body": 15,
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.05em",
+    "line_height": 0.95
+   },
+   "colors": {
+    "bg": "#FFFFFF",
+    "ink": "#111111",
+    "muted": "#4D4D4D",
+    "accent": "#D10A11",
+    "aink": "#FFFFFF",
+    "atext": "#D10A11",
+    "soft": "#F2F2F2",
+    "line": "#111111",
+    "phone": "#111111",
+    "screen": "#FFFFFF",
+    "barbg": "#FFFFFF"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border-top: 2px solid #111111; border-radius: 0",
+    "button_primary": "background: #111111; color: #FFFFFF; border-radius: 0",
+    "button_secondary": "background: #FFFFFF; color: #111111; border: 2px solid #111111; border-radius: 0",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "bigtype"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "checks"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A08",
+   "file": "templates/app/AppNeon.html",
+   "style": "Neon cyber",
+   "concept": "Esports gaming",
+   "fonts": {
+    "heading": "Orbitron",
+    "body": "Rajdhani"
+   },
+   "type": {
+    "h1": 36,
+    "h2": 24,
+    "body": 17,
+    "heading_weight": 800,
+    "uppercase_headings": true,
+    "letter_spacing": "0.02em",
+    "line_height": 1.1
+   },
+   "colors": {
+    "bg": "#07060F",
+    "ink": "#F2F0FF",
+    "muted": "#B4B0D6",
+    "accent": "#00F0FF",
+    "aink": "#07060F",
+    "atext": "#00F0FF",
+    "soft": "#16132E",
+    "line": "#2A2650",
+    "phone": "#2A2650",
+    "screen": "#0C0A1C",
+    "barbg": "#07060F"
+   },
+   "style_css": {
+    "card": "background: #100E22; border: 1px solid rgba(0,240,255,0.5); border-radius: 14px; box-shadow: 0 0 22px rgba(0,240,255,0.18), inset 0 0 18px rgba(255,43,214,0.06)",
+    "button_primary": "background: #00F0FF; color: #07060F; border-radius: 10px; box-shadow: 0 0 18px rgba(0,240,255,0.6)",
+    "button_secondary": "background: transparent; color: #FF6BE3; border: 1.5px solid #FF2BD6; border-radius: 10px; box-shadow: 0 0 14px rgba(255,43,214,0.4)",
+    "heading_extra": "text-shadow: 0 0 18px rgba(0,240,255,0.55)",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "floating"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "screens"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A09",
+   "file": "templates/app/AppAurora.html",
+   "style": "Aurora gradient",
+   "concept": "AI assistant",
+   "fonts": {
+    "heading": "Manrope",
+    "body": "Manrope"
+   },
+   "type": {
+    "h1": 42,
+    "h2": 28,
+    "body": 15,
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.04em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#0B1023",
+    "ink": "#F4F6FF",
+    "muted": "#AEB6D6",
+    "accent": "#9BE7C4",
+    "aink": "#0B1023",
+    "atext": "#9BE7C4",
+    "soft": "rgba(255,255,255,0.08)",
+    "line": "rgba(255,255,255,0.14)",
+    "phone": "#2A3150",
+    "screen": "#121831",
+    "barbg": "#0F152C"
+   },
+   "style_css": {
+    "card": "background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px)",
+    "button_primary": "background: #F4F6FF; color: #0B1023; border-radius: 14px",
+    "button_secondary": "background: rgba(255,255,255,0.08); color: #F4F6FF; border: 1px solid rgba(255,255,255,0.25); border-radius: 14px",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "center"
+    },
+    {
+     "section": "features",
+     "variant": "bento"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A10",
+   "file": "templates/app/AppEditorial.html",
+   "style": "Editorial serif",
+   "concept": "Books & audiobooks",
+   "fonts": {
+    "heading": "Newsreader",
+    "body": "Inter"
+   },
+   "type": {
+    "h1": 46,
+    "h2": 32,
+    "body": 15,
+    "heading_weight": 500,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em",
+    "line_height": 1.02
+   },
+   "colors": {
+    "bg": "#F7F3EA",
+    "ink": "#1A1714",
+    "muted": "#5A524A",
+    "accent": "#A6361A",
+    "aink": "#FFFFFF",
+    "atext": "#A6361A",
+    "soft": "#ECE4D3",
+    "line": "#D8CDB8",
+    "phone": "#1A1714",
+    "screen": "#FBF8F1",
+    "barbg": "#F7F3EA"
+   },
+   "style_css": {
+    "card": "background: transparent; border-top: 1px solid #1A1714; border-radius: 0",
+    "button_primary": "background: #1A1714; color: #F7F3EA; border-radius: 2px",
+    "button_secondary": "background: transparent; color: #1A1714; border: 1px solid #1A1714; border-radius: 2px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "bigtype"
+    },
+    {
+     "section": "features",
+     "variant": "checks"
+    },
+    {
+     "section": "screens"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A11",
+   "file": "templates/app/AppSkeuo.html",
+   "style": "Skeuomorphic",
+   "concept": "Ajo / savings groups",
+   "fonts": {
+    "heading": "Caveat",
+    "body": "Lora"
+   },
+   "type": {
+    "h1": 50,
+    "h2": 38,
+    "body": 16,
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "0",
+    "line_height": 1.0
+   },
+   "colors": {
+    "bg": "#F1E7CF",
+    "ink": "#2E2416",
+    "muted": "#5E5038",
+    "accent": "#6B3E1F",
+    "aink": "#FFF6E8",
+    "atext": "#6B3E1F",
+    "soft": "#E7D9B8",
+    "line": "#D4C39E",
+    "phone": "#3A2A18",
+    "screen": "#FFFDF6",
+    "barbg": "#F1E7CF"
+   },
+   "style_css": {
+    "card": "background: #FFFDF6; border-radius: 6px; box-shadow: 0 1px 0 #D9CDB0, 0 10px 20px rgba(80,60,20,0.16); border: 1px solid #E6DAC0",
+    "button_primary": "background: #6B3E1F; color: #FFF6E8; border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 3px 0 #3E2310, 0 6px 12px rgba(60,30,10,0.25)",
+    "button_secondary": "background: #FFFDF6; color: #2E2416; border-radius: 10px; border: 1px solid #C9B78E; box-shadow: 0 3px 0 #C9B78E",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "tilt"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A12",
+   "file": "templates/app/AppMaterial.html",
+   "style": "Material You",
+   "concept": "Running tracker",
+   "fonts": {
+    "heading": "Roboto",
+    "body": "Roboto"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 28,
+    "body": 16,
+    "heading_weight": 500,
+    "uppercase_headings": false,
+    "letter_spacing": "0",
+    "line_height": 1.15
+   },
+   "colors": {
+    "bg": "#FFFBFE",
+    "ink": "#1C1B1F",
+    "muted": "#49454F",
+    "accent": "#6750A4",
+    "aink": "#FFFFFF",
+    "atext": "#6750A4",
+    "soft": "#EADDFF",
+    "line": "#E7E0EC",
+    "phone": "#1C1B1F",
+    "screen": "#FFFBFE",
+    "barbg": "#FFFBFE"
+   },
+   "style_css": {
+    "card": "background: #F3EDF7; border-radius: 28px",
+    "button_primary": "background: #6750A4; color: #FFFFFF; border-radius: 999px",
+    "button_secondary": "background: #EADDFF; color: #21005D; border-radius: 999px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "duo"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "bento"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A13",
+   "file": "templates/app/AppIOS.html",
+   "style": "iOS clean",
+   "concept": "Bill splitting",
+   "fonts": {
+    "heading": "Figtree",
+    "body": "Figtree"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 28,
+    "body": 16,
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.03em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#F2F2F7",
+    "ink": "#000000",
+    "muted": "#5B5B60",
+    "accent": "#0062CC",
+    "aink": "#FFFFFF",
+    "atext": "#0062CC",
+    "soft": "#E5E5EA",
+    "line": "#D8D8DD",
+    "phone": "#000000",
+    "screen": "#FFFFFF",
+    "barbg": "#F2F2F7"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border-radius: 22px",
+    "button_primary": "background: #0062CC; color: #FFFFFF; border-radius: 14px",
+    "button_secondary": "background: #FFFFFF; color: #0062CC; border-radius: 14px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "center"
+    },
+    {
+     "section": "features",
+     "variant": "checks"
+    },
+    {
+     "section": "screens"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A14",
+   "file": "templates/app/AppMemphis.html",
+   "style": "Memphis",
+   "concept": "Ride-hailing",
+   "fonts": {
+    "heading": "Poppins",
+    "body": "Poppins"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 28,
+    "body": 15,
+    "heading_weight": 800,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.03em",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#FFF7E8",
+    "ink": "#1B1B3A",
+    "muted": "#4A4A6A",
+    "accent": "#C42E2B",
+    "aink": "#FFFFFF",
+    "atext": "#C42E2B",
+    "soft": "#FFD23F",
+    "line": "#1B1B3A",
+    "phone": "#1B1B3A",
+    "screen": "#FFFFFF",
+    "barbg": "#FFF7E8"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border: 2.5px solid #1B1B3A; border-radius: 18px",
+    "button_primary": "background: #1B1B3A; color: #FFFFFF; border-radius: 14px",
+    "button_secondary": "background: #FFD23F; color: #1B1B3A; border: 2.5px solid #1B1B3A; border-radius: 14px",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "tilt"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "alt"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A15",
+   "file": "templates/app/AppZen.html",
+   "style": "Japanese zen",
+   "concept": "Journaling",
+   "fonts": {
+    "heading": "Shippori Mincho",
+    "body": "Zen Kaku Gothic New"
+   },
+   "type": {
+    "h1": 38,
+    "h2": 26,
+    "body": 15,
+    "heading_weight": 600,
+    "uppercase_headings": false,
+    "letter_spacing": "0.02em",
+    "line_height": 1.35
+   },
+   "colors": {
+    "bg": "#F6F4EF",
+    "ink": "#1E1E1E",
+    "muted": "#575550",
+    "accent": "#9C2F25",
+    "aink": "#FFFFFF",
+    "atext": "#9C2F25",
+    "soft": "#ECE8DE",
+    "line": "#DAD5CA",
+    "phone": "#1E1E1E",
+    "screen": "#FBFAF7",
+    "barbg": "#F6F4EF"
+   },
+   "style_css": {
+    "card": "background: transparent; border: 1px solid #DAD5CA; border-radius: 0",
+    "button_primary": "background: #1E1E1E; color: #F6F4EF; border-radius: 0",
+    "button_secondary": "background: transparent; color: #1E1E1E; border: 1px solid #1E1E1E; border-radius: 0",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "bigtype"
+    },
+    {
+     "section": "features",
+     "variant": "checks"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A16",
+   "file": "templates/app/AppGroovy.html",
+   "style": "70s groovy",
+   "concept": "Podcasts & radio",
+   "fonts": {
+    "heading": "Shrikhand",
+    "body": "DM Sans"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 30,
+    "body": 15,
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "0",
+    "line_height": 1.05
+   },
+   "colors": {
+    "bg": "#F6E7CB",
+    "ink": "#3B2314",
+    "muted": "#5E4330",
+    "accent": "#A63D14",
+    "aink": "#FFF4E0",
+    "atext": "#A63D14",
+    "soft": "#EFD6A8",
+    "line": "#D9BE8E",
+    "phone": "#3B2314",
+    "screen": "#FFF4E0",
+    "barbg": "#F6E7CB"
+   },
+   "style_css": {
+    "card": "background: #FFF4E0; border: 2px solid #3B2314; border-radius: 30px",
+    "button_primary": "background: #A63D14; color: #FFF4E0; border-radius: 999px; border: 2px solid #3B2314",
+    "button_secondary": "background: #E8A33D; color: #3B2314; border-radius: 999px; border: 2px solid #3B2314",
+    "heading_extra": "",
+    "has_background_decor": true
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "center"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A17",
+   "file": "templates/app/AppCorporate.html",
+   "style": "Corporate trust",
+   "concept": "SME banking",
+   "fonts": {
+    "heading": "IBM Plex Sans",
+    "body": "IBM Plex Sans"
+   },
+   "type": {
+    "h1": 36,
+    "h2": 26,
+    "body": 15,
+    "heading_weight": 600,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em",
+    "line_height": 1.12
+   },
+   "colors": {
+    "bg": "#F7F9FC",
+    "ink": "#0B1B33",
+    "muted": "#4A5A72",
+    "accent": "#0B4FD8",
+    "aink": "#FFFFFF",
+    "atext": "#0B4FD8",
+    "soft": "#E6EDF8",
+    "line": "#DDE4EF",
+    "phone": "#0B1B33",
+    "screen": "#FFFFFF",
+    "barbg": "#F7F9FC"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border: 1px solid #DDE4EF; border-radius: 12px; box-shadow: 0 1px 2px rgba(11,27,51,0.06)",
+    "button_primary": "background: #0B4FD8; color: #FFFFFF; border-radius: 10px",
+    "button_secondary": "background: #FFFFFF; color: #0B1B33; border: 1px solid #C7D2E3; border-radius: 10px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "duo"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "faq"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A18",
+   "file": "templates/app/AppLuxe.html",
+   "style": "Dark luxury",
+   "concept": "Dating",
+   "fonts": {
+    "heading": "Prata",
+    "body": "Montserrat"
+   },
+   "type": {
+    "h1": 40,
+    "h2": 28,
+    "body": 14,
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "0",
+    "line_height": 1.15
+   },
+   "colors": {
+    "bg": "#0D0B0A",
+    "ink": "#F4EDE4",
+    "muted": "#B9AE9F",
+    "accent": "#D8B98A",
+    "aink": "#0D0B0A",
+    "atext": "#D8B98A",
+    "soft": "#1A1715",
+    "line": "#2E2925",
+    "phone": "#2E2925",
+    "screen": "#151210",
+    "barbg": "#0D0B0A"
+   },
+   "style_css": {
+    "card": "background: #151210; border: 1px solid #2E2925; border-radius: 2px",
+    "button_primary": "background: #D8B98A; color: #0D0B0A; border-radius: 2px",
+    "button_secondary": "background: transparent; color: #F4EDE4; border: 1px solid #D8B98A; border-radius: 2px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "center"
+    },
+    {
+     "section": "features",
+     "variant": "checks"
+    },
+    {
+     "section": "screens"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A19",
+   "file": "templates/app/AppSketch.html",
+   "style": "Hand-drawn",
+   "concept": "Language learning",
+   "fonts": {
+    "heading": "Gochi Hand",
+    "body": "Patrick Hand"
+   },
+   "type": {
+    "h1": 46,
+    "h2": 34,
+    "body": 18,
+    "heading_weight": 400,
+    "uppercase_headings": false,
+    "letter_spacing": "0",
+    "line_height": 1.0
+   },
+   "colors": {
+    "bg": "#FFFEF8",
+    "ink": "#222222",
+    "muted": "#4F4F4F",
+    "accent": "#1F5BD8",
+    "aink": "#FFFFFF",
+    "atext": "#1F5BD8",
+    "soft": "#FFF3B0",
+    "line": "#222222",
+    "phone": "#222222",
+    "screen": "#FFFEF8",
+    "barbg": "#FFFEF8"
+   },
+   "style_css": {
+    "card": "background: #FFFFFF; border: 2.5px solid #222222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px",
+    "button_primary": "background: #1F5BD8; color: #FFFFFF; border: 2.5px solid #222222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px",
+    "button_secondary": "background: #FFF3B0; color: #222222; border: 2.5px solid #222222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "tilt"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "bento"
+    },
+    {
+     "section": "reviews"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  },
+  {
+   "id": "A20",
+   "file": "templates/app/AppTerminal.html",
+   "style": "Terminal",
+   "concept": "Developer tool",
+   "fonts": {
+    "heading": "JetBrains Mono",
+    "body": "JetBrains Mono"
+   },
+   "type": {
+    "h1": 32,
+    "h2": 22,
+    "body": 14,
+    "heading_weight": 700,
+    "uppercase_headings": false,
+    "letter_spacing": "-0.02em",
+    "line_height": 1.15
+   },
+   "colors": {
+    "bg": "#0C0F0A",
+    "ink": "#D7FFD9",
+    "muted": "#9FC2A2",
+    "accent": "#39FF6A",
+    "aink": "#0C0F0A",
+    "atext": "#39FF6A",
+    "soft": "#141A12",
+    "line": "#2F4F33",
+    "phone": "#2F4F33",
+    "screen": "#0C0F0A",
+    "barbg": "#0C0F0A"
+   },
+   "style_css": {
+    "card": "background: #11160F; border: 1px dashed #2F4F33; border-radius: 4px",
+    "button_primary": "background: #39FF6A; color: #0C0F0A; border-radius: 4px",
+    "button_secondary": "background: transparent; color: #39FF6A; border: 1px solid #39FF6A; border-radius: 4px",
+    "heading_extra": "",
+    "has_background_decor": false
+   },
+   "cta": {
+    "type": "app_download",
+    "stores": [
+     "app_store",
+     "google_play"
+    ]
+   },
+   "sections": [
+    {
+     "section": "nav"
+    },
+    {
+     "section": "hero",
+     "variant": "bigtype"
+    },
+    {
+     "section": "strip"
+    },
+    {
+     "section": "features",
+     "variant": "list"
+    },
+    {
+     "section": "steps"
+    },
+    {
+     "section": "pricing"
+    },
+    {
+     "section": "final"
+    },
+    {
+     "section": "footer"
+    },
+    {
+     "section": "bar"
+    }
+   ]
+  }
+ ]
+}

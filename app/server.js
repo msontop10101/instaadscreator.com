@@ -185,6 +185,12 @@ app.post('/api/pages/:id/generate', async (req, res) => {
 // blocks, which are the render source of truth.
 function syncContentIntoBlocks(blocks, content) {
   return (blocks || []).map(blk => {
+    if (blk.type === 'hero' && blk.headline !== undefined) {
+      const u = { ...blk };
+      if (content.headline !== undefined) u.headline = content.headline;
+      if (content.subhead !== undefined) u.subhead = content.subhead;
+      return u;
+    }
     if (blk.type === 'offer') {
       const u = { ...blk };
       if (content.headline !== undefined) u.headline = content.headline;
@@ -343,6 +349,26 @@ const SAMPLE_BRIEFS = {
   appliances: { desc: 'Solar inverter systems, full home installation', biz: 'PowerMax Solar', price: '450000', oldPrice: '520000', location: 'Nationwide' },
   salon: { desc: 'Knotless braids, wig installs and revamps', biz: 'The Hair Suite', price: '15000', oldPrice: null, location: 'Ajah' },
   bold: { desc: 'Clearance sale, everything must go, crazy deals', biz: 'Mega Deals NG', price: '5000', oldPrice: '9000', location: 'Trade Fair' },
+  oud: { desc: 'Premium oud perfume oil, 12-hour longevity', biz: 'House of Oud', price: '32000', oldPrice: '40000', location: 'Abuja' },
+  owambe: { desc: 'Aso-ebi lace and ankara bundles for the whole family', biz: 'Owambe Edit', price: '45000', oldPrice: null, location: 'Balogun Market' },
+  estate: { desc: '600 sqm dry land plots near the Free Trade Zone, instalments available', biz: 'Plot & Key', price: '4500000', oldPrice: null, location: 'Ibeju-Lekki' },
+  sugar: { desc: 'Custom celebration cakes and dessert boxes', biz: 'Sugar Atelier', price: '28000', oldPrice: null, location: 'Gbagada' },
+  botanica: { desc: 'Herbal hair growth oil for edges and thinning hair', biz: 'Botanica Roots', price: '9500', oldPrice: '12500', location: 'Ibadan' },
+  volt: { desc: '20,000mAh fast-charge power bank with built-in cables', biz: 'VoltGear', price: '24500', oldPrice: '32000', location: 'Computer Village' },
+  playful: { desc: 'Montessori toys and learning kits for toddlers', biz: 'PlayBox Kids', price: '15500', oldPrice: '19000', location: 'Lekki' },
+  snatched: { desc: 'Waist trainers and shapewear, all sizes', biz: 'Snatched Body', price: '13500', oldPrice: '18000', location: 'Surulere' },
+  rugged: { desc: 'Heavy-duty work boots and safety gear', biz: 'Rugged Supply', price: '38000', oldPrice: null, location: 'Apapa' },
+  nest: { desc: 'Luxury bedsheets and duvet sets, hotel grade', biz: 'Nest Living', price: '35000', oldPrice: '42000', location: 'Yaba' },
+  crisp: { desc: 'Premium laundry and dry cleaning, pickup and delivery', biz: 'Crisp Laundry', price: '5000', oldPrice: null, location: 'Ikoyi' },
+  aurum: { desc: '18k gold-plated jewellery that never fades', biz: 'Aurum Lagos', price: '22000', oldPrice: '28000', location: 'Victoria Island' },
+  editorial: { desc: 'Limited drop streetwear tees and totes', biz: 'The Editorial', price: '18000', oldPrice: null, location: 'Lagos' },
+  course: { desc: 'Learn forex trading from scratch, 6-week online course', biz: 'TradeSchool NG', price: '55000', oldPrice: '75000', location: 'Online' },
+  glam: { desc: 'Bridal and event makeup, studio or home service', biz: 'Glam by Dami', price: '40000', oldPrice: null, location: 'Lekki' },
+  solar: { desc: '5kVA solar inverter system with full installation', biz: 'SunCore Power', price: '850000', oldPrice: '950000', location: 'Nationwide' },
+  pitlane: { desc: 'LED headlights, dashcams and car accessories', biz: 'Pitlane Auto', price: '27000', oldPrice: '35000', location: 'Ladipo' },
+  noor: { desc: 'Premium abayas and modest wear collections', biz: 'Noor Modest', price: '26000', oldPrice: null, location: 'Ilorin' },
+  harvest: { desc: 'Foodstuff bundles — rice, beans, palm oil, delivered monthly', biz: 'Harvest Direct', price: '48000', oldPrice: '55000', location: 'Mile 12' },
+  shred: { desc: '12-week fat loss coaching with meal plans', biz: 'Shred Club', price: '30000', oldPrice: '45000', location: 'Online' },
 };
 
 const sampleCache = {};
